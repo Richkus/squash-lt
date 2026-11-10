@@ -6,9 +6,21 @@ Vienas statinis puslapis: HTML, CSS ir vanilla JS, be build žingsnio.
 
 ## Kas viduje
 
-- `index.html`: visas puslapis (struktūra, stiliai, logika).
+- `index.html`: pagrindinis puslapis.
+- `naujienos.html`, `straipsnis.html?id=…`: naujienų sąrašas su temomis ir straipsnio šablonas. Duomenys `data/naujienos.json` (23 tikri squash.lt įrašai, tekstai išvalyti iki paprasto HTML).
+- `assets/site.css`, `assets/site.js`: bendri stiliai ir logika (juosta, meniu, slinkimas, žinutės langas, versijos ir temos perjungikliai).
+- `assets/home.js`, `assets/news.js`, `assets/article.js`: konkrečių puslapių logika.
+- `tools/sync_chrome.py`: juosta, meniu ir poraštės laikomi `index.html` tarp `<!-- chrome:top -->` ir `<!-- chrome:bottom -->` žymų. Pakeitus juos, paleisk `python3 tools/sync_chrome.py`, kad atsinaujintų vidiniai puslapiai.
 - `img/`: nuotraukos iš squash.lt, sumažintos ir suspaustos (~2 MB vietoj ~27 MB dabartiniame pagrindiniame).
 - `favicon.svg`: kamuoliukas su dviem taškais, puslapyje retkarčiais virsta rakete.
+
+## Meniu
+
+Varžybos ▾ · Žaisk skvošą ▾ · Naujienos · Daugiau ▾ | Žaidėjo portalas ↗ · Tapk nariu. Punktai, kurių puslapių dar nėra, veda į dabartinį squash.lt.
+
+## Versijos
+
+Apačioje kairėje „Senas / Naujas“: senoji versija apgaubia naują turinį dabartine squash.lt juosta ir poraštė. Nuoroda su `?v=senas` arba `?v=naujas`.
 
 ## Kryptis
 
