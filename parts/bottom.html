@@ -1,0 +1,79 @@
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="scrim" data-dclose></div>
+  <aside class="panel" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+    <div class="panel-head">
+      <h2 id="dTitle">Parašyk mums</h2>
+      <button class="x" type="button" data-dclose aria-label="Uždaryti"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l10 10M12 2 2 12"/></svg></button>
+    </div>
+    <form id="inq" novalidate>
+      <div class="panel-body">
+        <div class="sel">
+          <label class="sr" for="f-topic">Tema</label>
+          <select class="f" id="f-topic" name="tema">
+            <option>Noriu išbandyti skvošą</option>
+            <option>Tapti LSA nariu</option>
+            <option>Varžybos</option>
+            <option>Tapti rėmėju</option>
+            <option>Kita</option>
+          </select>
+          <svg aria-hidden="true"><use href="#chev"/></svg>
+        </div>
+        <div><label class="sr" for="f-name">Vardas ir pavardė</label><input class="f" id="f-name" name="vardas" autocomplete="name" placeholder="Vardas ir pavardė"></div>
+        <div><label class="sr" for="f-email">El. paštas</label><input class="f" id="f-email" name="elpastas" type="email" autocomplete="email" placeholder="El. paštas"></div>
+        <div class="tel">
+          <div class="sel code">
+            <label class="sr" for="f-code">Šalies kodas</label>
+            <span class="flag" id="flag"></span>
+            <select class="f" id="f-code" name="kodas">
+              <option value="+370">+370</option><option value="+371">+371</option><option value="+372">+372</option><option value="+48">+48</option><option value="+44">+44</option>
+            </select>
+            <svg aria-hidden="true"><use href="#chev"/></svg>
+          </div>
+          <div><label class="sr" for="f-phone">Telefono numeris</label><input class="f" id="f-phone" name="telefonas" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="Telefono numeris"></div>
+        </div>
+        <div><label class="sr" for="f-msg">Žinutė</label><textarea class="f" id="f-msg" name="zinute" placeholder="Kuo galime padėti?"></textarea></div>
+        <p class="p-label" id="howLbl">Kaip atsakyti</p>
+        <div class="pchips" role="radiogroup" aria-labelledby="howLbl">
+          <input type="radio" name="atsakymas" id="r-mail" value="laiskas" checked><label for="r-mail">Parašykite laišką</label>
+          <input type="radio" name="atsakymas" id="r-call" value="skambutis"><label for="r-call">Paskambinkite</label>
+        </div>
+        <p class="err" id="err" role="alert"></p>
+      </div>
+      <div class="panel-foot">
+        <button class="btn btn-accent send" type="submit">Siųsti</button>
+        <small>Duomenis naudosime tik atsakyti į tavo žinutę.</small>
+      </div>
+    </form>
+    <div class="done" id="done" hidden>
+      <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5 10 17 19 7"/></svg></span>
+      <h3>Žinutė priimta</h3>
+      <p id="doneText">Tai eskizas, todėl niekas neišsiųsta.</p>
+      <button class="btn btn-line" type="button" id="again">Nauja žinutė</button>
+    </div>
+  </aside>
+</div>
+
+<footer class="new-foot">
+  <div class="wrap">
+    <div class="foot">
+      <div><span class="foot-logo"><svg viewBox="0 0 54 25" role="img" aria-label="Lietuvos skvošo asociacija"><use href="#lsa-full"/></svg></span>Lietuvos skvošo asociacija vienija žaidėjus, trenerius ir klubus nuo 2005 m.</div>
+      <div><strong>ŽAISK</strong><ul><li><a href="kalendorius.html">Varžybos</a></li><li><a href="reitingas.html">Reitingas</a></li><li><a href="kur-zaisti.html">Kur žaisti</a></li><li><a href="https://squash.lt/treneriai/">Treneriai</a></li></ul></div>
+      <div><strong>LSA</strong><ul><li><a href="apie.html">Apie mus</a></li><li><a href="https://squash.lt/valdyba/">Valdyba</a></li><li><a href="https://squash.lt/dokumentu-sarasas/">Dokumentai</a></li><li><a href="https://squash.lt/antidopingas/">Švarus sportas</a></li></ul></div>
+      <div><strong>SEKITE</strong><ul><li><a href="https://www.facebook.com/SquashLT">Facebook</a></li><li><a href="https://www.instagram.com/squash_lt/">Instagram</a></li><li><a href="https://www.youtube.com/@squashlithuania">YouTube</a></li></ul></div>
+    </div>
+    <div class="foot-bottom">
+      <p>Neoficialus squash.lt redizaino eskizas · nuotraukos iš squash.lt</p>
+      <button class="egg" type="button" id="egg"><i aria-hidden="true"></i><span>Paduok kamuoliuką</span></button>
+    </div>
+  </div>
+</footer>
+<footer class="old-foot">
+  <div class="old-social"><a href="https://www.facebook.com/SquashLT"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M9.2 16V8.7h2.4l.4-2.8H9.2V4.1c0-.8.2-1.4 1.4-1.4H12V.1C11.7.1 10.9 0 10 0 7.9 0 6.5 1.3 6.5 3.6v2.3H4.1v2.8h2.4V16z"/></svg>Facebook</a><a href="https://www.instagram.com/squash_lt/"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="11.9" cy="4.1" r=".9" fill="currentColor"/></svg>Instagram</a><a href="https://www.youtube.com/@squashlithuania"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M15.7 4.2a2 2 0 0 0-1.4-1.4C13 2.5 8 2.5 8 2.5s-5 0-6.3.3A2 2 0 0 0 .3 4.2C0 5.5 0 8 0 8s0 2.5.3 3.8a2 2 0 0 0 1.4 1.4c1.3.3 6.3.3 6.3.3s5 0 6.3-.3a2 2 0 0 0 1.4-1.4C16 10.5 16 8 16 8s0-2.5-.3-3.8zM6.4 10.4V5.6L10.6 8z"/></svg>Youtube</a></div>
+  <div class="old-copy">@2026 - Lietuvos Skvošo Asociacija<small>Neoficialus redizaino eskizas</small></div>
+</footer>
+
+<div class="ver" role="group" aria-label="Svetainės versija">
+  <span class="ver-l"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1.5" width="6.5" height="9" rx="1.2" fill="none" stroke="currentColor"/><path d="M9 3.5h1a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H9" fill="none" stroke="currentColor"/></svg>Versija</span>
+  <button type="button" data-ver="old" aria-pressed="false">Senas</button>
+  <button type="button" data-ver="new" aria-pressed="true">Naujas</button>
+</div>

@@ -722,3 +722,61 @@ html[data-ver="old"] .page-head{padding-top:72px}
 .egg-x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:10px;border:0;cursor:pointer;background:rgba(255,255,255,.1);color:var(--hero-ink);display:grid;place-items:center}
 .egg-x svg{width:12px;height:12px}
 @media (prefers-reduced-motion: no-preference){ .sq-ball.hit{animation:sqhit .25s ease} .sq-ball.bounce{animation:sqsquash .18s ease} @keyframes sqhit{50%{box-shadow:0 0 0 8px rgba(245,197,24,.35),0 6px 14px -4px rgba(0,0,0,.45)}} @keyframes sqsquash{50%{border-radius:50% 50% 45% 45%/40% 40% 60% 60%}} }
+
+/* ===== Eilutės vietoj piliulių: ramus sąrašas su linijomis ===== */
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.rows > li{border-bottom:1px solid var(--line)}
+.row{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:minmax(0,96px) minmax(0,1fr) auto;gap:14px;align-items:center;min-height:52px;padding:8px 0}
+.row-k{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.row-v{font-size:16px;line-height:1.25;transition:transform .3s var(--ease)}
+.row-v small{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.row-go{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--ink);background:var(--surface-2);transition:background .25s,color .25s,transform .3s var(--ease)}
+.row-go svg{width:11px;height:11px}
+.row:hover .row-v{transform:translateX(4px)}
+.row:hover .row-go{background:var(--ink);color:var(--surface)}
+.row:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.row-off{cursor:default;grid-template-columns:minmax(0,96px) minmax(0,1fr)}
+.row-off .row-v{color:var(--muted)}
+.row-ini{width:36px;height:42px;border-radius:8px;background:var(--hero-bg);color:var(--hero-ink);display:grid;place-items:end start;padding:4px 6px;font-size:15px;font-weight:300;letter-spacing:-.03em;line-height:1}
+.rows:has(.row-ini) .row{grid-template-columns:36px minmax(0,1fr) auto}
+.c-where{width:100%;max-width:420px;display:grid;gap:8px}
+.c-where .p-label{margin:0}
+
+/* Klubų sąrašas (Kur žaisti) */
+.vlist{list-style:none;margin:0;padding:0;border-top:1px solid var(--line);align-self:start}
+.vlist > li{border-bottom:1px solid var(--line)}
+.vrow{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,200px) minmax(0,100px) auto;gap:16px;align-items:center;padding:20px 0;min-height:44px}
+.vrow h3{font-size:clamp(22px,2.2vw,30px);font-weight:300;transition:transform .3s var(--ease)}
+.vrow-p{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vrow-n{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);text-align:right;white-space:nowrap}
+.vrow:hover h3{transform:translateX(4px)}
+.vrow:hover .row-go,.vrow:focus-visible .row-go{background:var(--ink);color:var(--surface)}
+.vrow:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.vrow .row-go{width:36px;height:36px}
+@media (max-width:860px){ .v-visual .map{display:block} }
+@media (max-width:560px){ .vrow{grid-template-columns:minmax(0,1fr) auto auto;gap:12px} .vrow-p{display:none} }
+
+/* ===== Šoninis panelis su ekranų steku ===== */
+#sheet{z-index:39}
+#sheet .panel{transform:translateX(calc(100% + 32px))}
+#sheet .panel.in{transform:none}
+#sheet .panel > *{transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease}
+#sheet .panel.under > *{transform:translateX(-18%);opacity:0}
+#sheet .panel + .panel{box-shadow:none}
+#sheet .panel-body{gap:14px}
+#sheet .vd-dl{margin-top:4px}
+
+/* Kalendorius ir varžybų vieta kaip nuoroda į klubą */
+.ev-place{all:unset;cursor:pointer;color:var(--muted);border-bottom:1px solid transparent;transition:border-color .2s,color .2s}
+.ev-place:hover{color:var(--ink);border-color:var(--line)}
+.ev-place:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.ev-month + .ev-month{margin-top:40px}
+.ev-month h3{font-size:clamp(24px,2.4vw,32px);font-weight:300;margin-bottom:14px}
+.ev-month h3 span{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--muted);margin-left:8px}
+.more-link{margin-top:28px;display:flex;justify-content:flex-end}
+
+/* Sklandūs perėjimai tarp puslapių (Chrome, Safari) */
+@view-transition{navigation:auto}
+.top .nav-bar{view-transition-name:navbar}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.28s}
+@media (prefers-reduced-motion: reduce){ @view-transition{navigation:none} }

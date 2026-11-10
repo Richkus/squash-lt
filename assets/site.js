@@ -9,7 +9,7 @@ const samePage=a=>{ const n=p=>p.replace(/index\.html$/,''); try{ const u=new UR
 
 /* Mobilus meniu */
 const menu=document.getElementById('mnav'), mOpen=document.getElementById('menuOpen');
-const GRP_OF={varzybos:'varz',la28:'varz',reitingas:'varz','kur-zaisti':'zaisk',treneriai:'zaisk',apie:'lsa',partneriai:'lsa'};
+const GRP_OF={kalendorius:'varz',reitingas:'varz',la28:'varz','kur-zaisti':'zaisk',treneriai:'zaisk',apie:'lsa'};
 function setGroup(g,on){ g.classList.toggle('open',on); g.querySelector('.mnav-item').setAttribute('aria-expanded',String(on)); }
 function setMenu(on){
   if(on){

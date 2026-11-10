@@ -6,17 +6,20 @@ Vienas statinis puslapis: HTML, CSS ir vanilla JS, be build žingsnio.
 
 ## Kas viduje
 
-- `index.html`: pagrindinis puslapis.
-- `naujienos.html`, `straipsnis.html?id=…`: naujienų sąrašas su temomis ir straipsnio šablonas. Duomenys `data/naujienos.json` (23 tikri squash.lt įrašai, tekstai išvalyti iki paprasto HTML).
-- `assets/site.css`, `assets/site.js`: bendri stiliai ir logika (juosta, meniu, slinkimas, žinutės langas, versijos ir temos perjungikliai).
-- `assets/home.js`, `assets/news.js`, `assets/article.js`: konkrečių puslapių logika.
-- `tools/sync_chrome.py`: juosta, meniu ir poraštės laikomi `index.html` tarp `<!-- chrome:top -->` ir `<!-- chrome:bottom -->` žymų. Pakeitus juos, paleisk `python3 tools/sync_chrome.py`, kad atsinaujintų vidiniai puslapiai.
-- `img/`: nuotraukos iš squash.lt, sumažintos ir suspaustos (~2 MB vietoj ~27 MB dabartiniame pagrindiniame).
-- `favicon.svg`: logotipo žmogeliukas, puslapyje retkarčiais trumpam virsta skvošo kamuoliuku su dviem taškais.
+Kiekvienas meniu punktas yra atskiras puslapis, o turinys laikomas vienoje vietoje:
+
+- **Puslapiai:** `index.html` (santrauka), `kalendorius.html`, `reitingas.html`, `la28.html`, `kur-zaisti.html`, `treneriai.html`, `naujienos.html`, `straipsnis.html?id=…`, `apie.html`, `kontaktai.html`.
+- **`assets/data.js`:** vienintelis duomenų šaltinis: klubai, treneriai, varžybos (demo), reitingo ištrauka (demo).
+- **`assets/blocks.js`:** blokai iš tų duomenų (`data-block="venues|coaches|events|rank|news|countdown|hero-event"`) ir šoninis panelis su ekranų steku (treneris ↔ klubas, su „Atgal“). Tas pats blokas rodomas pagrindiniame ir vidiniame puslapyje.
+- **`parts/*.html`:** statinės bendros dalys: juosta, poraštė, apie, skaičiai, LA28, partneriai, kontaktai.
+- **`tools/build.py`:** sudeda `parts/` į visus puslapius ir atnaujina failų versijos žymą. Paleisk po kiekvieno `parts/` pakeitimo: `python3 tools/build.py`.
+- **`assets/site.css`, `assets/site.js`:** stiliai ir bendra logika (juosta, meniu, žinutės langas, versijų perjungiklis, velykinis kiaušinis).
+- **`data/naujienos.json`:** 23 tikros squash.lt naujienos.
+- **`img/`:** suspaustos nuotraukos, LSA logotipas.
 
 ## Meniu
 
-Varžybos ▾ · Žaisk skvošą ▾ · Naujienos · Daugiau ▾ | Žaidėjo portalas ↗ · Tapk nariu. Punktai, kurių puslapių dar nėra, veda į dabartinį squash.lt.
+Varžybos ▾ (Kalendorius, Reitingas, Kelias į LA28) · Žaisk skvošą ▾ (Kur žaisti, Treneriai) · Naujienos · Daugiau ▾ (Apie mus, Kontaktai) | Žaidėjo portalas ↗ · Tapk nariu. Juosta rodo, kuriame puslapyje esi. Punktai su ↗ veda į dabartinį squash.lt.
 
 ## Versijos
 

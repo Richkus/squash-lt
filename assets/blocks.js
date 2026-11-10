@@ -1,0 +1,227 @@
+/* Blokai iš assets/data.js. Tas pats blokas rodomas pagrindiniame ir vidiniame puslapyje:
+   <div data-block="venues|coaches|events|rank|news|hero-event|countdown" ...></div>
+   Šoninis panelis (Sheet) rodo trenerį ar klubą; antras ekranas užeina ant pirmo su „Atgal“. */
+
+const MON=['Sau','Vas','Kov','Bal','Geg','Bir','Lie','Rgp','Rgs','Spa','Lap','Gru'];
+const MON_FULL=['Sausis','Vasaris','Kovas','Balandis','Gegužė','Birželis','Liepa','Rugpjūtis','Rugsėjis','Spalis','Lapkritis','Gruodis'];
+const ARR='<svg aria-hidden="true"><use href="#arr"/></svg>';
+const placeOf=a=>typeof a==='number' ? VENUES[a] : a;
+const coachesAt=i=>COACHES.map((c,j)=>[c,j]).filter(([c])=>c.at.includes(i));
+const ini=c=>c.n.split(' ').map(w=>w[0]).join('');
+const role=c=>c.soon?'Trenerė':'Treneris';
+const upcoming=()=>{ const t=new Date().toISOString().slice(0,10); const f=EVENTS.filter(e=>e.d>=t); return f.length?f:EVENTS; };
+
+/* Eilutės (vietoj piliulių): klubai ir treneriai kaip ramus sąrašas su linijomis */
+function whereRows(c){
+  return `<ul class="rows">${c.at.map(a=>{ const p=placeOf(a);
+    return typeof a==='number'
+      ? `<li><button type="button" class="row" data-venue="${a}"><span class="row-k">${esc(p.city)}</span><span class="row-v">${esc(p.place)}</span><span class="row-go">${ARR}</span></button></li>`
+      : `<li><span class="row row-off"><span class="row-k">${esc(p.city)}</span><span class="row-v">${esc(p.place)}</span></span></li>`; }).join('')}</ul>`;
+}
+function coachRows(i){
+  const list=coachesAt(i);
+  if(!list.length) return '<p class="muted">Trenerių informacijos dar nėra.</p>';
+  return `<ul class="rows">${list.map(([c,j])=>`<li><button type="button" class="row" data-coach="${j}"><span class="row-ini" aria-hidden="true">${esc(ini(c))}</span><span class="row-v">${esc(c.n)}<small>${esc(c.cert)}</small></span><span class="row-go">${ARR}</span></button></li>`).join('')}</ul>`;
+}
+
+/* ===== Šoninis panelis su ekranų steku ===== */
+const Sheet=(function(){
+  let root=null, stack=[], first=null;
+  const X='<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l10 10M12 2 2 12"/></svg>';
+  const BACK='<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M10 6H2M5.5 2.5 2 6l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
+  function ensure(){
+    if(root) return;
+    root=document.createElement('div'); root.className='drawer'; root.id='sheet'; root.setAttribute('aria-hidden','true');
+    root.innerHTML='<div class="scrim" data-sheet-close></div>';
+    document.body.appendChild(root);
+    root.addEventListener('click',e=>{
+      if(e.target.closest('[data-sheet-close]')) close();
+      else if(e.target.closest('[data-sheet-back]')) pop();
+      else if(e.target.closest('[data-inquiry]')) close(false);
+    });
+  }
+  function panel(view){
+    const prev=stack[stack.length-1];
+    const a=document.createElement('aside'); a.className='panel'; a.setAttribute('role','dialog'); a.setAttribute('aria-modal','true'); a.setAttribute('aria-label',view.title);
+    a.innerHTML=`<div class="panel-head">${prev?`<button class="back" type="button" data-sheet-back>${BACK}<span>${esc(prev.view.title)}</span></button>`:`<span class="eyebrow">${esc(view.kicker)}</span>`}<button class="x" type="button" data-sheet-close aria-label="Uždaryti">${X}</button></div>
+      <div class="panel-body">${view.body}</div>${view.foot?`<div class="panel-foot">${view.foot}</div>`:''}`;
+    return a;
+  }
+  function push(view,trigger){
+    ensure();
+    const top=stack[stack.length-1];
+    const el=panel(view); root.appendChild(el); void el.offsetWidth; el.classList.add('in');
+    if(top) top.el.classList.add('under');
+    stack.push({view,el,trigger});
+    setTimeout(()=>el.querySelector('.back, .x').focus({preventScroll:true}),80);
+  }
+  function show(view,trigger){
+    ensure();
+    if(!root.classList.contains('open')){
+      first=trigger||document.activeElement; stack.forEach(s=>s.el.remove()); stack=[];
+      root.classList.add('open'); root.setAttribute('aria-hidden','false');
+      document.documentElement.style.overflow='hidden'; document.documentElement.classList.add('modal-open');
+      push(view,trigger); return;
+    }
+    const idx=stack.findIndex(s=>s.view.key===view.key);
+    if(idx>=0 && idx===stack.length-2) return pop();      /* tas pats ekranas kaip po apačia: tiesiog grįžtam */
+    if(idx===stack.length-1) return;
+    push(view,trigger);
+  }
+  function pop(){
+    if(stack.length<2) return close();
+    const top=stack.pop(), under=stack[stack.length-1];
+    top.el.classList.remove('in'); under.el.classList.remove('under');
+    setTimeout(()=>top.el.remove(),500);
+    const t=top.trigger; (t && under.el.contains(t) ? t : under.el.querySelector('.back, .x')).focus({preventScroll:true});
+  }
+  function close(restore=true){
+    if(!root || !root.classList.contains('open')) return;
+    root.classList.remove('open'); root.setAttribute('aria-hidden','true');
+    stack.forEach(s=>s.el.classList.remove('in'));
+    const old=stack; stack=[]; setTimeout(()=>old.forEach(s=>s.el.remove()),500);
+    document.documentElement.style.overflow=''; document.documentElement.classList.remove('modal-open');
+    if(restore && first && document.contains(first)) first.focus({preventScroll:true});
+  }
+  addEventListener('keydown',e=>{ if(e.key==='Escape' && root && root.classList.contains('open')){ e.stopPropagation(); pop(); } });
+  return {show,pop,close,isOpen:()=>!!root&&root.classList.contains('open')};
+})();
+
+function coachView(i){
+  const c=COACHES[i];
+  return {key:'c'+i, kicker:'Treneriai', title:c.n,
+    body:`<div class="cd-top"><span class="cd-ini" aria-hidden="true">${esc(ini(c))}</span><div><h2>${esc(c.n)}</h2><p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p></div></div>
+      <p class="p-label">Treniruoja</p>${whereRows(c)}
+      <div class="prose cd-text">${c.full.map(t=>`<p>${esc(t)}</p>`).join('')}</div>
+      ${c.soon?'':'<a class="link" href="https://squash.lt/treneriai/" target="_blank" rel="noopener">Šaltinis: squash.lt/treneriai<svg width="11" height="11" aria-hidden="true"><use href="#ext"/></svg></a>'}`,
+    foot:'<button class="btn btn-accent send" type="button" data-inquiry="Noriu išbandyti skvošą">Registruotis į treniruotę</button>'};
+}
+function venueView(i){
+  const v=VENUES[i], tel=v.tel.replace(/\s/g,'');
+  return {key:'v'+i, kicker:'Klubas', title:`${v.city} · ${v.place}`,
+    body:`<span class="eyebrow">Klubas</span><h2 class="vd-city">${esc(v.city)}</h2><p class="vd-place">${esc(v.place)}</p>
+      <dl class="vd-dl"><div><dt>Adresas</dt><dd>${esc(v.addr)}</dd></div><div><dt>Telefonas</dt><dd><a href="tel:${tel}">${esc(v.tel)}</a></dd></div></dl>
+      <p class="p-label">Treneriai šiame klube</p>${coachRows(i)}
+      <div class="actions" style="margin-top:8px"><a class="btn btn-line" href="https://maps.google.com/?q=${encodeURIComponent(v.addr)}" target="_blank" rel="noopener">Kaip nuvykti</a></div>`,
+    foot:`<a class="btn btn-accent send" href="tel:${tel}">Skambinti klubui</a>`};
+}
+document.addEventListener('click',e=>{
+  const c=e.target.closest('[data-coach]'); if(c){ e.preventDefault(); Sheet.show(coachView(+c.dataset.coach),c); return; }
+  const v=e.target.closest('[data-venue]'); if(v){ e.preventDefault(); Sheet.show(venueView(+v.dataset.venue),v); }
+});
+
+/* ===== Blokai ===== */
+const MAP_D='M9.1 48.0 L34.2 25.0 L62.8 13.0 L97.0 17.0 L131.3 18.0 L165.5 18.0 L205.5 28.0 L234.0 38.0 L268.2 40.0 L293.9 60.0 L325.3 87.0 L339.0 125.0 L316.7 140.0 L302.5 157.0 L279.6 168.0 L273.9 200.0 L262.5 225.0 L239.7 240.0 L222.6 255.0 L199.7 260.0 L174.1 263.0 L148.4 255.0 L142.7 235.0 L108.4 218.0 L105.6 185.0 L97.0 170.0 L74.2 150.0 L39.9 135.0 L21.1 128.0 L17.1 105.0 L13.1 83.0 L9.1 48.0 Z';
+const BLOCKS={
+  /* Kur žaisti: žemėlapis ir klubų eilutės; paspaudus atsidaro klubo panelis */
+  venues(el){
+    el.innerHTML=`<div class="venues">
+      <div class="v-visual">
+        <span class="eyebrow">Kur žaisti</span>
+        <div class="num" aria-hidden="true">${String(VENUES.length).padStart(2,'0')}<small>miestai</small></div>
+        <p>Skvošo kortai nuo Klaipėdos iki Druskininkų. Pasirink klubą, paskambink ir rezervuok laiką.</p>
+        <div class="map"><svg viewBox="-4 0 352 272" role="img" aria-label="Skvošo klubai Lietuvos žemėlapyje">
+          <defs><pattern id="mapDots" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.15" fill="currentColor"/></pattern></defs>
+          <path class="map-land" d="${MAP_D}" fill="url(#mapDots)"/><path class="map-edge" d="${MAP_D}" fill="none"/>
+          <g class="pins">${VENUES.map((v,i)=>{ const left=v.x>230, up=v.slug==='garliava';
+            return `<g class="pin" data-pin="${i}" transform="translate(${v.x} ${v.y})"><circle class="hit" r="12"/><circle class="ring" r="6"/><circle class="dot" r="3.5"/><text x="${left?-10:10}" y="${up?14:-8}" text-anchor="${left?'end':'start'}">${esc(v.city)}</text></g>`; }).join('')}</g>
+        </svg><span class="map-cap">${VENUES.length} miestai · 19 kortų</span></div>
+      </div>
+      <ul class="vlist">${VENUES.map((v,i)=>{ const n=coachesAt(i).length;
+        return `<li><button type="button" class="vrow" data-venue="${i}" id="${v.slug}"><h3>${esc(v.city)}</h3><span class="vrow-p">${esc(v.place)}</span><span class="vrow-n">${n?`${n} ${n===1?'treneris':'treneriai'}`:'—'}</span><span class="row-go">${ARR}</span></button></li>`; }).join('')}</ul>
+    </div>`;
+    const pins=el.querySelector('.pins'), cap=el.querySelector('.map-cap');
+    const mark=i=>{ pins.querySelectorAll('.pin').forEach(p=>p.classList.toggle('on',+p.dataset.pin===i)); if(i>=0){ pins.appendChild(pins.querySelector(`[data-pin="${i}"]`)); cap.textContent=`${VENUES[i].city} · ${VENUES[i].place}`; } else cap.textContent=`${VENUES.length} miestai · 19 kortų`; };
+    el.querySelectorAll('.vrow').forEach(b=>{ b.addEventListener('mouseenter',()=>mark(+b.dataset.venue)); b.addEventListener('focus',()=>mark(+b.dataset.venue)); });
+    el.querySelector('.vlist').addEventListener('mouseleave',()=>mark(-1));
+    pins.addEventListener('click',e=>{ const p=e.target.closest('.pin'); if(p) Sheet.show(venueView(+p.dataset.pin),el.querySelector(`.vrow[data-venue="${p.dataset.pin}"]`)); });
+    /* kur-zaisti.html#kaunas: atidaro klubą iškart */
+    const h=decodeURIComponent(location.hash.slice(1)), i=VENUES.findIndex(v=>v.slug===h);
+    if(i>=0 && el.dataset.hash!==undefined){ mark(i); setTimeout(()=>Sheet.show(venueView(i),el.querySelector(`#${h}`)),300); }
+  },
+
+  /* Treneriai: dideli vardai ir aktyvaus trenerio kortelė. data-filter: miestų filtras */
+  coaches(el){
+    const cities=[...new Set(COACHES.flatMap(c=>c.at.filter(a=>typeof a==='number').map(a=>VENUES[a].city)))];
+    el.innerHTML=`${el.dataset.filter!==undefined?`<div class="filters" role="group" aria-label="Miestas"><button class="chip" type="button" data-city="" aria-pressed="true">Visi<small>${COACHES.length}</small></button>${cities.map(c=>`<button class="chip" type="button" data-city="${esc(c)}" aria-pressed="false">${esc(c)}<small>${COACHES.filter(x=>x.at.some(a=>typeof a==='number'&&VENUES[a].city===c)).length}</small></button>`).join('')}</div>`:''}
+      <div class="coaches"><div><span class="eyebrow">Treneriai</span><ul class="c-list" role="tablist" aria-label="Treneriai"></ul></div><div class="c-card" role="tabpanel" aria-live="polite"></div></div>`;
+    const list=el.querySelector('.c-list'), card=el.querySelector('.c-card');
+    let shown=COACHES.map((c,i)=>i), cur=-1;
+    function draw(){
+      list.innerHTML=shown.map(i=>`<li><button class="c-name" type="button" role="tab" data-i="${i}" aria-selected="false">${esc(COACHES[i].n)}</button></li>`).join('');
+      cur=-1; pick(shown[0]);
+    }
+    function pick(i){
+      if(i===cur || i===undefined) return; cur=i; const c=COACHES[i];
+      list.querySelectorAll('.c-name').forEach(b=>b.setAttribute('aria-selected',String(+b.dataset.i===i)));
+      const loc=c.at.length ? (p=>`${p.city} · ${p.place}`)(placeOf(c.at[0])) : (c.from||'');
+      card.innerHTML=`<div class="c-frame"><i></i><i></i><i></i><i></i><div class="c-tile"><span class="loc">${esc(loc)}</span><span class="ini" aria-hidden="true">${esc(ini(c))}</span></div></div>
+        <p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p>
+        <p class="c-bio">${esc(c.bio)}</p>
+        <div class="c-where"><p class="p-label">Treniruoja</p>${whereRows(c)}</div>
+        <div class="c-acts"><button class="btn btn-accent" type="button" data-coach="${i}">Skaityti daugiau<span class="arr">${ARR}</span></button><button class="btn btn-line" type="button" data-inquiry="Noriu išbandyti skvošą">Treniruotė</button></div>`;
+      card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap');
+    }
+    list.addEventListener('click',e=>{ const b=e.target.closest('.c-name'); if(b) pick(+b.dataset.i); });
+    if(matchMedia('(hover:hover)').matches) list.addEventListener('mouseover',e=>{ const b=e.target.closest('.c-name'); if(b) pick(+b.dataset.i); });
+    list.addEventListener('keydown',e=>{
+      if(!['ArrowDown','ArrowUp'].includes(e.key)) return; e.preventDefault();
+      const k=(shown.indexOf(cur)+(e.key==='ArrowDown'?1:-1)+shown.length)%shown.length; pick(shown[k]); list.querySelector(`[data-i="${shown[k]}"]`).focus();
+    });
+    el.addEventListener('click',e=>{
+      const f=e.target.closest('[data-city]'); if(!f) return;
+      el.querySelectorAll('[data-city]').forEach(x=>x.setAttribute('aria-pressed',String(x===f)));
+      const city=f.dataset.city;
+      shown=COACHES.map((c,i)=>i).filter(i=>!city || COACHES[i].at.some(a=>typeof a==='number' && VENUES[a].city===city));
+      draw();
+    });
+    draw();
+  },
+
+  /* Varžybos: data-limit; data-group sugrupuoja pagal mėnesius */
+  events(el){
+    const lim=+el.dataset.limit||0, list=upcoming().slice(0,lim||undefined);
+    const row=e=>{ const [y,m,d]=e.d.split('-'), v=VENUES[e.v];
+      return `<li class="ev"><time datetime="${e.d}"><b>${d}</b>${MON[+m-1]}</time><div><h4>${esc(e.t)}</h4><p><button type="button" class="ev-place" data-venue="${e.v}">${esc(v.place)}, ${esc(v.city)}</button></p></div><button class="go" type="button" data-inquiry="Varžybos" aria-label="Registruotis: ${esc(e.t)}">${ARR}</button></li>`; };
+    if(el.dataset.group===undefined){ el.innerHTML=`<ul class="ev-list">${list.map(row).join('')}</ul>`; return; }
+    const groups={}; list.forEach(e=>{ const k=e.d.slice(0,7); (groups[k]=groups[k]||[]).push(e); });
+    el.innerHTML=Object.entries(groups).map(([k,es])=>{ const [y,m]=k.split('-'); return `<section class="ev-month"><h3>${MON_FULL[+m-1]} <span>${y}</span></h3><ul class="ev-list">${es.map(row).join('')}</ul></section>`; }).join('');
+  },
+
+  /* Reitingo ištrauka: top 5 su skirtukais */
+  rank(el){
+    el.innerHTML=`<div class="card-head"><h3>Reitingas</h3><div class="tabs" role="tablist" aria-label="Reitingo grupė"><button role="tab" type="button" aria-selected="true" data-g="v">Vyrai</button><button role="tab" type="button" aria-selected="false" data-g="m">Moterys</button></div></div>
+      <ol class="rank" aria-live="polite"></ol>
+      <div class="card-foot"><a class="link" href="reitingas.html">Visas reitingas<svg width="11" height="11" aria-hidden="true"><use href="#arr"/></svg></a><span class="demo">Demo duomenys</span></div>`;
+    const ol=el.querySelector('.rank');
+    const draw=g=>{ ol.innerHTML=RANK[g].map((p,i)=>`<li><span class="pos">${String(i+1).padStart(2,'0')}</span><span class="nm">${esc(p[0])}<small>${esc(p[1])}</small></span><span class="pts">${p[2].toLocaleString('lt-LT')}</span></li>`).join(''); ol.classList.remove('swap'); void ol.offsetWidth; ol.classList.add('swap'); };
+    el.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ el.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b))); draw(b.dataset.g); }));
+    draw('v');
+  },
+
+  /* Naujausios naujienos iš data/naujienos.json */
+  async news(el){
+    const lim=+el.dataset.limit||3, IMG=['img/foto-6516.jpg','img/foto-7700.jpg','img/foto-5279.jpg'];
+    let all=[]; try{ all=await (await fetch('data/naujienos.json')).json(); }catch(_){ return; }
+    all.sort((a,b)=>b.date.localeCompare(a.date));
+    el.innerHTML=`<div class="news">${all.slice(0,lim).map((n,k)=>`<a class="post" href="straipsnis.html?id=${n.id}"><div class="ph"><img src="${esc(n.img||IMG[k%IMG.length])}" alt="" loading="lazy"></div><div><time>${n.date}</time><h3>${esc(n.title)}</h3></div></a>`).join('')}</div>`;
+  },
+
+  /* Hero kortelė: artimiausios varžybos */
+  'hero-event'(el){
+    const e=upcoming()[0], v=VENUES[e.v], [y,m,d]=e.d.split('-');
+    const days=Math.ceil((new Date(e.d+'T10:00:00+02:00')-Date.now())/86400000);
+    el.querySelector('.nc-date').innerHTML=`<b>${d}</b>${MON[+m-1]}`; el.querySelector('.nc-date').setAttribute('datetime',e.d);
+    el.querySelector('.nc-txt').innerHTML=`<strong>${esc(e.t)}</strong><span>${esc(v.place)}, ${esc(v.city)}</span>`;
+    el.querySelector('.nc-when').textContent= days>1 ? `Po ${days} d.` : days===1 ? 'Rytoj' : days===0 ? 'Šiandien' : 'Įvyko';
+  },
+
+  /* LA28: laikas iki atidarymo (2028-07-14, Los Andželas) */
+  countdown(el){
+    const T=new Date('2028-07-14T19:00:00-07:00');
+    const tick=()=>{ let s=Math.max(0,(T-Date.now())/1000); const d=Math.floor(s/86400); s-=d*86400; const h=Math.floor(s/3600); s-=h*3600; const m=Math.floor(s/60);
+      el.querySelector('[data-d]').textContent=d; el.querySelector('[data-h]').textContent=String(h).padStart(2,'0'); el.querySelector('[data-m]').textContent=String(m).padStart(2,'0'); };
+    tick(); setInterval(tick,20000);
+  }
+};
+document.querySelectorAll('[data-block]').forEach(el=>{ const f=BLOCKS[el.dataset.block]; if(f) f(el); });
