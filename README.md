@@ -20,7 +20,7 @@ Varžybos ▾ · Žaisk skvošą ▾ · Naujienos · Daugiau ▾ | Žaidėjo por
 
 ## Versijos
 
-Apačioje kairėje „Senas / Naujas“: senoji versija apgaubia naują turinį dabartine squash.lt juosta ir poraštė. Nuoroda su `?v=senas` arba `?v=naujas`.
+Poraštėje „Paduok kamuoliuką“: velykinis kiaušinis, mažas skvošo ralis (spausk kamuoliuką, kad neatšoktų du kartus). Apačioje kairėje „Senas / Naujas“: senoji versija apgaubia naują turinį dabartine squash.lt juosta ir poraštė. Nuoroda su `?v=senas` arba `?v=naujas`.
 
 ## Kryptis
 

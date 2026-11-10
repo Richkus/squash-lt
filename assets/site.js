@@ -181,13 +181,78 @@ function setVer(v){
 verBtns.forEach(b=>b.addEventListener('click',()=>setVer(b.dataset.ver)));
 setVer(document.documentElement.dataset.ver==='old'?'old':'new');
 
-/* Tema: auto → šviesi → tamsi */
-const themeBtn=document.getElementById('theme'), themeLbl=document.getElementById('themeLbl');
-const THEMES=['auto','light','dark'], TL={auto:'Tema: auto',light:'Tema: šviesi',dark:'Tema: tamsi'};
-let theme='auto'; try{ theme=localStorage.getItem('lsa-theme')||'auto'; }catch(_){}
-function applyTheme(){ if(theme==='auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.dataset.theme=theme; themeLbl.textContent=TL[theme]; }
-applyTheme();
-themeBtn.addEventListener('click',()=>{ theme=THEMES[(THEMES.indexOf(theme)+1)%3]; try{ localStorage.setItem('lsa-theme',theme); }catch(_){} applyTheme(); });
+/* Velykinis kiaušinis: skvošo ralis. Paduok kamuoliuką ir spausk jį, kad neatšoktų du kartus nuo grindų */
+(function(){
+  const btn=document.getElementById('egg'); if(!btn) return;
+  try{ localStorage.removeItem('lsa-theme'); }catch(_){}
+  let best=0; try{ best=+localStorage.getItem('lsa-rally-best')||0; }catch(_){}
+  let ball=null, hud=null, toast=null, raf=0, x=0, y=0, vx=0, vy=0, rally=0, floor=0, last=0, live=false;
+  const G=1900, R=14;
+  const say=n=> n===0 ? 'Dvigubas atšokimas. Nieko tokio, treneriai išmokys.'
+    : n<5 ? 'Neblogai pradžiai. Korte būtų dar smagiau.'
+    : n<15 ? 'Rimtas ralis. Gal jau metas varžyboms?'
+    : 'Rinktinės lygis. Mes tavęs ieškome.';
+  function el(cls,html){ const d=document.createElement('div'); d.className=cls; if(html) d.innerHTML=html; document.body.appendChild(d); return d; }
+  function setHud(){ hud.innerHTML=`<b>Ralis ${rally}</b><span>Rekordas ${Math.max(best,rally)}</span>`; }
+  function hit(){
+    if(!live) return;
+    rally++; floor=0;
+    vy=-(900+Math.random()*350); vx=(Math.random()<.5?-1:1)*(220+Math.random()*420);
+    ball.classList.remove('hit'); void ball.offsetWidth; ball.classList.add('hit');
+    setHud();
+  }
+  function end(){
+    live=false; cancelAnimationFrame(raf);
+    if(rally>best){ best=rally; try{ localStorage.setItem('lsa-rally-best',best); }catch(_){} }
+    ball.classList.add('out'); setTimeout(()=>{ ball&&ball.remove(); ball=null; },400);
+    hud.classList.add('out'); setTimeout(()=>{ hud&&hud.remove(); hud=null; },300);
+    showToast(`<span class="eyebrow">Taškas baigtas</span><p class="egg-score">${rally}<small>${rally===1?'smūgis':(rally%10>=2&&rally%10<=9&&(rally%100<10||rally%100>20))?'smūgiai':'smūgių'}</small></p><p class="egg-say">${say(rally)}</p>
+      <div class="egg-acts"><button class="btn btn-accent" type="button" data-inquiry="Noriu išbandyti skvošą">Noriu išbandyti<span class="arr"><svg aria-hidden="true"><use href="#arr"/></svg></span></button><button class="btn btn-ghost" type="button" data-egg-again>Dar kartą</button></div>`);
+  }
+  function showToast(html){
+    if(toast) toast.remove();
+    toast=el('egg-toast',`<button class="egg-x" type="button" aria-label="Uždaryti" data-egg-close><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 2l10 10M12 2 2 12"/></svg></button>${html}`);
+    toast.setAttribute('role','dialog'); toast.setAttribute('aria-label','Skvošo ralis');
+    requestAnimationFrame(()=>toast.classList.add('in'));
+    setTimeout(()=>toast && toast.querySelector('.btn')?.focus({preventScroll:true}),120);
+  }
+  function closeToast(){ if(!toast) return; const t=toast; toast=null; t.classList.remove('in'); setTimeout(()=>t.remove(),300); btn.focus({preventScroll:true}); }
+  function step(t){
+    const dt=Math.min(.033,(t-last)/1000); last=t;
+    vy+=G*dt; x+=vx*dt; y+=vy*dt;
+    const W=innerWidth, H=innerHeight;
+    if(x<R){ x=R; vx=Math.abs(vx)*.9; }
+    if(x>W-R){ x=W-R; vx=-Math.abs(vx)*.9; }
+    if(y<R){ y=R; vy=Math.abs(vy)*.8; }
+    if(y>H-R){ y=H-R; vy=-Math.abs(vy)*.62; vx*=.9; floor++; ball.classList.remove('bounce'); void ball.offsetWidth; ball.classList.add('bounce'); if(floor>=2){ ball.style.transform=`translate(${x-R}px,${y-R}px)`; return end(); } }
+    ball.style.transform=`translate(${x-R}px,${y-R}px)`;
+    raf=requestAnimationFrame(step);
+  }
+  function serve(){
+    closeToast();
+    if(reduceMotion){ showToast(`<span class="eyebrow">Skvošo ralis</span><p class="egg-say">Paduotume kamuoliuką, bet tavo sistema prašo mažiau judesio. Pažaiskim tikrame korte?</p><div class="egg-acts"><button class="btn btn-accent" type="button" data-inquiry="Noriu išbandyti skvošą">Noriu išbandyti</button></div>`); return; }
+    if(live) return;
+    const r=btn.getBoundingClientRect();
+    x=r.left+18; y=r.top; vx=260+Math.random()*200; vy=-1250; rally=0; floor=0; live=true;
+    ball=el('sq-ball'); ball.setAttribute('role','button'); ball.setAttribute('aria-label','Mušk kamuoliuką'); ball.tabIndex=-1;
+    ball.addEventListener('pointerdown',e=>{ e.preventDefault(); hit(); });
+    hud=el('egg-hud'); setHud();
+    const tip=el('egg-tip','Spausk kamuoliuką arba tarpo klavišą. Du atšokimai nuo grindų ir taškas baigtas.'); setTimeout(()=>tip.classList.add('out'),2600); setTimeout(()=>tip.remove(),3000);
+    last=performance.now(); raf=requestAnimationFrame(step);
+  }
+  btn.addEventListener('click',serve);
+  addEventListener('keydown',e=>{
+    if(live && (e.code==='Space'||e.key===' ')){ e.preventDefault(); hit(); }
+    else if(e.key==='Escape' && live){ end(); }
+    else if(e.key==='Escape' && toast){ closeToast(); }
+  });
+  document.addEventListener('click',e=>{
+    if(!toast) return;
+    if(e.target.closest('[data-egg-close]')) closeToast();
+    else if(e.target.closest('[data-egg-again]')) serve();
+    else if(e.target.closest('.egg-toast [data-inquiry]')){ const t=toast; toast=null; t.remove(); }
+  });
+})();
 
 /* Favicon: logotipo žmogeliukas, kas kelias sekundes trumpam virsta skvošo kamuoliuku su dviem taškais */
 (function(){
