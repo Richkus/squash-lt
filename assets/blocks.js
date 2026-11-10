@@ -108,7 +108,7 @@ function coachView(i){
 function venueView(i){
   const v=VENUES[i], tel=v.tel.replace(/\s/g,'');
   return {key:'v'+i, kicker:'Klubas', title:`${v.city} · ${v.place}`,
-    body:`<span class="eyebrow">Klubas</span><h2 class="vd-city">${esc(v.city)}</h2><p class="vd-place">${esc(v.place)}</p>
+    body:`<h2 class="vd-city">${esc(v.city)}</h2><p class="vd-place">${esc(v.place)}</p>
       <dl class="vd-dl"><div><dt>Adresas</dt><dd>${esc(v.addr)}</dd></div><div><dt>Telefonas</dt><dd><a href="tel:${tel}">${esc(v.tel)}</a></dd></div></dl>
       <p class="p-label">Treneriai šiame klube</p>${coachRows(i)}
       <div class="actions" style="margin-top:8px"><a class="btn btn-line" href="https://maps.google.com/?q=${encodeURIComponent(v.addr)}" target="_blank" rel="noopener">Kaip nuvykti</a></div>`,
