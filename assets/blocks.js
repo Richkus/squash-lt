@@ -30,7 +30,7 @@ function whereRows(c){
 function coachRows(i){
   const list=coachesAt(i);
   if(!list.length) return '<p class="muted">Trenerių informacijos dar nėra.</p>';
-  return `<ul class="rows">${list.map(([c,j])=>`<li><button type="button" class="row" data-coach="${j}"><span class="row-ini" aria-hidden="true">${esc(ini(c))}</span><span class="row-v">${esc(c.n)}<small>${esc(c.cert)}</small></span><span class="row-go">${ARR}</span></button></li>`).join('')}</ul>`;
+  return `<ul class="rows">${list.map(([c,j])=>`<li><button type="button" class="row" data-coach="${j}"><span class="row-ini${c.img?' has-img':''}" aria-hidden="true">${c.img?`<img src="${esc(c.img)}" alt="" loading="lazy">`:esc(ini(c))}</span><span class="row-v">${esc(c.n)}<small>${esc(c.cert)}</small></span><span class="row-go">${ARR}</span></button></li>`).join('')}</ul>`;
 }
 
 /* ===== Šoninis panelis su ekranų steku ===== */
@@ -99,7 +99,7 @@ const Sheet=(function(){
 function coachView(i){
   const c=COACHES[i];
   return {key:'c'+i, kicker:'Treneriai', title:c.n,
-    body:`<div class="cd-top"><span class="cd-ini" aria-hidden="true">${esc(ini(c))}</span><div><h2>${esc(c.n)}</h2><p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p></div></div>
+    body:`<div class="cd-top"><span class="cd-ini${c.img?' has-img':''}" aria-hidden="true">${c.img?`<img src="${esc(c.img)}" alt="">`:esc(ini(c))}</span><div><h2>${esc(c.n)}</h2><p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p></div></div>
       <p class="p-label">Treniruoja</p>${whereRows(c)}
       <div class="prose cd-text">${c.full.map(t=>`<p>${esc(t)}</p>`).join('')}</div>
       ${c.soon?'':'<a class="link" href="https://squash.lt/treneriai/" target="_blank" rel="noopener">Šaltinis: squash.lt/treneriai<svg width="11" height="11" aria-hidden="true"><use href="#ext"/></svg></a>'}`,
