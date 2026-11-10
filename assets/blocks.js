@@ -9,6 +9,9 @@ const placeOf=a=>typeof a==='number' ? VENUES[a] : a;
 const coachesAt=i=>COACHES.map((c,j)=>[c,j]).filter(([c])=>c.at.includes(i));
 const ini=c=>c.n.split(' ').map(w=>w[0]).join('');
 const role=c=>c.soon?'Trenerė':'Treneris';
+/* Skambinti treneriui: tikras numeris arba pavyzdinis su žyme */
+const telHref=t=>'tel:'+t.replace(/\s/g,'');
+const callBtn=(c,cls='btn btn-line')=>`<a class="${cls} call" href="${telHref(c.tel)}"><svg class="ph-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 2h3l1.5 3.5-2 1.2a8 8 0 0 0 3.8 3.8l1.2-2L14 10v3a1 1 0 0 1-1 1A11 11 0 0 1 2 3a1 1 0 0 1 1-1Z"/></svg><span>${esc(c.tel)}</span>${c.telDemo?'<small class="fake">Demo numeris</small>':''}</a>`;
 const upcoming=()=>{ const t=new Date().toISOString().slice(0,10); const f=EVENTS.filter(e=>e.d>=t); return f.length?f:EVENTS; };
 
 /* Eilutės (vietoj piliulių): klubai ir treneriai kaip ramus sąrašas su linijomis */
@@ -94,7 +97,7 @@ function coachView(i){
       <p class="p-label">Treniruoja</p>${whereRows(c)}
       <div class="prose cd-text">${c.full.map(t=>`<p>${esc(t)}</p>`).join('')}</div>
       ${c.soon?'':'<a class="link" href="https://squash.lt/treneriai/" target="_blank" rel="noopener">Šaltinis: squash.lt/treneriai<svg width="11" height="11" aria-hidden="true"><use href="#ext"/></svg></a>'}`,
-    foot:'<button class="btn btn-accent send" type="button" data-inquiry="Noriu išbandyti skvošą">Registruotis į treniruotę</button>'};
+    foot:callBtn(c,'btn btn-accent send')};
 }
 function venueView(i){
   const v=VENUES[i], tel=v.tel.replace(/\s/g,'');
@@ -159,7 +162,7 @@ const BLOCKS={
         <p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p>
         <p class="c-bio">${esc(c.bio)}</p>
         <div class="c-where"><p class="p-label">Treniruoja</p>${whereRows(c)}</div>
-        <div class="c-acts"><button class="btn btn-accent" type="button" data-coach="${i}">Skaityti daugiau<span class="arr">${ARR}</span></button><button class="btn btn-line" type="button" data-inquiry="Noriu išbandyti skvošą">Treniruotė</button></div>`;
+        <div class="c-acts"><button class="btn btn-accent" type="button" data-coach="${i}">Skaityti daugiau<span class="arr">${ARR}</span></button>${callBtn(c)}</div>`;
       card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap');
     }
     list.addEventListener('click',e=>{ const b=e.target.closest('.c-name'); if(b) pick(+b.dataset.i); });
