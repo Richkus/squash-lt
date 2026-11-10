@@ -23,5 +23,5 @@ npx http-server . -p 8110 -c-1
 ## Žinomos spragos
 
 - Artėjančios varžybos ir reitingas yra demo duomenys.
-- Logotipas laikinas (kamuoliukas + „LSA“), reikia originalaus vektorinio failo.
+- Logotipas: originalus LSA SVG (`img/lsa-logo.svg`); nuslinkus juostoje lieka tik ženklas su „LSA“.
 - Forma nieko nesiunčia.
