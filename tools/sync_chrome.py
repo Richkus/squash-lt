@@ -4,7 +4,7 @@ import re, pathlib
 root = pathlib.Path(__file__).resolve().parent.parent
 src = (root / 'index.html').read_text(encoding='utf-8')
 blocks = {k: re.search(rf'<!-- chrome:{k} -->.*?<!-- /chrome:{k} -->', src, re.S).group(0) for k in ('top', 'bottom')}
-for page in ('naujienos.html', 'straipsnis.html'):
+for page in ('naujienos.html', 'straipsnis.html', 'reitingas.html'):
     f = root / page
     t = f.read_text(encoding='utf-8')
     for k, b in blocks.items():

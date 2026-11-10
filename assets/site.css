@@ -667,3 +667,26 @@ html[data-ver="old"] .page-head{padding-top:72px}
 .vd-dl a{text-decoration:none;border-bottom:1px solid var(--line)}
 .tag[aria-current="true"]{background:var(--ink);color:var(--surface);box-shadow:none}
 .tag[aria-current="true"]::before{color:var(--surface)}
+
+/* Reitingo puslapis: rankedin lentelės vieta (kol kas fragmentas) */
+.rk{background:var(--surface);border-radius:var(--r-lg);padding:clamp(16px,2.4vw,28px);display:grid;gap:20px}
+.rk-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.rk-note{font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill);background:var(--surface-2);color:var(--muted)}
+.rk-frame{position:relative;display:block;border-radius:var(--r-md);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line);background:#F6F7FB;text-decoration:none}
+.rk-frame img{display:block;width:100%;height:auto}
+.rk-fade{position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(to top,rgba(246,247,251,.96),rgba(246,247,251,0))}
+.rk-go{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:12px;padding:6px 6px 6px 18px;border-radius:var(--r-pill);background:var(--ink);color:var(--bg);font-size:15px;white-space:nowrap;transition:transform .25s var(--ease)}
+.rk-go i{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center}
+.rk-go svg{width:11px;height:11px}
+.rk-frame:hover .rk-go{transform:translateX(-50%) translateY(-2px)}
+.rk-info{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,56px);padding:8px 4px 4px}
+.rk-info > div{display:grid;gap:12px;align-content:start}
+.rk-info p{color:var(--muted);max-width:46ch}
+@media (max-width:760px){ .rk-info{grid-template-columns:minmax(0,1fr)} .rk-go{font-size:14px;bottom:14px} }
+/* Plačiame ekrane fragmentas natūralaus dydžio kairėje, informacija dešinėje (paveikslėlis netempiamas) */
+@media (min-width:980px){
+  .rk{grid-template-columns:minmax(0,700px) minmax(0,1fr);align-items:start;column-gap:clamp(24px,4vw,56px)}
+  .rk-bar{grid-column:1/-1}
+  .rk-info{grid-template-columns:minmax(0,1fr);gap:32px;padding:4px 0 0}
+}
+.rk-frame{max-width:700px}
