@@ -12,6 +12,12 @@ const role=c=>c.soon?'Trenerė':'Treneris';
 /* Skambinti treneriui: tikras numeris arba pavyzdinis su žyme */
 const telHref=t=>'tel:'+t.replace(/\s/g,'');
 const callBtn=(c,cls='btn btn-line')=>`<a class="${cls} call" href="${telHref(c.tel)}"><svg class="ph-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 2h3l1.5 3.5-2 1.2a8 8 0 0 0 3.8 3.8l1.2-2L14 10v3a1 1 0 0 1-1 1A11 11 0 0 1 2 3a1 1 0 0 1 1-1Z"/></svg><span>${esc(c.tel)}</span>${c.telDemo?'<small class="fake">Demo numeris</small>':''}</a>`;
+/* Rankedin API (leidžia užklausas iš naršyklės) */
+async function rkFetch({gender=1,age=1,skip=0,take=10}){
+  const q=new URLSearchParams({rankingId:RANKING.id,rankingType:1,ageGroup:age,participantGender:gender,weekFromNow:0,language:'en',skip,take});
+  const r=await fetch(`${RANKING.api}?${q}`); if(!r.ok) throw new Error(r.status); return r.json();
+}
+const clubShort=c=>(c||'').replace('Lithuanian squash association','LSA');
 const upcoming=()=>{ const t=new Date().toISOString().slice(0,10); const f=EVENTS.filter(e=>(e.end||e.d)>=t); return f.length?f:EVENTS; };
 
 /* Eilutės (vietoj piliulių): klubai ir treneriai kaip ramus sąrašas su linijomis */
@@ -193,15 +199,61 @@ const BLOCKS={
     el.innerHTML=Object.entries(groups).map(([k,es])=>{ const [y,m]=k.split('-'); return `<section class="ev-month"><h3>${MON_FULL[+m-1]} <span>${y}</span></h3><ul class="ev-list">${es.map(row).join('')}</ul></section>`; }).join('');
   },
 
-  /* Reitingo ištrauka: top 5 su skirtukais */
+  /* Reitingo ištrauka: tikras top 5 iš rankedin */
   rank(el){
-    el.innerHTML=`<div class="card-head"><h3>Reitingas</h3><div class="tabs" role="tablist" aria-label="Reitingo grupė"><button role="tab" type="button" aria-selected="true" data-g="v">Vyrai</button><button role="tab" type="button" aria-selected="false" data-g="m">Moterys</button></div></div>
+    el.innerHTML=`<div class="card-head"><h3>Reitingas</h3><div class="tabs" role="tablist" aria-label="Reitingo grupė"><button role="tab" type="button" aria-selected="true" data-g="1">Vyrai</button><button role="tab" type="button" aria-selected="false" data-g="2">Moterys</button></div></div>
       <ol class="rank" aria-live="polite"></ol>
-      <div class="card-foot"><a class="link" href="reitingas.html">Visas reitingas<svg width="11" height="11" aria-hidden="true"><use href="#arr"/></svg></a><span class="demo">Demo duomenys</span></div>`;
-    const ol=el.querySelector('.rank');
-    const draw=g=>{ ol.innerHTML=RANK[g].map((p,i)=>`<li><span class="pos">${String(i+1).padStart(2,'0')}</span><span class="nm">${esc(p[0])}<small>${esc(p[1])}</small></span><span class="pts">${p[2].toLocaleString('lt-LT')}</span></li>`).join(''); ol.classList.remove('swap'); void ol.offsetWidth; ol.classList.add('swap'); };
-    el.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ el.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b))); draw(b.dataset.g); }));
-    draw('v');
+      <div class="card-foot"><a class="link" href="reitingas.html">Visas reitingas<svg width="11" height="11" aria-hidden="true"><use href="#arr"/></svg></a><span class="demo rk-week">rankedin.com</span></div>`;
+    const ol=el.querySelector('.rank'), wk=el.querySelector('.rk-week');
+    async function draw(g){
+      ol.innerHTML='<li class="rk-load">Kraunama…</li>';
+      try{
+        const d=await rkFetch({gender:g,take:5});
+        ol.innerHTML=d.Payload.map((p,i)=>`<li><span class="pos" title="Bendra vieta ${p.ParticipantPoints.Standing}">${String(i+1).padStart(2,'0')}</span><span class="nm">${esc(p.Name)}<small>${esc(clubShort(p.HomeClubName))}</small></span><span class="pts">${Math.round(p.ParticipantPoints.Points).toLocaleString('lt-LT')}</span></li>`).join('');
+        if(d.Payload[0]) wk.textContent=`rankedin · ${d.Payload[0].ParticipantPoints.Week} sav.`;
+      }catch(_){ ol.innerHTML='<li class="rk-load">Nepavyko įkelti reitingo. <a href="reitingas.html">Atidaryti</a></li>'; }
+      ol.classList.remove('swap'); void ol.offsetWidth; ol.classList.add('swap');
+    }
+    el.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ el.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b))); draw(+b.dataset.g); }));
+    draw(1);
+  },
+
+  /* Pilnas reitingas iš rankedin: lytis, grupė (filtruojama pagal žaidėjo grupę), po 25 */
+  'rank-full'(el){
+    const PER=25, cache={}; let g=1, grp='', shown=PER;
+    el.innerHTML=`<div class="rkf-bar">
+        <div class="tabs" role="tablist" aria-label="Lytis"><button role="tab" type="button" aria-selected="true" data-g="1">Vyrai</button><button role="tab" type="button" aria-selected="false" data-g="2">Moterys</button></div>
+        <div class="sel rkf-sel"><label class="sr" for="rkAge">Amžiaus grupė</label><select class="f" id="rkAge"><option value="">Visos grupės</option></select><svg aria-hidden="true"><use href="#chev"/></svg></div>
+        <span class="rkf-meta" aria-live="polite"></span>
+      </div>
+      <div class="rkf-head" aria-hidden="true"><span>Vieta</span><span>Žaidėjas</span><span>Klubas</span><span>Grupė</span><span>Taškai</span></div>
+      <ol class="rkf" aria-label="Reitingas"></ol>
+      <div class="more-wrap" style="margin-top:24px"><button class="btn btn-line" type="button" hidden>Rodyti daugiau</button></div>`;
+    const ol=el.querySelector('.rkf'), more=el.querySelector('.more-wrap .btn'), meta=el.querySelector('.rkf-meta'), sel=el.querySelector('#rkAge');
+    const AGE_LT=t=>(t||'').replace('Men-Main','Vyrai').replace('Women-Main','Moterys').replace('Boys Under ','Vaikinai iki ').replace('Girls Under ','Merginos iki ').replace('Men Over ','Vyrai virš ').replace('Women Over ','Moterys virš ');
+    const ORDER=t=>{ const n=+(t.match(/\d+/)||[0])[0]; return /Under/.test(t)?n:/Main/.test(t)?100:200+n; };
+    const diff=n=> n>0 ? `<span class="up" title="Pakilo ${n}">▲ ${n}</span>` : n<0 ? `<span class="down" title="Nukrito ${-n}">▼ ${-n}</span>` : '<span class="same">–</span>';
+    async function data(){
+      if(!cache[g]) cache[g]=rkFetch({gender:g,take:300});
+      return cache[g];
+    }
+    async function render(){
+      ol.innerHTML='<li class="rk-load">Kraunama…</li>'; more.hidden=true;
+      try{
+        const d=await data(), all=d.Payload;
+        const groups=[...new Set(all.map(p=>p.PlayerAgeGroup).filter(Boolean))].sort((a,b)=>ORDER(a)-ORDER(b));
+        sel.innerHTML='<option value="">Visos grupės</option>'+groups.map(t=>`<option value="${esc(t)}">${esc(AGE_LT(t))}</option>`).join(''); sel.value=grp;
+        const list=all.filter(p=>!grp || p.PlayerAgeGroup===grp);
+        ol.innerHTML=list.slice(0,shown).map((p,i)=>{ const pp=p.ParticipantPoints;
+          return `<li><span class="rkf-pos" title="Bendra vieta ${pp.Standing}">${i+1}</span><span class="rkf-diff">${diff(p.StandingDiff)}</span><a class="rkf-name" href="${RANKING.web}${esc(p.ParticipantUrl)}" target="_blank" rel="noopener">${esc(p.Name)}</a><span class="rkf-club">${esc(clubShort(p.HomeClubName))}</span><span class="rkf-age">${esc(AGE_LT(p.PlayerAgeGroup))}</span><span class="rkf-pts">${Math.round(pp.Points).toLocaleString('lt-LT')}</span></li>`; }).join('') || '<li class="rk-load">Šioje grupėje žaidėjų nėra.</li>';
+        const w=all[0]?.ParticipantPoints; meta.textContent=`${list.length} ${g===1?'vyr.':'mot.'}${w?` · ${w.Year} m. ${w.Week} sav.`:''}`;
+        more.hidden=list.length<=shown;
+      }catch(_){ delete cache[g]; ol.innerHTML=`<li class="rk-load">Nepavyko įkelti reitingo. <a href="${RANKING.web}/en/promote/3949ab/ranking/index/${RANKING.id}" target="_blank" rel="noopener">Atidaryti rankedin.com</a></li>`; }
+    }
+    el.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ if(+b.dataset.g===g) return; el.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b))); g=+b.dataset.g; grp=''; shown=PER; render(); }));
+    sel.addEventListener('change',()=>{ grp=sel.value; shown=PER; render(); });
+    more.addEventListener('click',()=>{ shown+=PER; render(); });
+    render();
   },
 
   /* Naujausios naujienos iš data/naujienos.json */

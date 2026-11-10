@@ -62,8 +62,5 @@ const EVENTS=[
   {d:'2027-06-12',end:'2027-06-13',t:"Vilnius Open",v:0}
 ];
 
-/* Reitingas: DEMO duomenys pagrindinio puslapio ištraukai. Pilnas reitingas yra rankedin.com */
-const RANK={
-  v:[['A. Kazlauskas','Vilnius',1840],['M. Petrauskas','Kaunas',1765],['T. Jankauskas','Vilnius',1702],['D. Stankevičius','Klaipėda',1650],['L. Vasiliauskas','Kaunas',1598]],
-  m:[['I. Kazlauskaitė','Vilnius',1620],['G. Petrauskienė','Kaunas',1588],['E. Butkutė','Vilnius',1510],['R. Paulauskaitė','Klaipėda',1462],['A. Urbonaitė','Kaunas',1401]]
-};
+/* Reitingas: gyvai iš rankedin.com API (LSA reitingas Nr. 6025). participantGender: 1 vyrai, 2 moterys; ageGroup 1 = visi */
+const RANKING={id:6025, api:'https://api.rankedin.com/v1/Ranking/GetRankingsAsync', web:'https://rankedin.com'};
