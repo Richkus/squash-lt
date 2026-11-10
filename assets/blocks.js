@@ -193,6 +193,46 @@ const BLOCKS={
     draw();
   },
 
+  /* Trenerių puslapis: kortelių tinklelis su miesto ir kalbos filtru; kortelė atidaro šoninį panelį (data-coach) */
+  'coach-grid'(el){
+    const cityOf=c=>[...new Set(c.at.map(a=>placeOf(a).city).filter(Boolean))];
+    const langOf=c=>(c.lang||'').split(',').map(s=>s.trim()).filter(Boolean);
+    const cities=[...new Set(COACHES.flatMap(cityOf))], langs=['LT','EN','RU'];
+    const LANG={LT:'Lietuviškai',EN:'Angliškai',RU:'Rusiškai'};
+    let city='', lang='';
+    el.innerHTML=`<div class="cg-bar">
+        <div class="cg-seg" role="group" aria-label="Miestas"><button type="button" data-city="" aria-pressed="true">Visi miestai</button>${cities.map(c=>`<button type="button" data-city="${esc(c)}" aria-pressed="false">${esc(c)}</button>`).join('')}</div>
+        <div class="cg-lang" role="group" aria-label="Treniruotės kalba"><span>Kalba</span>${langs.map(l=>`<button type="button" data-lang="${l}" aria-pressed="false" title="${LANG[l]}">${l}</button>`).join('')}</div>
+      </div>
+      <p class="cg-count" aria-live="polite"></p>
+      <ul class="cg"></ul>`;
+    const grid=el.querySelector('.cg'), count=el.querySelector('.cg-count');
+    function card(c,i){
+      const p=c.at.length?placeOf(c.at[0]):{}, more=c.at.length>1?` +${c.at.length-1}`:'';
+      return `<li><button type="button" class="cg-card" data-coach="${i}">
+        <span class="cg-ph${c.img?'':' blank'}">${c.img?`<img src="${esc(c.img)}" alt="" loading="lazy">`:`<b aria-hidden="true">${esc(ini(c))}</b>`}${c.soon?'<span class="cg-new">Nauja</span>':''}</span>
+        <span class="cg-loc">${esc(p.city||c.from||'')}${p.place?' · '+esc(p.place):''}${more}</span>
+        <span class="cg-name">${esc(c.n)}</span>
+        <span class="cg-meta">${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span>
+      </button></li>`;
+    }
+    function draw(){
+      const list=COACHES.map((c,i)=>[c,i]).filter(([c])=>(!city||cityOf(c).includes(city))&&(!lang||langOf(c).includes(lang)));
+      grid.innerHTML=list.map(([c,i])=>card(c,i)).join('') || `<li class="cg-empty">Pagal šiuos filtrus trenerių nėra. <button type="button" data-reset>Rodyti visus</button></li>`;
+      const n=list.length; count.textContent=`${n} ${n===1?'treneris':n<10&&n>1?'treneriai':'trenerių'}${city?' · '+city:''}${lang?' · '+LANG[lang].toLowerCase():''}`;
+      grid.classList.remove('swap'); void grid.offsetWidth; grid.classList.add('swap');
+    }
+    el.addEventListener('click',e=>{
+      const c=e.target.closest('[data-city]'), l=e.target.closest('[data-lang]'), r=e.target.closest('[data-reset]');
+      if(c){ city=c.dataset.city; el.querySelectorAll('[data-city]').forEach(x=>x.setAttribute('aria-pressed',String(x===c))); }
+      else if(l){ lang= lang===l.dataset.lang ? '' : l.dataset.lang; el.querySelectorAll('[data-lang]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.lang===lang))); }
+      else if(r){ city=''; lang=''; el.querySelectorAll('[data-city]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.city===''))); el.querySelectorAll('[data-lang]').forEach(x=>x.setAttribute('aria-pressed','false')); }
+      else return;
+      draw();
+    });
+    draw();
+  },
+
   /* Varžybos: data-limit; data-group sugrupuoja pagal mėnesius */
   events(el){
     const lim=+el.dataset.limit||0, list=upcoming().slice(0,lim||undefined);

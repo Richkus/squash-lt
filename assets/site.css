@@ -1002,3 +1002,33 @@ main > .wo:first-child{margin-top:0}
 .c-card .c-acts > *{box-sizing:border-box;min-width:0;width:100%;justify-content:space-between}
 .c-card .c-acts .call{justify-content:flex-start}
 .c-card .c-acts .call .demo,.c-card .c-acts .call .fake{margin-left:auto}
+
+/* Trenerių puslapis: filtras viršuje ir kortelės; daugiau informacijos šoniniame panelyje */
+.cg-bar{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.cg-seg{display:flex;flex-wrap:wrap;gap:4px;padding:4px;border-radius:var(--r-pill);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.cg-seg button,.cg-lang button{all:unset;cursor:pointer;box-sizing:border-box;min-height:38px;padding:0 16px;border-radius:var(--r-pill);display:inline-flex;align-items:center;font-size:14.5px;color:var(--muted);transition:background .25s,color .25s}
+.cg-seg button:hover,.cg-lang button:hover{color:var(--ink)}
+.cg-seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.cg-lang{display:flex;gap:4px;align-items:center}
+.cg-lang span{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:6px}
+.cg-lang button{font-family:var(--f-mono);font-size:12px;letter-spacing:.05em;padding:0 12px;box-shadow:inset 0 0 0 1px var(--line)}
+.cg-lang button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);box-shadow:none}
+.cg-seg button:focus-visible,.cg-lang button:focus-visible,.cg-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.cg-count{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:20px 0 24px}
+.cg{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(36px,4vw,56px) clamp(14px,1.8vw,24px)}
+.cg-card{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:0;width:100%}
+.cg-ph{position:relative;display:block;aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+.cg-ph img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.cg-card:hover .cg-ph img{transform:scale(1.04)}
+.cg-ph.blank{background:var(--hero-bg);color:var(--hero-ink);display:grid;align-items:end;padding:18px}
+.cg-ph.blank b{font-weight:300;font-size:clamp(64px,7vw,104px);letter-spacing:-.06em;line-height:.85}
+.cg-new{position:absolute;left:12px;top:12px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:var(--r-pill);background:var(--glass);color:var(--glass-ink);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.cg-loc{font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin-top:18px}
+.cg-name{font-size:clamp(20px,1.7vw,24px);letter-spacing:-.015em;line-height:1.15;margin-top:8px;transition:transform .3s var(--ease)}
+.cg-card:hover .cg-name{transform:translateX(3px)}
+.cg-meta{font-size:14px;color:var(--muted);margin-top:6px}
+.cg-empty{grid-column:1/-1;color:var(--muted);padding:40px 0}
+.cg-empty button{all:unset;cursor:pointer;color:var(--ink);box-shadow:inset 0 -1px 0 currentColor;margin-left:6px}
+@media (prefers-reduced-motion: no-preference){ .cg.swap > li{animation:rise .45s cubic-bezier(.2,.7,.2,1) both} .cg.swap > li:nth-child(2){animation-delay:.03s} .cg.swap > li:nth-child(3){animation-delay:.06s} .cg.swap > li:nth-child(4){animation-delay:.09s} }
+@media (max-width:1024px){ .cg{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:760px){ .cg{grid-template-columns:repeat(2,minmax(0,1fr))} .cg-bar{flex-direction:column;align-items:stretch} .cg-seg{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;align-self:flex-start;max-width:100%} .cg-seg::-webkit-scrollbar{display:none} .cg-seg button{flex:none;padding:0 14px} }
