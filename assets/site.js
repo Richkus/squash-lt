@@ -9,7 +9,7 @@ const samePage=a=>{ const n=p=>p.replace(/index\.html$/,''); try{ const u=new UR
 
 /* Mobilus meniu */
 const menu=document.getElementById('mnav'), mOpen=document.getElementById('menuOpen');
-const GRP_OF={kalendorius:'varz',reitingas:'varz','kur-zaisti':'zaisk',treneriai:'zaisk',saugumo:'zaisk',apie:'lsa',valdyba:'lsa',teisejams:'lsa',antidopingas:'lsa',manipuliavimas:'lsa'};
+const GRP_OF={kalendorius:'varz',reitingas:'varz','kur-zaisti':'zaisk',treneriai:'zaisk',saugumo:'zaisk',apie:'lsa',valdyba:'lsa',teisejams:'lsa',antidopingas:'lsa',manipuliavimas:'lsa',dokumentai:'lsa'};
 function setGroup(g,on){ g.classList.toggle('open',on); g.querySelector('.mnav-item').setAttribute('aria-expanded',String(on)); }
 function setMenu(on){
   if(on){

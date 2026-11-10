@@ -958,3 +958,22 @@ main > .wo:first-child{margin-top:0}
 .rep a:hover,.info-note a:hover{box-shadow:inset 0 -1px 0 var(--ink)}
 .info-note{margin-top:20px;color:var(--muted);font-size:15px}
 @media (max-width:640px){ .report{grid-template-columns:minmax(0,1fr)} .info .row{grid-template-columns:minmax(0,1fr) auto} .info .row-k{grid-column:1;grid-row:1} .info .row-v{grid-column:1} .info .row-go{grid-column:2;grid-row:1/3} }
+
+/* Dokumentai: paieška, skyrių nuorodos ir poskyriai */
+.doc-bar{position:sticky;top:96px;z-index:3;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;padding:12px 0;background:var(--bg)}
+.doc-search{display:flex;align-items:center;gap:10px;min-width:min(100%,320px);padding:0 16px;height:46px;border-radius:var(--r-pill);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);color:var(--muted);transition:box-shadow .2s}
+.doc-search:focus-within{box-shadow:inset 0 0 0 1px var(--ink)}
+.doc-search svg{width:15px;height:15px;flex:none}
+.doc-search input{all:unset;flex:1;font-size:15.5px;color:var(--ink)}
+.doc-search input::placeholder{color:var(--muted)}
+.doc-toc{display:flex;gap:4px 18px;flex-wrap:wrap}
+.doc-toc a{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.doc-toc a:hover{color:var(--ink)}
+.doc-toc span{margin-left:6px;opacity:.6}
+.docs .info-blk{margin-top:clamp(40px,5vw,64px);scroll-margin-top:170px}
+.docs .info-blk h2 small{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;color:var(--muted);margin-left:6px;vertical-align:middle}
+.doc-sub{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:400;margin:22px 0 8px}
+.doc-sub:first-of-type{margin-top:0}
+.row-sub{margin:-6px 0 12px;padding-left:110px;font-size:14px;color:var(--muted)}
+.row-sub a{color:var(--ink)}
+@media (max-width:640px){ .doc-bar{position:static} .doc-search{width:100%} .row-sub{padding-left:0} }
