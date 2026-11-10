@@ -12,7 +12,7 @@ Vienas statinis puslapis: HTML, CSS ir vanilla JS, be build žingsnio.
 - `assets/home.js`, `assets/news.js`, `assets/article.js`: konkrečių puslapių logika.
 - `tools/sync_chrome.py`: juosta, meniu ir poraštės laikomi `index.html` tarp `<!-- chrome:top -->` ir `<!-- chrome:bottom -->` žymų. Pakeitus juos, paleisk `python3 tools/sync_chrome.py`, kad atsinaujintų vidiniai puslapiai.
 - `img/`: nuotraukos iš squash.lt, sumažintos ir suspaustos (~2 MB vietoj ~27 MB dabartiniame pagrindiniame).
-- `favicon.svg`: kamuoliukas su dviem taškais, puslapyje retkarčiais virsta rakete.
+- `favicon.svg`: logotipo žmogeliukas, puslapyje retkarčiais trumpam virsta skvošo kamuoliuku su dviem taškais.
 
 ## Meniu
 
