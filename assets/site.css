@@ -336,7 +336,7 @@ section.block{padding-block:clamp(72px,10vw,140px) 0}
 .copy:hover{background:rgba(255,255,255,.2)}
 
 /* Naujienos */
-.news{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.news{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px clamp(20px,2.6vw,40px)}
 .post{display:grid;gap:14px;text-decoration:none;align-content:start}
 .post .ph{aspect-ratio:4/3;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
 .post .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
@@ -570,8 +570,11 @@ html[data-ver="old"] .page-head{padding-top:72px}
 .feat p{color:var(--muted)}
 .meta{font-family:var(--f-mono);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .meta b{font-weight:500;color:var(--accent)}
-.ngrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 12px;margin-top:56px}
-.ncard{display:grid;gap:14px;align-content:start;text-decoration:none}
+.ngrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(56px,6vw,88px) clamp(20px,2.6vw,40px);margin-top:72px}
+.ncard{display:grid;gap:0;align-content:start;text-decoration:none}
+.ncard .meta{margin-top:22px}
+.ncard h3{margin-top:12px;text-wrap:pretty}
+.ncard .ex{margin-top:10px;max-width:40ch}
 .ncard .ph{aspect-ratio:4/3;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2);position:relative}
 .ncard .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
 .ncard:hover .ph img{transform:scale(1.04)}
@@ -895,3 +898,26 @@ main > .wo:first-child{margin-top:0}
 @media (max-width:1024px){ .rt-grid{grid-template-columns:1fr 1fr} }
 @media (max-width:860px){ .rules{grid-template-columns:minmax(0,1fr)} .rules-toc{position:static} .rules-toc ol{grid-template-columns:1fr 1fr} .rules-progress{display:none} .rules-photo{aspect-ratio:16/9} }
 @media (max-width:560px){ .rules-num{font-size:44px} .rules-sec header{gap:14px} .rt-grid{grid-template-columns:minmax(0,1fr)} .rules-toc ol{grid-template-columns:minmax(0,1fr)} .clauses li,.clauses li.sub{grid-template-columns:44px minmax(0,1fr);gap:10px} .clauses li.sub{padding-left:14px} }
+
+/* Valdyba: du vadovai plačiau, kiti trise; nuotrauka, pareigos, atsakomybių sąrašas */
+.board{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(48px,5vw,72px) clamp(20px,2.6vw,40px)}
+.bm{grid-column:span 2;display:grid;align-content:start}
+.bm.lead{grid-column:span 3;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,2.4vw,32px);align-items:end}
+.bm-ph{aspect-ratio:4/5;border-radius:var(--r-lg);overflow:hidden;background:var(--surface-2)}
+.bm-ph img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;filter:saturate(.85);transition:transform .9s cubic-bezier(.2,.7,.2,1),filter .6s}
+.bm:hover .bm-ph img{transform:scale(1.03);filter:none}
+.bm-body{padding-top:22px}
+.bm.lead .bm-body{padding:0 0 6px}
+.bm-pos{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:flex;gap:8px;align-items:center}
+.bm-pos::before{content:"••";letter-spacing:1px}
+.bm h2{font-size:clamp(24px,2.2vw,30px);line-height:1.1;margin-top:10px;font-weight:400;letter-spacing:-.02em}
+.bm-areas{list-style:none;margin:18px 0 0;padding:0}
+.bm-areas li{padding:9px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14.5px;line-height:1.4}
+.bm-soc{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
+.bm-soc a{font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);text-decoration:none;display:inline-flex;gap:5px;align-items:center;opacity:.7;transition:opacity .2s,color .2s}
+.bm-soc a:hover{opacity:1;color:var(--accent)}
+.bm-soc svg{width:9px;height:9px}
+.board-foot{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;margin-top:clamp(64px,8vw,104px)}
+.board-foot h3{font-size:22px;font-weight:400;letter-spacing:-.01em;margin-bottom:4px}
+@media (max-width:1024px){ .bm.lead{grid-column:span 6;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)} .bm{grid-column:span 3} .bm:last-child{grid-column:span 3} }
+@media (max-width:640px){ .board{grid-template-columns:minmax(0,1fr)} .bm,.bm.lead,.bm:last-child{grid-column:auto} .bm.lead{grid-template-columns:minmax(0,1fr);gap:0} .bm.lead .bm-body{padding-top:22px} }
