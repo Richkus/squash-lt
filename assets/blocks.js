@@ -152,8 +152,14 @@ const BLOCKS={
   /* Treneriai: dideli vardai ir aktyvaus trenerio kortelė. data-filter: miestų filtras */
   coaches(el){
     const cities=[...new Set(COACHES.flatMap(c=>c.at.filter(a=>typeof a==='number').map(a=>VENUES[a].city)))];
-    el.innerHTML=`${el.dataset.filter!==undefined?`<div class="filters" role="group" aria-label="Miestas"><button class="chip" type="button" data-city="" aria-pressed="true">Visi<small>${COACHES.length}</small></button>${cities.map(c=>`<button class="chip" type="button" data-city="${esc(c)}" aria-pressed="false">${esc(c)}<small>${COACHES.filter(x=>x.at.some(a=>typeof a==='number'&&VENUES[a].city===c)).length}</small></button>`).join('')}</div>`:''}
-      <div class="coaches"><div><span class="eyebrow">Treneriai</span><ul class="c-list" role="tablist" aria-label="Treneriai"></ul></div><div class="c-card" role="tabpanel" aria-live="polite"></div></div>`;
+    const filter=el.dataset.filter!==undefined, inCity=c=>COACHES.filter(x=>x.at.some(a=>typeof a==='number'&&VENUES[a].city===c)).length;
+    el.innerHTML=`<div class="coaches">
+        <div class="c-top">${filter
+          ? `<div class="c-filter" role="group" aria-label="Miestas"><button type="button" data-city="" aria-pressed="true">Visi<small>${COACHES.length}</small></button>${cities.map(c=>`<button type="button" data-city="${esc(c)}" aria-pressed="false">${esc(c)}<small>${inCity(c)}</small></button>`).join('')}</div>`
+          : '<span class="eyebrow">Treneriai</span>'}</div>
+        <ul class="c-list" role="tablist" aria-label="Treneriai"></ul>
+        <div class="c-card" role="tabpanel" aria-live="polite"></div>
+      </div>`;
     const list=el.querySelector('.c-list'), card=el.querySelector('.c-card');
     let shown=COACHES.map((c,i)=>i), cur=-1;
     function draw(){
