@@ -118,7 +118,7 @@ a{color:inherit}
 .mnav-sub > div{overflow:hidden;min-height:0;display:grid}
 .mnav-grp.open .mnav-sub > div{padding-bottom:14px}
 .mnav-sub a{display:flex;align-items:center;gap:14px;min-height:44px;color:rgba(255,255,255,.7);text-decoration:none;font-size:17px;transition:color .2s}
-.mnav-sub a::before{content:"";width:16px;height:8px;flex:none;background:var(--dots);color:rgba(255,255,255,.3)}
+
 .mnav-sub a:hover,.mnav-sub a[aria-current="true"]{color:#FFFFFF}
 .mnav-sub a[aria-current="true"]::before{color:#FFFFFF}
 .mnav-actions{display:grid;gap:8px}
@@ -306,7 +306,7 @@ section.block{padding-block:clamp(72px,10vw,140px) 0}
 .acc-body dl{margin:0 0 6px;display:grid}
 .acc-body dl div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;padding:6px 0;font-size:15.5px}
 .acc-body dt{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding-top:3px;display:flex;gap:8px;align-items:center}
-.acc-body dt::before{content:"";width:12px;height:6px;background:var(--dots);color:var(--accent);flex:none;background-size:auto}
+
 .acc-body dd{margin:0}
 .acc-body .actions{margin:14px 0 24px}
 .acc-body .btn{min-height:42px;font-size:14px}
@@ -323,7 +323,7 @@ section.block{padding-block:clamp(72px,10vw,140px) 0}
 .count span{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--hero-muted)}
 .steps{list-style:none;margin:36px 0 0;padding:0;display:grid}
 .steps li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:14px 0;border-top:1px solid rgba(255,255,255,.14);font-size:15.5px}
-.steps li::before{content:"";width:16px;height:8px;background:var(--dots);color:var(--hero-ink)}
+
 .steps li.todo::before{color:rgba(255,255,255,.3)}
 .steps small{font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;color:var(--hero-muted);text-transform:uppercase}
 .la-right{display:grid;align-content:end}
@@ -604,7 +604,7 @@ html[data-ver="old"] .page-head{padding-top:72px}
 .prose h4{font-size:20px;font-weight:500;margin-top:1.4em}
 .prose ul,.prose ol{padding-left:0;list-style:none;display:grid;gap:8px}
 .prose li{display:grid;grid-template-columns:22px minmax(0,1fr)}
-.prose li::before{content:"";width:12px;height:6px;margin-top:.7em;background:var(--dots);color:var(--accent);background-size:auto}
+.prose li::before{content:"";width:10px;height:1px;margin-top:.8em;background:var(--accent);flex:none}
 .prose a{color:var(--accent)}
 .prose strong,.prose b{font-weight:500}
 .prose blockquote{margin:1.4em 0;padding-left:20px;border-left:2px solid var(--accent);font-size:22px;font-weight:300}
@@ -632,7 +632,7 @@ html[data-ver="old"] .page-head{padding-top:72px}
 /* Trenerių žymės, nuorodos prie klubų ir šoninis panelis */
 .c-tags{display:flex;flex-wrap:wrap;gap:6px}
 .tag{font:inherit;font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:32px;padding:0 12px;border-radius:var(--r-pill);background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .2s,background .2s}
-.tag::before{content:"";width:12px;height:6px;flex:none;background:var(--dots);color:var(--accent)}
+
 .tag:hover{box-shadow:inset 0 0 0 1px var(--ink)}
 .tag-off{cursor:default;color:var(--muted);background:transparent}
 .tag-off::before{color:var(--muted)}
@@ -854,7 +854,7 @@ main > .wo:first-child{margin-top:0}
 .c-card{top:110px}
 .c-filter{display:flex;flex-wrap:wrap;gap:4px 22px}
 .c-filter button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:40px;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);transition:color .2s}
-.c-filter button::before{content:"";width:14px;height:7px;background:var(--dots);color:var(--accent);opacity:0;transition:opacity .2s}
+
 .c-filter button small{font-size:10.5px;opacity:.6}
 .c-filter button:hover{color:var(--ink)}
 .c-filter button[aria-pressed="true"]{color:var(--ink)}
@@ -911,7 +911,7 @@ main > .wo:first-child{margin-top:0}
 .bm-body{padding-top:22px}
 .bm.lead .bm-body{padding:0 0 6px}
 .bm-pos{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:flex;gap:8px;align-items:center}
-.bm-pos::before{content:"••";letter-spacing:1px}
+
 .bm h2{font-size:clamp(24px,2.2vw,30px);line-height:1.1;margin-top:10px;font-weight:400;letter-spacing:-.02em}
 .bm-areas{list-style:none;margin:18px 0 0;padding:0}
 .bm-areas li{padding:9px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14.5px;line-height:1.4}
@@ -938,3 +938,6 @@ main > .wo:first-child{margin-top:0}
 .nc-arr{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;color:var(--hero-ink);transition:background .25s,color .25s}
 .nc-arr svg{width:11px;height:11px}
 .note-card:hover .nc-arr{background:var(--hero-ink);color:var(--hero-bg)}
+
+/* •• motyvas tik sekcijų įžangose; antraeiliuose užrašuose, sąrašuose ir meniu be jo */
+.mnav-info .eyebrow::before,.rules-sec .eyebrow::before,.rules-toc .eyebrow::before,.egg-toast .eyebrow::before{display:none}
