@@ -7,9 +7,10 @@
 <title>Lietuvos skvošo asociacija · redizaino eskizas</title>
 <meta name="description" content="Neoficialus squash.lt redizaino eskizas: varžybos, kortai visoje Lietuvoje ir kelias į LA28.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script>(function(){var v=new URLSearchParams(location.search).get("v");v=v==="senas"?"old":v==="naujas"?"new":null;try{if(v)localStorage.setItem("lsa-ver",v);else v=localStorage.getItem("lsa-ver")}catch(e){}if(v==="old")document.documentElement.dataset.ver="old"})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Montserrat:wght@500;600&display=swap">
 <style>
 /* Kryptis: rami „PRO“ nuotaika (T1 Energy). Logotipo žalia yra vienintelė spalva, jos tamsiausia versija tamsiems skydams.
    Motyvas: dvigubas taškas nuo profesionalaus skvošo kamuoliuko (••). */
@@ -429,6 +430,80 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
 .theme:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
 .theme i{width:14px;height:14px;border-radius:50%;box-shadow:inset 0 0 0 1.5px currentColor;background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
 
+
+/* Treneriai: vardų sąrašas kairėje, aktyvaus trenerio kortelė dešinėje */
+.coaches{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:start}
+.c-list{list-style:none;margin:28px 0 0;padding:0}
+.c-name{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:16px;min-height:44px;font-size:clamp(30px,4.2vw,62px);font-weight:300;letter-spacing:-.035em;line-height:1.14;color:var(--ink);opacity:.16;transition:opacity .35s ease}
+.c-name::before{content:"";width:16px;height:8px;flex:none;background:var(--dots);color:var(--accent);opacity:0;transform:translateX(-6px);transition:opacity .3s ease,transform .35s var(--ease)}
+.c-name:hover{opacity:.45}
+.c-name[aria-selected="true"]{opacity:1}
+.c-name[aria-selected="true"]::before{opacity:1;transform:none}
+.c-name:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:6px}
+.c-card{position:sticky;top:110px;display:grid;gap:20px;justify-items:start}
+.c-frame{position:relative;padding:10px;box-shadow:inset 0 0 0 1px var(--line);width:min(100%,340px)}
+.c-frame i{position:absolute;width:13px;height:13px;color:var(--accent)}
+.c-frame i::before,.c-frame i::after{content:"";position:absolute;background:currentColor}
+.c-frame i::before{left:6px;top:0;width:1px;height:13px}
+.c-frame i::after{top:6px;left:0;height:1px;width:13px}
+.c-frame i:nth-child(1){left:-6px;top:-6px}.c-frame i:nth-child(2){right:-6px;top:-6px}.c-frame i:nth-child(3){left:-6px;bottom:-6px}.c-frame i:nth-child(4){right:-6px;bottom:-6px}
+.c-tile{aspect-ratio:4/4.6;background:var(--hero-bg);color:var(--hero-ink);display:grid;align-content:space-between;padding:20px;border-radius:4px}
+.c-tile .ini{font-size:clamp(88px,9vw,136px);font-weight:300;letter-spacing:-.06em;line-height:.85}
+.c-tile .loc{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--hero-muted)}
+.c-meta{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);display:flex;flex-wrap:wrap;gap:4px 12px}
+.c-meta span{color:var(--muted)}
+.c-bio{font-size:clamp(19px,1.7vw,24px);line-height:1.3;letter-spacing:-.015em;max-width:34ch}
+.c-acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media (prefers-reduced-motion: no-preference){ .c-card.swap > *{animation:rise .5s cubic-bezier(.2,.7,.2,1) both} .c-card.swap > :nth-child(2){animation-delay:.04s} .c-card.swap > :nth-child(3){animation-delay:.08s} .c-card.swap > :nth-child(4){animation-delay:.12s} }
+@media (max-width:860px){ .coaches{grid-template-columns:minmax(0,1fr)} .c-card{position:static} .c-name{font-size:clamp(26px,7vw,34px)} }
+
+/* ===== Sena versija: dabartinė squash.lt juosta ir poraštė aplink naują turinį ===== */
+.old-top,.old-foot{display:none}
+html[data-ver="old"] .top,html[data-ver="old"] .mnav,html[data-ver="old"] .new-foot{display:none!important}
+html[data-ver="old"] .old-top{display:block}
+html[data-ver="old"] .old-foot{display:block}
+.old-top{position:sticky;top:0;z-index:25;background:#FFFFFF;box-shadow:0 1px 0 #ECECEC,0 6px 18px -12px rgba(0,0,0,.18);font-family:"Montserrat",Arial,sans-serif;color:#313131}
+.old-wrap{max-width:1360px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px));height:72px;display:flex;align-items:center;gap:24px}
+.old-logo{color:#2A8A55;display:block}
+.old-logo svg{height:38px;width:auto;display:block}
+.old-nav{display:flex;align-items:center;margin-left:auto;height:100%}
+.old-nav > a,.old-dd > button{all:unset;cursor:pointer;display:flex;align-items:center;gap:6px;height:100%;padding:0 14px;font-size:13px;font-weight:500;letter-spacing:.02em;text-transform:uppercase;color:#313131;text-decoration:none;transition:color .2s}
+.old-nav > a:hover,.old-dd:hover > button,.old-dd:focus-within > button{color:#4AA5B6}
+.old-dd > button svg{width:9px;height:9px;opacity:.7}
+.old-dd{position:relative;height:100%}
+.old-sub{position:absolute;top:100%;left:0;min-width:260px;background:#FFFFFF;border-top:4px solid #4AA5B6;box-shadow:0 10px 24px -10px rgba(0,0,0,.22);padding:10px 0;display:grid;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .2s ease,transform .25s ease,visibility 0s linear .25s}
+.old-dd:hover .old-sub,.old-dd:focus-within .old-sub{opacity:1;visibility:visible;transform:none;transition:opacity .2s ease,transform .25s ease}
+.old-sub a{padding:11px 26px;font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.02em;color:#313131;text-decoration:none;line-height:1.35}
+.old-sub a:hover{color:#4AA5B6}
+.old-icons{display:flex;align-items:center;gap:4px;padding-left:10px}
+.old-icons a{width:32px;height:40px;display:grid;place-items:center;color:#313131}
+.old-icons a:hover{color:#4AA5B6}
+.old-icons svg{width:15px;height:15px}
+.old-burger{all:unset;cursor:pointer;display:none;width:40px;height:40px;place-items:center;color:#313131}
+.old-burger svg{width:22px;height:22px}
+.old-mpanel{display:none;border-top:1px solid #ECECEC;max-height:calc(100vh - 64px);overflow:auto;overscroll-behavior:contain;padding:8px 16px 20px}
+.old-top.open .old-mpanel{display:block}
+.old-mpanel p{margin:16px 0 4px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#4AA5B6}
+.old-mpanel a{display:block;padding:10px 0;font-size:14px;font-weight:500;text-transform:uppercase;color:#313131;text-decoration:none;border-bottom:1px solid #F2F2F2}
+.old-foot{background:#111111;color:#FFFFFF;font-family:"Montserrat",Arial,sans-serif;text-align:center;margin-top:clamp(72px,10vw,140px)}
+.old-social{display:flex;justify-content:center;gap:28px;padding:34px 16px;border-bottom:1px solid #2A2A2A}
+.old-social a{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#FFFFFF;text-decoration:none;min-height:40px}
+.old-social svg{width:13px;height:13px}
+.old-copy{padding:22px 16px 28px;font-size:12px;font-style:italic;color:#9A9A9A}
+.old-copy small{display:block;font-style:normal;margin-top:6px;font-size:11px;color:#6A6A6A}
+@media (max-width:1180px){ .old-nav,.old-icons{display:none} .old-burger{display:grid} .old-wrap{height:64px;justify-content:space-between} .old-logo svg{height:34px} }
+html[data-ver="old"] .hero-inner{padding-top:96px}
+
+/* Versijų perjungiklis (Figma stiliumi) */
+.ver{position:fixed;left:max(14px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:30;display:flex;align-items:center;gap:2px;padding:3px;border-radius:9px;background:#1E1E1E;color:#FFFFFF;font:500 11.5px/1 "Geist",system-ui,sans-serif;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 8px 24px -8px rgba(0,0,0,.45)}
+.ver-l{display:inline-flex;align-items:center;gap:6px;padding:0 8px 0 7px;color:rgba(255,255,255,.55)}
+.ver-l svg{width:12px;height:12px}
+.ver button{all:unset;cursor:pointer;padding:0 10px;height:26px;display:grid;place-items:center;border-radius:6px;color:rgba(255,255,255,.7);transition:background .15s,color .15s}
+.ver button:hover{color:#FFFFFF}
+.ver button[aria-pressed="true"]{background:#383838;color:#FFFFFF}
+.ver button:focus-visible{outline:2px solid #0D99FF;outline-offset:1px}
+html.modal-open .ver{display:none}
+
 /* Įėjimo animacija */
 @media (prefers-reduced-motion: no-preference){
   .rise{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
@@ -529,6 +604,15 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
   <symbol id="ext" viewBox="0 0 12 12"><path d="M4 2h6v6M10 2 3 9" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
 </svg>
 
+<header class="old-top" id="oldTop">
+  <div class="old-wrap">
+    <button class="old-burger" type="button" id="oldBurger" aria-expanded="false" aria-label="Meniu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8"/></svg></button>
+    <a class="old-logo" href="#pradzia" aria-label="Lietuvos skvošo asociacija"><svg viewBox="0 0 54 25" aria-hidden="true"><use href="#lsa-full"/></svg></a>
+    <nav class="old-nav" aria-label="Pagrindinis meniu"><div class="old-dd"><button type="button" aria-haspopup="true">Apie mus<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="old-sub"><a href="#" data-inquiry="Tapti LSA nariu">Tapk nariu</a><a href="#kontaktai">Kontaktai</a></div></div><a href="#varzybos">Kalendorius</a><div class="old-dd"><button type="button" aria-haspopup="true">Žaidėjui<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="old-sub"><a href="#varzybos">Kalendorius</a><a href="#varzybos">Reitingas</a><a href="https://portal.squash.lt/">Portalas</a><a href="#treneriai">Treneriai</a></div></div><div class="old-dd"><button type="button" aria-haspopup="true">Žaisk skvošą<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="old-sub"><a href="https://squash.lt/kaip-zaisti-skvosa/">Kaip žaisti skvošą?</a><a href="#kur-zaisti">Kur žaisti?</a><a href="https://squash.lt/saugumo-taisykles/">Saugumo taisyklės</a><a href="#treneriai">Treneriai</a></div></div><div class="old-dd"><button type="button" aria-haspopup="true">Informacija<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button><div class="old-sub"><a href="https://squash.lt/dokumentu-sarasas/">Dokumentai</a><a href="#naujienos">Naujienos</a><a href="https://squash.lt/valdyba/">Valdybos nariai</a><a href="https://squash.lt/teisejams/">Teisėjams</a><a href="https://squash.lt/antidopingas/">Antidopingas / Švarus sportas</a><a href="https://squash.lt/kova-su-manipuliavimu-sporto-varzybomis/">Kova su manipuliavimu sporto varžybomis</a></div></div></nav>
+    <div class="old-icons"><a href="https://www.facebook.com/SquashLT" aria-label="Facebook"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M9.2 16V8.7h2.4l.4-2.8H9.2V4.1c0-.8.2-1.4 1.4-1.4H12V.1C11.7.1 10.9 0 10 0 7.9 0 6.5 1.3 6.5 3.6v2.3H4.1v2.8h2.4V16z"/></svg></a><a href="https://www.instagram.com/squash_lt/" aria-label="Instagram"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="11.9" cy="4.1" r=".9" fill="currentColor"/></svg></a><a href="https://www.youtube.com/@squashlithuania" aria-label="YouTube"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M15.7 4.2a2 2 0 0 0-1.4-1.4C13 2.5 8 2.5 8 2.5s-5 0-6.3.3A2 2 0 0 0 .3 4.2C0 5.5 0 8 0 8s0 2.5.3 3.8a2 2 0 0 0 1.4 1.4c1.3.3 6.3.3 6.3.3s5 0 6.3-.3a2 2 0 0 0 1.4-1.4C16 10.5 16 8 16 8s0-2.5-.3-3.8zM6.4 10.4V5.6L10.6 8z"/></svg></a><a href="#" aria-label="Paieška"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m11 11 3.5 3.5" stroke="currentColor" stroke-width="1.5"/></svg></a></div>
+  </div>
+  <div class="old-mpanel" id="oldPanel"><p>Apie mus</p><a href="#" data-inquiry="Tapti LSA nariu">Tapk nariu</a><a href="#kontaktai">Kontaktai</a><a href="#varzybos">Kalendorius</a><p>Žaidėjui</p><a href="#varzybos">Kalendorius</a><a href="#varzybos">Reitingas</a><a href="https://portal.squash.lt/">Portalas</a><a href="#treneriai">Treneriai</a><p>Žaisk skvošą</p><a href="https://squash.lt/kaip-zaisti-skvosa/">Kaip žaisti skvošą?</a><a href="#kur-zaisti">Kur žaisti?</a><a href="https://squash.lt/saugumo-taisykles/">Saugumo taisyklės</a><a href="#treneriai">Treneriai</a><p>Informacija</p><a href="https://squash.lt/dokumentu-sarasas/">Dokumentai</a><a href="#naujienos">Naujienos</a><a href="https://squash.lt/valdyba/">Valdybos nariai</a><a href="https://squash.lt/teisejams/">Teisėjams</a><a href="https://squash.lt/antidopingas/">Antidopingas / Švarus sportas</a><a href="https://squash.lt/kova-su-manipuliavimu-sporto-varzybomis/">Kova su manipuliavimu sporto varžybomis</a></div>
+</header>
 <header class="top">
   <div class="wrap">
     <a class="logo" href="#pradzia" aria-label="Lietuvos skvošo asociacija, į pradžią"><svg viewBox="0 0 54 25" aria-hidden="true"><use href="#lsa-full"/></svg></a>
@@ -542,6 +626,7 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
         <button type="button" class="nav-more-btn" aria-expanded="false" aria-controls="navMorePanel"><span id="navMoreLabel">Daugiau</span><svg class="chev" aria-hidden="true"><use href="#chev"/></svg></button>
         <div class="nav-more-panel" id="navMorePanel">
           <a href="#apie" data-nav="apie">Apie mus<span class="hint">2005</span></a>
+          <a href="#treneriai" data-nav="treneriai">Treneriai<span class="hint">7</span></a>
           <a href="#naujienos" data-nav="naujienos">Naujienos<span class="hint">3</span></a>
           <a href="#partneriai" data-nav="partneriai">Partneriai<span class="hint">5</span></a>
           <a href="#kontaktai" data-nav="kontaktai">Kontaktai</a>
@@ -573,6 +658,7 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
         <div class="mnav-sub" id="mg-zaisk"><div>
           <a href="#varzybos" data-spy="varzybos">Varžybos ir reitingas</a>
           <a href="#kur-zaisti" data-spy="kur-zaisti">Kur žaisti</a>
+          <a href="#treneriai" data-spy="treneriai">Treneriai</a>
           <a href="#la28" data-spy="la28">Kelias į LA28</a>
         </div></div>
       </div>
@@ -725,6 +811,18 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
     </div>
   </section>
 
+  <section class="block" id="treneriai">
+    <div class="wrap">
+      <div class="coaches">
+        <div>
+          <span class="eyebrow">Treneriai</span>
+          <ul class="c-list" id="cList" role="tablist" aria-label="Treneriai"></ul>
+        </div>
+        <div class="c-card" id="cCard" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="la28">
     <div class="wrap">
       <div class="dark on-dark">
@@ -859,7 +957,7 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
   </aside>
 </div>
 
-<footer>
+<footer class="new-foot">
   <div class="wrap">
     <div class="foot">
       <div><span class="foot-logo"><svg viewBox="0 0 54 25" role="img" aria-label="Lietuvos skvošo asociacija"><use href="#lsa-full"/></svg></span>Lietuvos skvošo asociacija vienija žaidėjus, trenerius ir klubus nuo 2005 m.</div>
@@ -873,6 +971,16 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
     </div>
   </div>
 </footer>
+<footer class="old-foot">
+  <div class="old-social"><a href="https://www.facebook.com/SquashLT"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M9.2 16V8.7h2.4l.4-2.8H9.2V4.1c0-.8.2-1.4 1.4-1.4H12V.1C11.7.1 10.9 0 10 0 7.9 0 6.5 1.3 6.5 3.6v2.3H4.1v2.8h2.4V16z"/></svg>Facebook</a><a href="https://www.instagram.com/squash_lt/"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13" rx="3.6" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="11.9" cy="4.1" r=".9" fill="currentColor"/></svg>Instagram</a><a href="https://www.youtube.com/@squashlithuania"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M15.7 4.2a2 2 0 0 0-1.4-1.4C13 2.5 8 2.5 8 2.5s-5 0-6.3.3A2 2 0 0 0 .3 4.2C0 5.5 0 8 0 8s0 2.5.3 3.8a2 2 0 0 0 1.4 1.4c1.3.3 6.3.3 6.3.3s5 0 6.3-.3a2 2 0 0 0 1.4-1.4C16 10.5 16 8 16 8s0-2.5-.3-3.8zM6.4 10.4V5.6L10.6 8z"/></svg>Youtube</a></div>
+  <div class="old-copy">@2026 - Lietuvos Skvošo Asociacija<small>Neoficialus redizaino eskizas</small></div>
+</footer>
+
+<div class="ver" role="group" aria-label="Svetainės versija">
+  <span class="ver-l"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1.5" width="6.5" height="9" rx="1.2" fill="none" stroke="currentColor"/><path d="M9 3.5h1a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H9" fill="none" stroke="currentColor"/></svg>Versija</span>
+  <button type="button" data-ver="old" aria-pressed="false">Senas</button>
+  <button type="button" data-ver="new" aria-pressed="true">Naujas</button>
+</div>
 
 <script>
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -965,7 +1073,7 @@ tick(); setInterval(tick,20000);
 
 /* Mobilus meniu */
 const menu=document.getElementById('mnav'), mOpen=document.getElementById('menuOpen');
-const GRP_OF={varzybos:'zaisk','kur-zaisti':'zaisk',la28:'zaisk',apie:'lsa',naujienos:'lsa',partneriai:'lsa'};
+const GRP_OF={varzybos:'zaisk','kur-zaisti':'zaisk',treneriai:'zaisk',la28:'zaisk',apie:'lsa',naujienos:'lsa',partneriai:'lsa'};
 function setGroup(g,on){ g.classList.toggle('open',on); g.querySelector('.mnav-item').setAttribute('aria-expanded',String(on)); }
 function setMenu(on){
   if(on){
@@ -1041,7 +1149,7 @@ addEventListener('resize',()=>updateNav(navCur));
 if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>updateNav(navCur));
 
 /* Aktyvus skyrius */
-const SPY=[['apie','Apie mus'],['varzybos','Varžybos'],['kur-zaisti','Kur žaisti'],['la28','LA28'],['naujienos','Naujienos'],['partneriai','Partneriai'],['kontaktai','Kontaktai']];
+const SPY=[['apie','Apie mus'],['varzybos','Varžybos'],['kur-zaisti','Kur žaisti'],['treneriai','Treneriai'],['la28','LA28'],['naujienos','Naujienos'],['partneriai','Partneriai'],['kontaktai','Kontaktai']];
 const spySecs=SPY.map(([id])=>document.getElementById(id));
 const ddLabel=document.getElementById('ddLabel');
 let curSpy=null, spyQueued=false, spyLock=null;
@@ -1109,6 +1217,56 @@ form.addEventListener('submit',e=>{
   form.hidden=true; done.hidden=false; document.getElementById('again').focus();
 });
 document.getElementById('again').addEventListener('click',()=>{ form.reset(); setFlag(); done.hidden=true; form.hidden=false; form.vardas.focus(); });
+
+/* Treneriai: duomenys iš squash.lt/treneriai, aprašymai sutrumpinti */
+const COACHES=[
+  {n:'Mantas Kočiūnas',loc:'Vilnius · SEB arena',cert:'ESF 3 lygis',lang:'LT, EN',bio:'Buvęs daugkartinis Lietuvos čempionas ir rinktinės kapitonas. Dirba su visais: nuo pirmą kartą raketę paimančių iki profesionalų.'},
+  {n:'Ilja Koryšev',loc:'Vilnius',cert:'WSF 1 ir 2 lygis',lang:'EN, RU',bio:'Daugiau nei 10 metų žaidimo ir trenerio patirtis. Veda individualias ir grupines treniruotes vaikams ir suaugusiems.'},
+  {n:'Andrėjus Kolčėvnikovas',loc:'Vilnius · SEB arena',cert:'ESF 1 · WSF 2 lygis',lang:'LT, EN, RU',bio:'Treniruoja nuo 2012 m. Tiki, kad skvoše laimi ne tik kojos, bet ir galva: gebėjimas mąstyti ir valdyti žaidimą.'},
+  {n:'Laurynas Minkus',loc:'Kaunas · Padel HUB',cert:'WSF 1 lygis',lang:'LT, EN',bio:'10 metų treniravimo patirtis. Pagrindinė kryptis yra vaikų ir jaunimo ugdymas, taisyklinga technika ir judėjimas korte.'},
+  {n:'Linas Zdanavičius',loc:'Kaunas · Garliava',cert:'WSF 1 lygis',lang:'EN, RU',bio:'10+ metų patirtis. Nestandartinio stiliaus žaidėjas, todėl moko praktinių sprendimų, kaip geriau suprasti varžovą.'},
+  {n:'Linas Pilipavičius',loc:'Vilnius · SEB arena',cert:'England Squash 1 lygis',lang:'LT, EN',bio:'Aiškūs pagrindai, nuoseklus progresas ir pasitikėjimas savimi korte. Treniruoja vaikus ir suaugusius.'},
+  {n:'Andrius Stančaitis',loc:'Klaipėda · Skvošo zona',cert:'ESF 1 lygis',lang:'LT, EN, RU',bio:'Patirtį kaupė Velse. Moko atsižvelgdamas į žmogaus judėjimą, tikslus ir galimybes, ne vien į sporto šaką.'}
+];
+const cList=document.getElementById('cList'), cCard=document.getElementById('cCard');
+cList.innerHTML=COACHES.map((c,i)=>`<li><button class="c-name" type="button" role="tab" id="ct${i}" data-i="${i}" aria-selected="${i===0}" aria-controls="cCard">${esc(c.n)}</button></li>`).join('');
+let cCur=-1;
+function showCoach(i){
+  if(i===cCur) return; cCur=i; const c=COACHES[i];
+  cList.querySelectorAll('.c-name').forEach(b=>b.setAttribute('aria-selected',String(+b.dataset.i===i)));
+  const ini=c.n.split(' ').map(w=>w[0]).join('');
+  cCard.setAttribute('aria-labelledby','ct'+i);
+  cCard.innerHTML=`<div class="c-frame"><i></i><i></i><i></i><i></i><div class="c-tile"><span class="loc">${esc(c.loc)}</span><span class="ini" aria-hidden="true">${esc(ini)}</span></div></div>
+    <p class="c-meta">Treneris<span>${esc(c.cert)} · ${esc(c.lang)}</span></p>
+    <p class="c-bio">${esc(c.bio)}</p>
+    <div class="c-acts"><button class="btn btn-accent" type="button" data-inquiry="Noriu išbandyti skvošą">Treniruotė<span class="arr"><svg aria-hidden="true"><use href="#arr"/></svg></span></button><a class="link" href="https://squash.lt/treneriai/">Visi aprašymai<svg width="11" height="11" aria-hidden="true"><use href="#ext"/></svg></a></div>`;
+  cCard.classList.remove('swap'); void cCard.offsetWidth; cCard.classList.add('swap');
+}
+cList.addEventListener('click',e=>{ const b=e.target.closest('.c-name'); if(b) showCoach(+b.dataset.i); });
+if(matchMedia('(hover:hover)').matches) cList.addEventListener('mouseover',e=>{ const b=e.target.closest('.c-name'); if(b) showCoach(+b.dataset.i); });
+cList.addEventListener('keydown',e=>{
+  if(!['ArrowDown','ArrowUp'].includes(e.key)) return; e.preventDefault();
+  const n=(cCur+(e.key==='ArrowDown'?1:-1)+COACHES.length)%COACHES.length; showCoach(n); document.getElementById('ct'+n).focus();
+});
+showCoach(0);
+
+/* Sena versija: mobilus meniu */
+const oldTop=document.getElementById('oldTop'), oldBurger=document.getElementById('oldBurger');
+oldBurger.addEventListener('click',()=>{ const on=!oldTop.classList.contains('open'); oldTop.classList.toggle('open',on); oldBurger.setAttribute('aria-expanded',String(on)); });
+oldTop.addEventListener('click',e=>{ if(e.target.closest('.old-mpanel a')){ oldTop.classList.remove('open'); oldBurger.setAttribute('aria-expanded','false'); } });
+
+/* Versijų perjungiklis: Senas (dabartinė squash.lt juosta ir poraštė) / Naujas */
+const verBtns=document.querySelectorAll('.ver button');
+function setVer(v){
+  if(v==='old') document.documentElement.dataset.ver='old'; else document.documentElement.removeAttribute('data-ver');
+  verBtns.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.ver===v)));
+  try{ localStorage.setItem('lsa-ver',v); }catch(_){}
+  const u=new URL(location.href); u.searchParams.set('v',v==='old'?'senas':'naujas'); history.replaceState(null,'',u);
+  if(menu.classList.contains('open')) setMenu(false);
+  spy(); updateNav(navCur);
+}
+verBtns.forEach(b=>b.addEventListener('click',()=>setVer(b.dataset.ver)));
+setVer(document.documentElement.dataset.ver==='old'?'old':'new');
 
 /* Tema: auto → šviesi → tamsi */
 const themeBtn=document.getElementById('theme'), themeLbl=document.getElementById('themeLbl');
