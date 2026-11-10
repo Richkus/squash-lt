@@ -280,6 +280,23 @@ section.block{padding-block:clamp(72px,10vw,140px) 0}
 .v-visual .num{font-size:clamp(88px,13vw,200px);font-weight:300;line-height:.85;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
 .v-visual .num small{font-size:.22em;letter-spacing:0;color:var(--muted);margin-left:.2em;font-family:var(--f-mono);text-transform:uppercase}
 .v-visual p{color:var(--muted);max-width:40ch}
+/* Kortų žemėlapis: taškuota Lietuva, aktyvus miestas pažymėtas */
+.map{position:relative;background:var(--bg);border-radius:var(--r-md);padding:20px 20px 56px;max-width:440px}
+.map svg{display:block;width:100%;height:auto;overflow:visible}
+.map-land{color:var(--muted);opacity:.38}
+.map-edge{stroke:var(--line);stroke-width:1}
+.pin{cursor:pointer;outline:none}
+.pin .hit{fill:transparent}
+.pin .dot{fill:var(--ink);transition:r .35s var(--ease),fill .25s}
+.pin .ring{fill:none;stroke:var(--accent);stroke-width:1.5;opacity:0}
+.pin text{font-family:var(--f-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;fill:var(--ink);opacity:0;transition:opacity .25s}
+.pin:hover .dot,.pin:focus-visible .dot{fill:var(--accent)}
+.pin.on .dot{fill:var(--accent);r:5.5}
+.pin.on .ring{opacity:1}
+.pin.on text{opacity:1}
+.pin:focus-visible .ring{opacity:1}
+@media (prefers-reduced-motion: no-preference){ .pin.on .ring{animation:ping 2.2s cubic-bezier(.2,.7,.2,1) infinite} @keyframes ping{0%{r:6;opacity:.9}100%{r:18;opacity:0}} }
+.map-cap{position:absolute;left:20px;bottom:18px;font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:6px 10px;border-radius:var(--r-pill);background:var(--surface);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
 .photo{border-radius:var(--r-md);overflow:hidden;margin:0;position:relative;aspect-ratio:4/3;max-width:420px}
 .photo img{display:block;width:100%;height:100%;object-fit:cover}
 .photo figcaption{position:absolute;left:12px;bottom:12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:6px 10px;border-radius:var(--r-pill);background:var(--glass);color:var(--glass-ink);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
@@ -287,8 +304,9 @@ section.block{padding-block:clamp(72px,10vw,140px) 0}
 .acc > li{border-bottom:1px solid var(--line)}
 .acc-btn{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;align-items:center;gap:16px;padding:20px 0;min-height:44px}
 .acc-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.acc-btn h3{font-size:clamp(22px,2.2vw,30px);font-weight:300;flex:1}
-.acc-btn .count{font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-left:auto;text-transform:uppercase;letter-spacing:.04em;text-align:right}
+.acc-btn h3{font-size:clamp(22px,2.2vw,30px);font-weight:300;flex:1;min-width:0}
+/* Klubų pavadinimai viename stulpelyje prie „+“, lygiuoti kairėje */
+.acc-btn .count{flex:0 0 190px;font-family:var(--f-mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .plus{width:36px;height:36px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;flex:none;transition:background .25s,color .25s}
 .plus svg{width:12px;height:12px;transition:transform .35s ease}
 .acc > li.open .plus{background:var(--ink);color:var(--surface)}
@@ -429,7 +447,7 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
   .hero-inner,.statement,.stats,.venues,.dark,.partners{grid-template-columns:minmax(0,1fr)}
   .note-card{justify-self:start}
   .v-visual{position:static}
-  .v-visual .photo{display:none}
+  .map{max-width:none}
   .media-row{grid-template-columns:minmax(0,1fr)}
   .foot{grid-template-columns:1fr 1fr}
   .hero-panel{min-height:680px}
@@ -692,7 +710,15 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
           <span class="eyebrow">Kur žaisti</span>
           <div class="num" aria-hidden="true">07<small>miestai</small></div>
           <p>Skvošo kortai nuo Klaipėdos iki Druskininkų. Paskambink klubui, rezervuok laiką ir pasiimk draugą.</p>
-          <figure class="photo"><img src="img/foto-0875.jpg" alt="Žaidėjas laukia kamuoliuko korte" loading="lazy"><figcaption>Vilnius · SEB arena</figcaption></figure>
+          <div class="map">
+            <svg viewBox="-4 0 352 272" role="img" aria-labelledby="mapCap">
+              <defs><pattern id="mapDots" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.15" fill="currentColor"/></pattern></defs>
+              <path class="map-land" d="M9.1 48.0 L34.2 25.0 L62.8 13.0 L97.0 17.0 L131.3 18.0 L165.5 18.0 L205.5 28.0 L234.0 38.0 L268.2 40.0 L293.9 60.0 L325.3 87.0 L339.0 125.0 L316.7 140.0 L302.5 157.0 L279.6 168.0 L273.9 200.0 L262.5 225.0 L239.7 240.0 L222.6 255.0 L199.7 260.0 L174.1 263.0 L148.4 255.0 L142.7 235.0 L108.4 218.0 L105.6 185.0 L97.0 170.0 L74.2 150.0 L39.9 135.0 L21.1 128.0 L17.1 105.0 L13.1 83.0 L9.1 48.0 Z" fill="url(#mapDots)"/>
+              <path class="map-edge" d="M9.1 48.0 L34.2 25.0 L62.8 13.0 L97.0 17.0 L131.3 18.0 L165.5 18.0 L205.5 28.0 L234.0 38.0 L268.2 40.0 L293.9 60.0 L325.3 87.0 L339.0 125.0 L316.7 140.0 L302.5 157.0 L279.6 168.0 L273.9 200.0 L262.5 225.0 L239.7 240.0 L222.6 255.0 L199.7 260.0 L174.1 263.0 L148.4 255.0 L142.7 235.0 L108.4 218.0 L105.6 185.0 L97.0 170.0 L74.2 150.0 L39.9 135.0 L21.1 128.0 L17.1 105.0 L13.1 83.0 L9.1 48.0 Z" fill="none"/>
+              <g id="pins"></g>
+            </svg>
+            <span class="map-cap" id="mapCap">Vilnius · SEB arena</span>
+          </div>
         </div>
         <ul class="acc" id="acc"></ul>
       </div>
@@ -856,13 +882,13 @@ const plusSvg='<svg aria-hidden="true"><use href="#plus"/></svg>';
 
 /* Kur žaisti: tikri duomenys iš squash.lt/kur-zaisti */
 const VENUES=[
-  {city:'Vilnius',place:'SEB arena',addr:'Ąžuolyno g. 7, Vilnius',tel:'+370 5 236 2205'},
-  {city:'Kaunas',place:'Padel HUB',addr:'B. Brazdžionio g. 25, Kaunas',tel:'+370 633 86336'},
-  {city:'Klaipėda',place:'Skvošo zona',addr:'Svajonės g. 31a, Klaipėda',tel:'+370 685 61677'},
-  {city:'Šiauliai',place:'Uniqa arena',addr:'Išradėjų g. 14, Šiauliai',tel:'+370 636 91111'},
-  {city:'Garliava',place:'Pagrokim skvošą',addr:'J. Šimkaus g. 20, Garliava',tel:'+370 631 26884'},
-  {city:'Druskininkai',place:'Grand Spa',addr:'V. Kudirkos g. 45, Druskininkai',tel:'+370 313 51200'},
-  {city:'Tauragė',place:'Bendruomenių namai',addr:'Vytauto g. 141, Tauragė',tel:'+370 678 47991'}
+  {city:'Vilnius',x:250,y:186,place:'SEB arena',addr:'Ąžuolyno g. 7, Vilnius',tel:'+370 5 236 2205'},
+  {city:'Kaunas',x:171.2,y:165,place:'Padel HUB',addr:'B. Brazdžionio g. 25, Kaunas',tel:'+370 633 86336'},
+  {city:'Klaipėda',x:13.1,y:84,place:'Skvošo zona',addr:'Svajonės g. 31a, Klaipėda',tel:'+370 685 61677'},
+  {city:'Šiauliai',x:138.1,y:62,place:'Uniqa arena',addr:'Išradėjų g. 14, Šiauliai',tel:'+370 636 91111'},
+  {city:'Garliava',x:169.5,y:173,place:'Pagrokim skvošą',addr:'J. Šimkaus g. 20, Garliava',tel:'+370 631 26884'},
+  {city:'Druskininkai',x:175.2,y:253,place:'Grand Spa',addr:'V. Kudirkos g. 45, Druskininkai',tel:'+370 313 51200'},
+  {city:'Tauragė',x:79.3,y:130,place:'Bendruomenių namai',addr:'Vytauto g. 141, Tauragė',tel:'+370 678 47991'}
 ];
 const acc=document.getElementById('acc');
 acc.innerHTML=VENUES.map((v,i)=>`
@@ -878,11 +904,28 @@ acc.innerHTML=VENUES.map((v,i)=>`
       </div>
     </div></div>
   </li>`).join('');
+/* Žemėlapio taškai: label kairėje, jei miestas prie dešinio krašto */
+const pins=document.getElementById('pins'), mapCap=document.getElementById('mapCap');
+pins.innerHTML=VENUES.map((v,i)=>{ const left=v.x>230, up=v.city==='Garliava';
+  return `<g class="pin" data-i="${i}" transform="translate(${v.x} ${v.y})" tabindex="0" role="button" aria-label="${esc(v.city)}, ${esc(v.place)}">
+    <circle class="hit" r="12"/><circle class="ring" r="6"/><circle class="dot" r="3.5"/>
+    <text x="${left?-10:10}" y="${up?14:-8}" text-anchor="${left?'end':'start'}">${esc(v.city)}</text></g>`; }).join('');
+function setPin(i){
+  pins.querySelectorAll('.pin').forEach(p=>p.classList.toggle('on',+p.dataset.i===i));
+  if(i>=0){ const on=pins.querySelector(`[data-i="${i}"]`); pins.appendChild(on); mapCap.textContent=`${VENUES[i].city} · ${VENUES[i].place}`; }
+  else mapCap.textContent='7 miestai · 19 kortų';
+}
+function openVenue(i,toggle){
+  [...acc.children].forEach((x,j)=>{ const on=j===i ? (toggle ? !x.classList.contains('open') : true) : false; x.classList.toggle('open',on); x.querySelector('.acc-btn').setAttribute('aria-expanded',String(on)); });
+  setPin(acc.children[i]?.classList.contains('open') ? i : -1);
+}
 acc.addEventListener('click',e=>{
   const b=e.target.closest('.acc-btn'); if(!b) return;
-  const li=b.parentElement;
-  [...acc.children].forEach(x=>{ const on=x===li ? !x.classList.contains('open') : false; x.classList.toggle('open',on); x.querySelector('.acc-btn').setAttribute('aria-expanded',String(on)); });
+  openVenue([...acc.children].indexOf(b.parentElement),true);
 });
+pins.addEventListener('click',e=>{ const p=e.target.closest('.pin'); if(p) openVenue(+p.dataset.i,false); });
+pins.addEventListener('keydown',e=>{ const p=e.target.closest('.pin'); if(p && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); openVenue(+p.dataset.i,false); } });
+setPin(0);
 
 /* Reitingas: demo duomenys */
 const RANK={
