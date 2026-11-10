@@ -6,12 +6,12 @@
 <meta name="robots" content="noindex">
 <title>Kalendorius · Lietuvos skvošo asociacija</title>
 <meta name="description" content="Artėjančios LSA varžybos ir turnyrai.">
-<link rel="icon" type="image/svg+xml" href="favicon.svg?b=11101916">
+<link rel="icon" type="image/svg+xml" href="favicon.svg?b=11102109">
 <script>(function(){var v=new URLSearchParams(location.search).get("v");v=v==="senas"?"old":v==="naujas"?"new":null;try{if(v)localStorage.setItem("lsa-ver",v);else v=localStorage.getItem("lsa-ver")}catch(e){}if(v==="old")document.documentElement.dataset.ver="old"})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Montserrat:wght@500;600&display=swap">
-<link rel="stylesheet" href="assets/site.css?b=11101916">
+<link rel="stylesheet" href="assets/site.css?b=11102109">
 </head>
 <body>
 
@@ -78,7 +78,7 @@
       <a class="nav-logo" href="index.html" aria-label="Į pradžią"><svg viewBox="0 0 62 25" aria-hidden="true"><use href="#lsa"/></svg></a>
       <div class="nav-more">
         <button type="button" class="nav-more-btn" aria-expanded="false"><span class="nav-more-label">Varžybos</span><svg class="chev" aria-hidden="true"><use href="#chev"/></svg></button>
-        <div class="nav-more-panel"><a href="kalendorius.html" data-nav="kalendorius">Kalendorius<span class="hint">8</span></a><a href="reitingas.html" data-nav="reitingas">Reitingas<span class="hint">196</span></a><a href="la28.html" data-nav="la28">Kelias į LA28<span class="hint">2028</span></a></div>
+        <div class="nav-more-panel"><a href="kalendorius.html" data-nav="kalendorius">Kalendorius<span class="hint">17</span></a><a href="reitingas.html" data-nav="reitingas">Reitingas<span class="hint">196</span></a><a href="la28.html" data-nav="la28">Kelias į LA28<span class="hint">2028</span></a></div>
       </div>
       <div class="nav-more">
         <button type="button" class="nav-more-btn" aria-expanded="false"><span class="nav-more-label">Žaisk skvošą</span><svg class="chev" aria-hidden="true"><use href="#chev"/></svg></button>
@@ -141,13 +141,26 @@
   <section class="page-head">
     <div class="wrap">
       <nav class="crumbs" aria-label="Kelias"><a href="index.html">Pradžia</a><span aria-hidden="true">/</span><span>Varžybos</span><span aria-hidden="true">/</span><span>Kalendorius</span></nav>
-      <h1 class="rise">Kalendorius. <em>Artėjančios varžybos ir turnyrai visoje Lietuvoje.</em></h1>
+      <h1 class="rise">Kalendorius. <em>Visi LSA turnyrai ir varžybos viename kalendoriuje.</em></h1>
     </div>
   </section>
   <section class="block" style="padding-top:48px">
     <div class="wrap">
-      <div class="card"><div class="card-head"><h3>Sezonas 2026–2027</h3><span class="demo">Demo duomenys</span></div><div data-block="events" data-group></div></div>
-      <div class="more-link"><a class="link" href="reitingas.html">Reitingas<svg width="11" height="11" aria-hidden="true"><use href="#arr"/></svg></a></div>
+      <div class="rk gcal">
+        <div class="rk-bar">
+          <span class="eyebrow">Turnyrų kalendorius</span>
+          <span class="rk-note">Google kalendorius, tas pats kaip squash.lt</span>
+        </div>
+        <div class="gcal-frame">
+          <iframe id="gcal" title="LSA turnyrų kalendorius" loading="lazy" data-src="MGM4NTgxZDg5ZDMwOWI0M2NlOTJlMThiODZhZDM3M2FlNTkxMTAyNWI4MmJmYzQ4NTY5MzNlZjRlYzM2YzkyZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t"></iframe>
+        </div>
+        <div class="rk-info">
+          <div><span class="eyebrow">Pridėk prie savo kalendoriaus</span><p>Prenumeruok ir visi LSA turnyrai atsiras tavo Google, Apple ar Outlook kalendoriuje.</p>
+            <div class="actions" style="margin-top:16px"><a class="btn btn-line" href="https://calendar.google.com/calendar/u/0?cid=MGM4NTgxZDg5ZDMwOWI0M2NlOTJlMThiODZhZDM3M2FlNTkxMTAyNWI4MmJmYzQ4NTY5MzNlZjRlYzM2YzkyZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener">Prenumeruoti</a><a class="btn btn-line" href="reitingas.html">Reitingas</a></div></div>
+          <div><span class="eyebrow">Registracija</span><p>Į turnyrą registruokis per žaidėjo portalą arba parašyk mums.</p>
+            <div class="actions" style="margin-top:16px"><a class="btn btn-line" href="https://portal.squash.lt/" target="_blank" rel="noopener">Žaidėjo portalas</a><button class="btn btn-line" type="button" data-inquiry="Varžybos">Parašyti</button></div></div>
+        </div>
+      </div>
     </div>
   </section>
 </main>
@@ -235,8 +248,15 @@
 <!-- /part:bottom -->
 
 <script>window.PAGE={current:'kalendorius',label:'Kalendorius'};</script>
-<script src="assets/site.js?b=11101916"></script>
-<script src="assets/data.js?b=11101916"></script>
-<script src="assets/blocks.js?b=11101916"></script>
+<script src="assets/site.js?b=11102109"></script>
+<script src="assets/data.js?b=11102109"></script>
+<script src="assets/blocks.js?b=11102109"></script>
+<script>
+(function(){ const f=document.getElementById('gcal'); if(!f) return;
+  const narrow=matchMedia('(max-width:760px)').matches;
+  const q=new URLSearchParams({wkst:'2',ctz:'Europe/Vilnius',showPrint:'0',showTabs:'0',showTitle:'0',showCalendars:'0',showTz:'0',mode:narrow?'AGENDA':'MONTH',hl:'lt',src:atob('MGM4NTgxZDg5ZDMwOWI0M2NlOTJlMThiODZhZDM3M2FlNTkxMTAyNWI4MmJmYzQ4NTY5MzNlZjRlYzM2YzkyZUBncm91cC5jYWxlbmRhci5nb29nbGUuY29t'),color:'#18786C'});
+  f.src='https://calendar.google.com/calendar/embed?'+q.toString();
+})();
+</script>
 </body>
 </html>

@@ -787,3 +787,11 @@ html[data-ver="old"] .page-head{padding-top:72px}
 .call span{font-variant-numeric:tabular-nums;letter-spacing:.01em}
 .fake{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:var(--r-pill);background:#F5C518;color:#3A2E00;line-height:1.3;white-space:nowrap}
 .send.call{justify-content:center}
+
+/* Kalendorius: įdėtas Google kalendorius */
+.gcal-frame{border-radius:var(--r-md);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line);background:#FFFFFF}
+.gcal-frame iframe{display:block;width:100%;height:720px;border:0}
+@media (min-width:980px){ .gcal{grid-template-columns:minmax(0,1fr)} .gcal .rk-info{grid-template-columns:1fr 1fr} }
+@media (max-width:760px){ .gcal-frame iframe{height:560px} }
+.ev-place-off{color:var(--muted)}
+.ev .go{text-decoration:none}

@@ -12,7 +12,7 @@ const role=c=>c.soon?'Trenerė':'Treneris';
 /* Skambinti treneriui: tikras numeris arba pavyzdinis su žyme */
 const telHref=t=>'tel:'+t.replace(/\s/g,'');
 const callBtn=(c,cls='btn btn-line')=>`<a class="${cls} call" href="${telHref(c.tel)}"><svg class="ph-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 2h3l1.5 3.5-2 1.2a8 8 0 0 0 3.8 3.8l1.2-2L14 10v3a1 1 0 0 1-1 1A11 11 0 0 1 2 3a1 1 0 0 1 1-1Z"/></svg><span>${esc(c.tel)}</span>${c.telDemo?'<small class="fake">Demo numeris</small>':''}</a>`;
-const upcoming=()=>{ const t=new Date().toISOString().slice(0,10); const f=EVENTS.filter(e=>e.d>=t); return f.length?f:EVENTS; };
+const upcoming=()=>{ const t=new Date().toISOString().slice(0,10); const f=EVENTS.filter(e=>(e.end||e.d)>=t); return f.length?f:EVENTS; };
 
 /* Eilutės (vietoj piliulių): klubai ir treneriai kaip ramus sąrašas su linijomis */
 function whereRows(c){
@@ -184,8 +184,10 @@ const BLOCKS={
   /* Varžybos: data-limit; data-group sugrupuoja pagal mėnesius */
   events(el){
     const lim=+el.dataset.limit||0, list=upcoming().slice(0,lim||undefined);
-    const row=e=>{ const [y,m,d]=e.d.split('-'), v=VENUES[e.v];
-      return `<li class="ev"><time datetime="${e.d}"><b>${d}</b>${MON[+m-1]}</time><div><h4>${esc(e.t)}</h4><p><button type="button" class="ev-place" data-venue="${e.v}">${esc(v.place)}, ${esc(v.city)}</button></p></div><button class="go" type="button" data-inquiry="Varžybos" aria-label="Registruotis: ${esc(e.t)}">${ARR}</button></li>`; };
+    const row=e=>{ const [y,m,d]=e.d.split('-'), v=e.v!=null?VENUES[e.v]:null;
+      const span=e.end?`${+d}–${+e.end.slice(8)} ${MON[+e.end.slice(5,7)-1].toLowerCase()}.`:'';
+      const where=v?`<button type="button" class="ev-place" data-venue="${e.v}">${esc(v.city)}</button>`:'<span class="ev-place-off">Lietuva</span>';
+      return `<li class="ev"><time datetime="${e.d}"><b>${d}</b>${MON[+m-1]}</time><div><h4>${esc(e.t)}</h4><p>${where}${span?` · ${span}`:''}</p></div><a class="go" href="kalendorius.html" aria-label="Kalendoriuje: ${esc(e.t)}">${ARR}</a></li>`; };
     if(el.dataset.group===undefined){ el.innerHTML=`<ul class="ev-list">${list.map(row).join('')}</ul>`; return; }
     const groups={}; list.forEach(e=>{ const k=e.d.slice(0,7); (groups[k]=groups[k]||[]).push(e); });
     el.innerHTML=Object.entries(groups).map(([k,es])=>{ const [y,m]=k.split('-'); return `<section class="ev-month"><h3>${MON_FULL[+m-1]} <span>${y}</span></h3><ul class="ev-list">${es.map(row).join('')}</ul></section>`; }).join('');
@@ -212,11 +214,12 @@ const BLOCKS={
 
   /* Hero kortelė: artimiausios varžybos */
   'hero-event'(el){
-    const e=upcoming()[0], v=VENUES[e.v], [y,m,d]=e.d.split('-');
+    const e=upcoming()[0], v=e.v!=null?VENUES[e.v]:null, [y,m,d]=e.d.split('-');
     const days=Math.ceil((new Date(e.d+'T10:00:00+02:00')-Date.now())/86400000);
+    const span=e.end?`${+d}–${+e.end.slice(8)} ${MON[+e.end.slice(5,7)-1].toLowerCase()}.`:`${+d} ${MON[+m-1].toLowerCase()}.`;
     el.querySelector('.nc-date').innerHTML=`<b>${d}</b>${MON[+m-1]}`; el.querySelector('.nc-date').setAttribute('datetime',e.d);
-    el.querySelector('.nc-txt').innerHTML=`<strong>${esc(e.t)}</strong><span>${esc(v.place)}, ${esc(v.city)}</span>`;
-    el.querySelector('.nc-when').textContent= days>1 ? `Po ${days} d.` : days===1 ? 'Rytoj' : days===0 ? 'Šiandien' : 'Įvyko';
+    el.querySelector('.nc-txt').innerHTML=`<strong>${esc(e.t)}</strong><span>${v?esc(v.city)+' · ':''}${span}</span>`;
+    el.querySelector('.nc-when').textContent= days>1 ? `Po ${days} d.` : days===1 ? 'Rytoj' : days===0 ? 'Šiandien' : 'Vyksta';
   },
 
   /* LA28: laikas iki atidarymo (2028-07-14, Los Andželas) */

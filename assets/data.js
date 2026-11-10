@@ -40,16 +40,26 @@ const COACHES=[
    full:['Profesionali skvošo žaidėja ir trenerė iš Argentinos. Treniruotes veda Vilniuje, SEB arenoje.','Daugiau informacijos apie Mariną ir jos treniruotes paskelbsime netrukus.']}
 ];
 
-/* Varžybos: DEMO duomenys, kol nėra tikro kalendoriaus. v: VENUES indeksas */
+/* Varžybos: tikri turnyrai iš LSA Google kalendoriaus (squash.lt/kalendorius), nuotrauka 2026-11-10.
+   Naršyklė .ics tiesiogiai neskaito, todėl atnaujinama rankiniu būdu. v: VENUES indeksas, jei miestas žinomas; end: paskutinė diena */
 const EVENTS=[
-  {d:'2026-11-22',t:'Lietuvos skvošo čempionatas',v:1},
-  {d:'2026-12-06',t:'Vilniaus kalėdinis turnyras',v:0},
-  {d:'2027-01-17',t:'Pajūrio taurė',v:2},
-  {d:'2027-02-07',t:'Jaunių reitingo turnyras',v:3},
-  {d:'2027-02-28',t:'LSA taurė: Kauno etapas',v:1},
-  {d:'2027-03-14',t:'Veteranų turnyras',v:4},
-  {d:'2027-04-11',t:'LSA taurė: Vilniaus etapas',v:0},
-  {d:'2027-05-09',t:'Druskininkų pavasario turnyras',v:5}
+  {d:'2026-11-20',end:'2026-11-22',t:"Lietuvos skvošo čempionatas 2026",v:null},
+  {d:'2026-12-05',t:"Vilnius Open II etapas",v:0},
+  {d:'2026-12-12',t:"Kaunas Open II etapas",v:1},
+  {d:'2027-01-09',t:"Vilnius Squash Cup II etapas",v:0},
+  {d:'2027-01-23',t:"LSA AUDIMAS II etapas · Kaunas",v:1},
+  {d:'2027-01-30',t:"Vilnius Open III etapas",v:0},
+  {d:'2027-02-06',t:"Garliava B-Day! II etapas",v:4},
+  {d:'2027-02-27',t:"Kaunas Open III etapas",v:1},
+  {d:'2027-03-13',t:"LSA AUDIMAS taurė III etapas · Vilnius",v:0},
+  {d:'2027-03-19',end:'2027-03-21',t:"Baltic Individual Championship 2027 · Kaunas",v:1},
+  {d:'2027-03-20',t:"Vilnius Squash Cup III etapas",v:0},
+  {d:'2027-04-10',t:"Klaipėda Open II etapas",v:2},
+  {d:'2027-04-17',t:"Garliava Open III etapas",v:4},
+  {d:'2027-04-24',t:"Vilnius Open IV etapas",v:0},
+  {d:'2027-05-08',t:"Vilnius Squash Cup IV etapas",v:0},
+  {d:'2027-05-22',t:"LSA AUDIMAS taurė finalas · Kaunas",v:1},
+  {d:'2027-06-12',end:'2027-06-13',t:"Vilnius Open",v:0}
 ];
 
 /* Reitingas: DEMO duomenys pagrindinio puslapio ištraukai. Pilnas reitingas yra rankedin.com */
