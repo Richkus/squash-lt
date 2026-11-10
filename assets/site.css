@@ -90,6 +90,8 @@ a{color:inherit}
 @media (min-width:1180px){
   .top.solid .nav-bar > a.nav-logo{max-width:120px;padding:0 14px 0 10px;opacity:1;visibility:visible;transition:max-width .45s var(--ease),padding .45s var(--ease),opacity .3s ease .12s}
   .top.solid > .wrap > .logo{opacity:0;pointer-events:none}
+  .top.solid.at-top .nav-bar > a.nav-logo{max-width:0;padding:0;opacity:0;visibility:hidden;transition:max-width .45s var(--ease),padding .45s var(--ease),opacity .2s ease,visibility 0s linear .45s}
+  .top.solid.at-top > .wrap > .logo{opacity:1;pointer-events:auto}
   .top::before{display:none}
 }
 

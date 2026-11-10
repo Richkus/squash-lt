@@ -99,7 +99,8 @@ function spy(){
   spyQueued=false;
   const hr=heroPanel && heroPanel.getBoundingClientRect(), solidNow=!hr || !(hr.top<72 && hr.bottom>64);   /* skaidri juosta tik tada, kai po ja tamsi hero nuotrauka */
   document.documentElement.classList.toggle('past-hero',solidNow);
-  if(solidNow!==topBar.classList.contains('solid')){ topBar.classList.toggle('solid',solidNow); setTimeout(()=>updateNav(navCur),reduceMotion?0:470); }
+  const atTop=scrollY<40;   /* puslapio pradžioje pilnas logotipas kairėje, nuslinkus įslysta į juostą */
+  if(solidNow!==topBar.classList.contains('solid') || atTop!==topBar.classList.contains('at-top')){ topBar.classList.toggle('solid',solidNow); topBar.classList.toggle('at-top',atTop); setTimeout(()=>updateNav(navCur),reduceMotion?0:470); }
   let idx=-1;
   if(SPY.length){
     const line=innerHeight*0.38;
