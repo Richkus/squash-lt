@@ -996,3 +996,9 @@ main > .wo:first-child{margin-top:0}
 .row-ini.has-img,.cd-ini.has-img{padding:0;overflow:hidden;position:relative}
 .row-ini.has-img img,.cd-ini.has-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
 .c-tile.has-img{background:var(--surface-2)}
+/* Po nuotrauka viskas to paties pločio kaip rėmelis */
+.c-card .c-where{max-width:none}
+.c-card .c-acts{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.c-card .c-acts > *{box-sizing:border-box;min-width:0;width:100%;justify-content:space-between}
+.c-card .c-acts .call{justify-content:flex-start}
+.c-card .c-acts .call .demo,.c-card .c-acts .call .fake{margin-left:auto}
