@@ -141,11 +141,12 @@ cList.addEventListener('keydown',e=>{
 });
 showCoach(0);
 
-/* Trenerio šoninis panelis: visas aprašymas */
+/* Trenerio šoninis panelis (1 lygis) ir klubo panelis ant jo (2 lygis, su „Atgal“) */
 const cd=document.getElementById('coachDrawer'), cdBody=document.getElementById('cdBody');
-let cdBack=null;
+const vd=document.getElementById('venueDrawer'), vdBody=document.getElementById('vdBody'), vdBackLbl=document.getElementById('vdBackLbl'), vdCall=document.getElementById('vdCall');
+let cdBack=null, cdCur=-1, vdFrom=null;
 function openCoach(i){
-  const c=COACHES[i]; cdBack=document.activeElement;
+  const c=COACHES[i]; if(!cd.classList.contains('open')) cdBack=document.activeElement; cdCur=i;
   cdBody.innerHTML=`<div class="cd-top"><span class="cd-ini" aria-hidden="true">${esc(ini(c))}</span><div><h2 id="cdName">${esc(c.n)}</h2><p class="c-meta">${c.soon?'Trenerė':'Treneris'}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p></div></div>
     <p class="p-label">Kur treniruoja</p><div class="c-tags">${tagsOf(c)}</div>
     <div class="prose cd-text">${c.full.map(t=>`<p>${esc(t)}</p>`).join('')}</div>
@@ -156,18 +157,53 @@ function openCoach(i){
   setTimeout(()=>cd.querySelector('.x').focus({preventScroll:true}),80);
 }
 function closeCoach(restore=true){
+  closeVenuePanel(false);
   if(!cd.classList.contains('open')) return;
   cd.classList.remove('open'); cd.setAttribute('aria-hidden','true');
   document.documentElement.style.overflow=''; document.documentElement.classList.remove('modal-open');
   if(restore && cdBack) cdBack.focus({preventScroll:true});
 }
+function openVenuePanel(i,from){
+  const v=VENUES[i], list=coachesAt(i); vdFrom=from||null;
+  vdBackLbl.textContent=COACHES[cdCur]?.n || 'Atgal';
+  vdBody.innerHTML=`<span class="eyebrow">Klubas</span>
+    <h2 class="vd-city" id="vdName">${esc(v.city)}</h2><p class="vd-place">${esc(v.place)}</p>
+    <dl class="vd-dl"><div><dt>Adresas</dt><dd>${esc(v.addr)}</dd></div><div><dt>Telefonas</dt><dd><a href="tel:${v.tel.replace(/\s/g,'')}">${esc(v.tel)}</a></dd></div></dl>
+    <p class="p-label">Treneriai šiame klube</p>
+    <div class="c-tags">${list.map(([c,j])=>`<button class="tag" type="button" data-coach-swap="${j}"${j===cdCur?' aria-current="true"':''}>${esc(c.n)}</button>`).join('')}</div>
+    <div class="actions" style="margin-top:8px"><a class="btn btn-line" href="https://maps.google.com/?q=${encodeURIComponent(v.addr)}" target="_blank" rel="noopener">Kaip nuvykti</a><button class="btn btn-line" type="button" data-venue-map="${i}">Rodyti žemėlapyje</button></div>`;
+  vdCall.href='tel:'+v.tel.replace(/\s/g,'');
+  vdBody.scrollTop=0;
+  vd.classList.add('open'); vd.setAttribute('aria-hidden','false'); cd.classList.add('stacked');
+  setTimeout(()=>vd.querySelector('.back').focus({preventScroll:true}),80);
+}
+function closeVenuePanel(restore=true){
+  if(!vd.classList.contains('open')) return;
+  vd.classList.remove('open'); vd.setAttribute('aria-hidden','true'); cd.classList.remove('stacked');
+  if(restore) (vdFrom && document.contains(vdFrom) ? vdFrom : cd.querySelector('.x')).focus({preventScroll:true});
+}
+function showOnMap(i){
+  closeCoach(false); openVenue(i,false);
+  glide(document.getElementById('kur-zaisti')).then(()=>acc.children[i].querySelector('.acc-btn').focus({preventScroll:true}));
+}
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-coach]'); if(b){ openCoach(+b.dataset.coach); return; }
-  const v=e.target.closest('[data-venue]');
-  if(v){ closeCoach(false); const i=+v.dataset.venue; openVenue(i,false); const t=document.getElementById('kur-zaisti'); glide(t).then(()=>acc.children[i].querySelector('.acc-btn').focus({preventScroll:true})); }
+  const v=e.target.closest('[data-venue]'); if(!v) return;
+  if(cd.contains(v)) openVenuePanel(+v.dataset.venue,v);   /* iš trenerio panelio: klubas atsidaro ant viršaus */
+  else showOnMap(+v.dataset.venue);                         /* iš puslapio: nuslenka į „Kur žaisti“ */
 });
 cd.addEventListener('click',e=>{
   if(e.target.closest('[data-cclose]')) closeCoach();
   else if(e.target.closest('[data-inquiry]')) closeCoach(false);   /* žinutės langas atsidarys vietoj panelio */
 });
-addEventListener('keydown',e=>{ if(e.key==='Escape' && cd.classList.contains('open')) closeCoach(); });
+vd.addEventListener('click',e=>{
+  if(e.target.closest('[data-vback]')) closeVenuePanel();
+  else if(e.target.closest('[data-vcloseall]')) closeCoach();
+  else if(e.target.closest('[data-coach-swap]')){ const j=+e.target.closest('[data-coach-swap]').dataset.coachSwap; closeVenuePanel(false); if(j!==cdCur) openCoach(j); else cd.querySelector('.x').focus({preventScroll:true}); }
+  else if(e.target.closest('[data-venue-map]')) showOnMap(+e.target.closest('[data-venue-map]').dataset.venueMap);
+});
+addEventListener('keydown',e=>{
+  if(e.key!=='Escape') return;
+  if(vd.classList.contains('open')) closeVenuePanel();
+  else if(cd.classList.contains('open')) closeCoach();
+});
