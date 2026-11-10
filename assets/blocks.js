@@ -170,9 +170,9 @@ const BLOCKS={
       if(i===cur || i===undefined) return; cur=i; const c=COACHES[i];
       list.querySelectorAll('.c-name').forEach(b=>b.setAttribute('aria-selected',String(+b.dataset.i===i)));
       const loc=c.at.length ? (p=>`${p.city} · ${p.place}`)(placeOf(c.at[0])) : (c.from||'');
-      card.innerHTML=`<div class="c-frame"><i></i><i></i><i></i><i></i><div class="c-tile"><span class="loc">${esc(loc)}</span><span class="ini" aria-hidden="true">${esc(ini(c))}</span></div></div>
-        <p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p>
-        <p class="c-bio">${esc(c.bio)}</p>
+      /* Info ant nuotraukos: vieta viršuje, pareigos ir aprašas apačioje ant tamsaus gradiento. c.img, kai bus tikra nuotrauka */
+      card.innerHTML=`<div class="c-frame"><i></i><i></i><i></i><i></i><div class="c-tile${c.img?' has-img':''}">${c.img?`<img src="${esc(c.img)}" alt="">`:''}<span class="ini" aria-hidden="true">${esc(ini(c))}</span><span class="loc">${esc(loc)}</span>
+          <div class="c-ov"><p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p><p class="c-bio">${esc(c.bio)}</p></div></div></div>
         <div class="c-where"><p class="p-label">Treniruoja</p>${whereRows(c)}</div>
         <div class="c-acts"><button class="btn btn-accent" type="button" data-coach="${i}">Skaityti daugiau<span class="arr">${ARR}</span></button>${callBtn(c)}</div>`;
       card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap');
