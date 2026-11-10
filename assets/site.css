@@ -447,9 +447,9 @@ footer{padding-block:56px calc(32px + env(safe-area-inset-bottom,0px));color:var
 
 /* ===== Sena versija: dabartinė squash.lt juosta ir poraštė aplink naują turinį ===== */
 .old-top,.old-foot{display:none}
-html[data-ver="old"] .top,html[data-ver="old"] .mnav,html[data-ver="old"] .new-foot{display:none!important}
+html[data-ver="old"] .top,html[data-ver="old"] .mnav{display:none!important}
 html[data-ver="old"] .old-top{display:block}
-html[data-ver="old"] .old-foot{display:block}
+/* Senoje versijoje irgi naujas footeris */
 .old-top{position:sticky;top:0;z-index:25;background:#FFFFFF;box-shadow:0 1px 0 #ECECEC,0 6px 18px -12px rgba(0,0,0,.18);font-family:"Montserrat",Arial,sans-serif;color:#313131}
 .old-wrap{max-width:1360px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px));height:72px;display:flex;align-items:center;gap:24px}
 .old-logo{color:#18786C;display:block}
