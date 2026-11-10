@@ -923,3 +923,18 @@ main > .wo:first-child{margin-top:0}
 .board-foot h3{font-size:22px;font-weight:400;letter-spacing:-.01em;margin-bottom:4px}
 @media (max-width:1024px){ .bm.lead{grid-column:span 6;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)} .bm{grid-column:span 3} .bm:last-child{grid-column:span 3} }
 @media (max-width:640px){ .board{grid-template-columns:minmax(0,1fr)} .bm,.bm.lead,.bm:last-child{grid-column:auto} .bm.lead{grid-template-columns:minmax(0,1fr);gap:0} .bm.lead .bm-body{padding-top:22px} }
+
+/* Lengvesnis hero: viena antraštė, viena eilutė, du mygtukai ir kompaktiška varžybų kortelė */
+.hero h1{font-size:clamp(40px,5.2vw,80px);max-width:12ch;margin-top:0}
+.hero-lead{font-size:18px;margin-top:20px;text-wrap:balance}
+.hero-btns{margin-top:32px}
+.hero-inner{padding-bottom:clamp(28px,4vw,48px)}
+.note-card{max-width:340px;padding:14px;gap:0}
+.nc-ev{grid-template-columns:auto minmax(0,1fr) auto;gap:14px}
+.nc-date{padding:6px 10px 8px}
+.nc-date b{font-size:28px}
+.nc-txt strong{font-size:16px}
+.nc-txt span{font-size:13.5px}
+.nc-arr{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;color:var(--hero-ink);transition:background .25s,color .25s}
+.nc-arr svg{width:11px;height:11px}
+.note-card:hover .nc-arr{background:var(--hero-ink);color:var(--hero-bg)}

@@ -276,8 +276,8 @@ const BLOCKS={
     const days=Math.ceil((new Date(e.d+'T10:00:00+02:00')-Date.now())/86400000);
     const span=e.end?`${+d}–${+e.end.slice(8)} ${MON[+e.end.slice(5,7)-1].toLowerCase()}.`:`${+d} ${MON[+m-1].toLowerCase()}.`;
     el.querySelector('.nc-date').innerHTML=`<b>${d}</b>${MON[+m-1]}`; el.querySelector('.nc-date').setAttribute('datetime',e.d);
-    el.querySelector('.nc-txt').innerHTML=`<strong>${esc(e.t)}</strong><span>${v?esc(v.city)+' · ':''}${span}</span>`;
-    el.querySelector('.nc-when').textContent= days>1 ? `Po ${days} d.` : days===1 ? 'Rytoj' : days===0 ? 'Šiandien' : 'Vyksta';
+    const when= days>1 ? `po ${days} d.` : days===1 ? 'rytoj' : days===0 ? 'šiandien' : 'vyksta';
+    el.querySelector('.nc-txt').innerHTML=`<strong>${esc(e.t)}</strong><span>${span} · ${when}</span>`;
   },
 
   /* SKVOŠAS: O raidė slenkant atsiveria į kapsulę su nuotrauka, kitos raidės pasitraukia į šonus */
