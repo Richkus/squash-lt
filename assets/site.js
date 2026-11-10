@@ -98,6 +98,7 @@ const topBar=document.querySelector('.top'), heroPanel=document.querySelector('.
 function spy(){
   spyQueued=false;
   const solidNow=!heroPanel || heroPanel.getBoundingClientRect().bottom<64;
+  document.documentElement.classList.toggle('past-hero',solidNow);
   if(solidNow!==topBar.classList.contains('solid')){ topBar.classList.toggle('solid',solidNow); setTimeout(()=>updateNav(navCur),reduceMotion?0:470); }
   let idx=-1;
   if(SPY.length){

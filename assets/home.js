@@ -8,6 +8,39 @@ const VENUES=[
   {city:'Druskininkai',x:175.2,y:253,place:'Grand Spa',addr:'V. Kudirkos g. 45, Druskininkai',tel:'+370 313 51200'},
   {city:'Tauragė',x:79.3,y:130,place:'Bendruomenių namai',addr:'Vytauto g. 141, Tauragė',tel:'+370 678 47991'}
 ];
+/* Treneriai: duomenys iš squash.lt/treneriai. at: kuriuose klubuose dirba (VENUES indeksas arba laisvas tekstas) */
+const COACHES=[
+  {n:'Mantas Kočiūnas',at:[0],cert:'ESF 3 lygis',lang:'LT, EN',
+   bio:'Buvęs daugkartinis Lietuvos čempionas ir rinktinės kapitonas. Dirba su visais: nuo pirmą kartą raketę paimančių iki profesionalų.',
+   full:['Ilgametę patirtį turintis skvošo treneris, buvęs daugkartinis Lietuvos skvošo čempionas ir Lietuvos rinktinės kapitonas. Treniruotes veda Vilniuje, SEB arenoje, lietuvių ir anglų kalbomis.','Mantas dirba su įvairaus lygio žaidėjais: nuo pradedančiųjų, pirmą kartą paimančių raketę į rankas, iki pažengusių ir profesionalių sportininkų. Treniruotėse daug dėmesio skiria technikai, taktikai, psichologiniams žaidimo aspektams ir individualiems žaidėjo poreikiams.','Jo treniruočių principas: saugus, kokybiškas ir tikslingas augimas. Mantas turi aukščiausią ESF 3 lygio trenerio sertifikatą.']},
+  {n:'Ilja Koryšev',at:[{city:'Vilnius',place:'klubas tikslinamas'}],cert:'WSF 1 ir 2 lygis',lang:'EN, RU',
+   bio:'Daugiau nei 10 metų žaidimo ir trenerio patirtis. Veda individualias ir grupines treniruotes vaikams ir suaugusiems.',
+   full:['Sertifikuotas skvošo treneris, dirbantis Lietuvoje, turintis daugiau nei 10 metų žaidimo ir treniravimo patirtį. Jis yra įgijęs WSF Level 1 ir Level 2 trenerio kvalifikacijas ir aktyviai dirba su įvairaus amžiaus ir lygio žaidėjais: nuo pradedančiųjų iki pažengusių sportininkų.','Ilja specializuojasi individualiose ir grupinėse treniruotėse suaugusiesiems bei vaikams, didelį dėmesį skiria technikos pagrindams, žaidimo supratimui, judėjimui aikštelėje ir ilgalaikiam žaidėjų progresui.','Treneris veda treniruotes anglų ir rusų kalbomis, taip pat aktyviai mokosi lietuvių kalbos. Ilja prisideda prie skvošo vystymo Lietuvoje, skatindamas reguliarų, saugų ir motyvuojantį treniruočių procesą.']},
+  {n:'Andrėjus Kolčėvnikovas',at:[0],cert:'ESF 1 · WSF 2 lygis',lang:'LT, EN, RU',
+   bio:'Treniruoja nuo 2012 m. Tiki, kad skvoše laimi ne tik kojos, bet ir galva: gebėjimas mąstyti ir valdyti žaidimą.',
+   full:['Patyręs skvošo treneris, treniruotes vedantis Vilniuje, SEB arenoje. Treneriu dirba nuo 2012 metų ir turi plačią patirtį su įvairaus lygio žaidėjais: nuo pradedančiųjų iki čempionų. Andrėjus treniruoja vaikus, jaunimą, mėgėjus, pažengusius ir varžyboms besiruošiančius žaidėjus, veda individualias ir grupines treniruotes anglų, rusų ir lietuvių kalbomis.','Jo treniravimo filosofija paremta motyvacija, sąžiningu darbu ir žaidimo supratimu. Andrėjus tiki, kad skvošas yra sportas, kuriame laimi ne tik fizinis pasirengimas, bet ir galva: gebėjimas mąstyti, priimti sprendimus ir valdyti žaidimą. Treniruotėse jis vertina ambicingus tikslus, norą dirbti ir pagarbą sąžiningam žaidimui.','Andrėjus turi ESF I lygio trenerio sertifikatą, WSF II lygio kvalifikaciją ir yra dalyvavęs Hadrian Stiff trenerių kursuose.']},
+  {n:'Laurynas Minkus',at:[1],cert:'WSF 1 lygis',lang:'LT, EN',
+   bio:'10 metų treniravimo patirtis. Pagrindinė kryptis yra vaikų ir jaunimo ugdymas, taisyklinga technika ir judėjimas korte.',
+   full:['Charizmatiškas ir energingas skvošo treneris, turintis 10 metų treniravimo patirtį. Treniruotes veda Kaune, Padel Hub sporto komplekse, lietuvių ir anglų kalbomis. Laurynas dirba su vaikais, jaunimu ir suaugusiaisiais.','Pagrindinė jo darbo kryptis: vaikų ir jaunimo ugdymas, taisyklingos technikos formavimas, judėjimas korte, žaidimo supratimas, fizinis pasirengimas ir nuoseklus progresas. Treniruotėse Laurynui svarbi aiški struktūra, individualus dėmesys, motyvuojanti atmosfera ir žaidėjo pasitikėjimas savimi.','Laurynas yra baigęs WSF Level 1 trenerių kursus.']},
+  {n:'Linas Zdanavičius',at:[1,4,{city:'Kaunas',place:'VS Fitness'}],cert:'WSF 1 lygis',lang:'EN, RU',
+   bio:'10+ metų patirtis. Nestandartinio stiliaus žaidėjas, todėl moko praktinių sprendimų, kaip geriau suprasti varžovą.',
+   full:['10+ metų skvošo patirties turintis treneris, dirbantis Kaune, Padel Hub, Garliavos skvošo klube ir VS Fitness. Linas treniruoja vaikus, jaunimą ir suaugusiuosius: nuo pradedančiųjų iki mėgėjų, pažengusių bei B, C ir D lygio žaidėjų. Veda individualias ir grupines treniruotes anglų bei rusų kalbomis.','Treniruotėse daug dėmesio skiria technikos tobulinimui, fizinės ištvermės ugdymui, taktiniam mąstymui ir individualiems žaidėjo tikslams. Pats būdamas nestandartinio žaidimo stiliaus žaidėjas, Linas gali perteikti įvairius praktinius sprendimus, padedančius geriau suprasti varžovą ir efektyviau žaisti aikštelėje.','Linas yra baigęs WSF 1 lygio trenerių kursus ir 2 lygio teisėjų kursus.']},
+  {n:'Linas Pilipavičius',at:[0],cert:'England Squash 1 lygis',lang:'LT, EN',
+   bio:'Aiškūs pagrindai, nuoseklus progresas ir pasitikėjimas savimi korte. Treniruoja vaikus ir suaugusius.',
+   full:['Patyręs skvošo treneris, vedantis treniruotes Vilniuje, SEB arenoje. Jis dirba su vaikais ir suaugusiaisiais, pradedančiaisiais bei pažengusiais žaidėjais, kviesdamas treniruotis visus: nuo pirmųjų žingsnių skvošo aikštelėje iki aukštesnio žaidimo lygio siekiančių sportininkų.','Treniruotes veda individualiai arba grupėse, lietuvių ir anglų kalbomis. Linas yra įgijęs Anglijos skvošo asociacijos pirmo lygio trenerio sertifikatą.','Jo treniruotėse svarbu aiškus pagrindų formavimas, nuoseklus progresas ir žaidėjo pasitikėjimas savimi aikštelėje.']},
+  {n:'Andrius Stančaitis',at:[2],cert:'ESF 1 lygis',lang:'LT, EN, RU',
+   bio:'Patirtį kaupė Velse. Moko atsižvelgdamas į žmogaus judėjimą, tikslus ir galimybes, ne vien į sporto šaką.',
+   full:['Patyręs skvošo treneris, šiuo metu dirbantis Klaipėdoje, „Skvošo zonoje“, patirtį ne vienus metus kaupęs Velse, Jungtinėje Karalystėje.','Andriaus treniravimo filosofija paremta individualiu požiūriu į žaidėją. Jo įsitikinimu, skvošo reikia mokyti atsižvelgiant į žmogaus judėjimą, tikslus ir galimybes, o ne vien į pačią sporto šaką. Toks požiūris leidžia skvošą atrasti įvairaus amžiaus ir pasirengimo žmonėms: nuo pirmą kartą raketę paimančių pradedančiųjų iki pažengusių žaidėjų.','Treniruotėse Andrius daug dėmesio skiria technikai, judėjimo kokybei ir natūraliai žaidimo plastikai. Jis turi ESF Level 1 trenerio sertifikatą ir yra išklausęs ESF Level 2 mokymus. Treniruotės vyksta lietuvių, anglų ir rusų kalbomis.']},
+  {n:'Marina Zaremba',at:[],from:'Argentina',cert:'Profesionali žaidėja',lang:'',soon:true,
+   bio:'Profesionali skvošo žaidėja ir trenerė iš Argentinos. Daugiau informacijos netrukus.',
+   full:['Profesionali skvošo žaidėja ir trenerė iš Argentinos.','Kur ir kada vyks treniruotės, paskelbsime netrukus.']}
+];
+const placeOf=a=>typeof a==='number' ? `${VENUES[a].city} · ${VENUES[a].place}` : `${a.city} · ${a.place}`;
+const coachesAt=i=>COACHES.map((c,j)=>[c,j]).filter(([c])=>c.at.includes(i));
+const tagsOf=c=>c.at.length
+  ? c.at.map(a=>typeof a==='number' ? `<button class="tag" type="button" data-venue="${a}">${esc(placeOf(a))}</button>` : `<span class="tag tag-off">${esc(placeOf(a))}</span>`).join('')
+  : `<span class="tag tag-off">${esc(c.from||'')} · klubas netrukus</span>`;
+
 const acc=document.getElementById('acc');
 acc.innerHTML=VENUES.map((v,i)=>`
   <li class="${i===0?'open':''}">
@@ -15,7 +48,8 @@ acc.innerHTML=VENUES.map((v,i)=>`
       <h3>${esc(v.city)}</h3><span class="count">${esc(v.place)}</span><span class="plus">${plusSvg}</span>
     </button>
     <div class="acc-body" id="ap${i}" role="region" aria-labelledby="ab${i}"><div>
-      <dl><div><dt>Klubas</dt><dd>${esc(v.place)}</dd></div><div><dt>Adresas</dt><dd>${esc(v.addr)}</dd></div><div><dt>Telefonas</dt><dd>${esc(v.tel)}</dd></div></dl>
+      <dl><div><dt>Klubas</dt><dd>${esc(v.place)}</dd></div><div><dt>Adresas</dt><dd>${esc(v.addr)}</dd></div><div><dt>Telefonas</dt><dd>${esc(v.tel)}</dd></div>
+        <div><dt>Treneriai</dt><dd>${coachesAt(i).length ? coachesAt(i).map(([c,j])=>`<button class="c-link" type="button" data-coach="${j}">${esc(c.n)}</button>`).join('') : '<span class="muted">Informacijos dar nėra</span>'}</dd></div></dl>
       <div class="actions">
         <a class="btn btn-line" href="tel:${v.tel.replace(/\s/g,'')}">Skambinti</a>
         <a class="btn btn-line" href="https://maps.google.com/?q=${encodeURIComponent(v.addr)}" target="_blank" rel="noopener">Kaip nuvykti</a>
@@ -82,28 +116,21 @@ function tick(){
 tick(); setInterval(tick,20000);
 
 
-/* Treneriai: duomenys iš squash.lt/treneriai, aprašymai sutrumpinti */
-const COACHES=[
-  {n:'Mantas Kočiūnas',loc:'Vilnius · SEB arena',cert:'ESF 3 lygis',lang:'LT, EN',bio:'Buvęs daugkartinis Lietuvos čempionas ir rinktinės kapitonas. Dirba su visais: nuo pirmą kartą raketę paimančių iki profesionalų.'},
-  {n:'Ilja Koryšev',loc:'Vilnius',cert:'WSF 1 ir 2 lygis',lang:'EN, RU',bio:'Daugiau nei 10 metų žaidimo ir trenerio patirtis. Veda individualias ir grupines treniruotes vaikams ir suaugusiems.'},
-  {n:'Andrėjus Kolčėvnikovas',loc:'Vilnius · SEB arena',cert:'ESF 1 · WSF 2 lygis',lang:'LT, EN, RU',bio:'Treniruoja nuo 2012 m. Tiki, kad skvoše laimi ne tik kojos, bet ir galva: gebėjimas mąstyti ir valdyti žaidimą.'},
-  {n:'Laurynas Minkus',loc:'Kaunas · Padel HUB',cert:'WSF 1 lygis',lang:'LT, EN',bio:'10 metų treniravimo patirtis. Pagrindinė kryptis yra vaikų ir jaunimo ugdymas, taisyklinga technika ir judėjimas korte.'},
-  {n:'Linas Zdanavičius',loc:'Kaunas · Garliava',cert:'WSF 1 lygis',lang:'EN, RU',bio:'10+ metų patirtis. Nestandartinio stiliaus žaidėjas, todėl moko praktinių sprendimų, kaip geriau suprasti varžovą.'},
-  {n:'Linas Pilipavičius',loc:'Vilnius · SEB arena',cert:'England Squash 1 lygis',lang:'LT, EN',bio:'Aiškūs pagrindai, nuoseklus progresas ir pasitikėjimas savimi korte. Treniruoja vaikus ir suaugusius.'},
-  {n:'Andrius Stančaitis',loc:'Klaipėda · Skvošo zona',cert:'ESF 1 lygis',lang:'LT, EN, RU',bio:'Patirtį kaupė Velse. Moko atsižvelgdamas į žmogaus judėjimą, tikslus ir galimybes, ne vien į sporto šaką.'}
-];
+
+/* Trenerių sąrašas ir kortelė */
 const cList=document.getElementById('cList'), cCard=document.getElementById('cCard');
 cList.innerHTML=COACHES.map((c,i)=>`<li><button class="c-name" type="button" role="tab" id="ct${i}" data-i="${i}" aria-selected="${i===0}" aria-controls="cCard">${esc(c.n)}</button></li>`).join('');
+const ini=c=>c.n.split(' ').map(w=>w[0]).join('');
 let cCur=-1;
 function showCoach(i){
   if(i===cCur) return; cCur=i; const c=COACHES[i];
   cList.querySelectorAll('.c-name').forEach(b=>b.setAttribute('aria-selected',String(+b.dataset.i===i)));
-  const ini=c.n.split(' ').map(w=>w[0]).join('');
   cCard.setAttribute('aria-labelledby','ct'+i);
-  cCard.innerHTML=`<div class="c-frame"><i></i><i></i><i></i><i></i><div class="c-tile"><span class="loc">${esc(c.loc)}</span><span class="ini" aria-hidden="true">${esc(ini)}</span></div></div>
-    <p class="c-meta">Treneris<span>${esc(c.cert)} · ${esc(c.lang)}</span></p>
+  cCard.innerHTML=`<div class="c-frame"><i></i><i></i><i></i><i></i><div class="c-tile"><span class="loc">${esc(c.at.length ? placeOf(c.at[0]) : c.from)}</span><span class="ini" aria-hidden="true">${esc(ini(c))}</span></div></div>
+    <p class="c-meta">${c.soon?'Trenerė':'Treneris'}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p>
+    <div class="c-tags">${tagsOf(c)}</div>
     <p class="c-bio">${esc(c.bio)}</p>
-    <div class="c-acts"><button class="btn btn-accent" type="button" data-inquiry="Noriu išbandyti skvošą">Treniruotė<span class="arr"><svg aria-hidden="true"><use href="#arr"/></svg></span></button><a class="link" href="https://squash.lt/treneriai/">Visi aprašymai<svg width="11" height="11" aria-hidden="true"><use href="#ext"/></svg></a></div>`;
+    <div class="c-acts"><button class="btn btn-accent" type="button" data-coach="${i}">Skaityti daugiau<span class="arr"><svg aria-hidden="true"><use href="#arr"/></svg></span></button><button class="btn btn-line" type="button" data-inquiry="Noriu išbandyti skvošą">Treniruotė</button></div>`;
   cCard.classList.remove('swap'); void cCard.offsetWidth; cCard.classList.add('swap');
 }
 cList.addEventListener('click',e=>{ const b=e.target.closest('.c-name'); if(b) showCoach(+b.dataset.i); });
@@ -114,3 +141,33 @@ cList.addEventListener('keydown',e=>{
 });
 showCoach(0);
 
+/* Trenerio šoninis panelis: visas aprašymas */
+const cd=document.getElementById('coachDrawer'), cdBody=document.getElementById('cdBody');
+let cdBack=null;
+function openCoach(i){
+  const c=COACHES[i]; cdBack=document.activeElement;
+  cdBody.innerHTML=`<div class="cd-top"><span class="cd-ini" aria-hidden="true">${esc(ini(c))}</span><div><h2 id="cdName">${esc(c.n)}</h2><p class="c-meta">${c.soon?'Trenerė':'Treneris'}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p></div></div>
+    <p class="p-label">Kur treniruoja</p><div class="c-tags">${tagsOf(c)}</div>
+    <div class="prose cd-text">${c.full.map(t=>`<p>${esc(t)}</p>`).join('')}</div>
+    ${c.soon?'':'<a class="link" href="https://squash.lt/treneriai/" target="_blank" rel="noopener">Šaltinis: squash.lt/treneriai<svg width="11" height="11" aria-hidden="true"><use href="#ext"/></svg></a>'}`;
+  cdBody.scrollTop=0;
+  cd.classList.add('open'); cd.setAttribute('aria-hidden','false');
+  document.documentElement.style.overflow='hidden'; document.documentElement.classList.add('modal-open');
+  setTimeout(()=>cd.querySelector('.x').focus({preventScroll:true}),80);
+}
+function closeCoach(restore=true){
+  if(!cd.classList.contains('open')) return;
+  cd.classList.remove('open'); cd.setAttribute('aria-hidden','true');
+  document.documentElement.style.overflow=''; document.documentElement.classList.remove('modal-open');
+  if(restore && cdBack) cdBack.focus({preventScroll:true});
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-coach]'); if(b){ openCoach(+b.dataset.coach); return; }
+  const v=e.target.closest('[data-venue]');
+  if(v){ closeCoach(false); const i=+v.dataset.venue; openVenue(i,false); const t=document.getElementById('kur-zaisti'); glide(t).then(()=>acc.children[i].querySelector('.acc-btn').focus({preventScroll:true})); }
+});
+cd.addEventListener('click',e=>{
+  if(e.target.closest('[data-cclose]')) closeCoach();
+  else if(e.target.closest('[data-inquiry]')) closeCoach(false);   /* žinutės langas atsidarys vietoj panelio */
+});
+addEventListener('keydown',e=>{ if(e.key==='Escape' && cd.classList.contains('open')) closeCoach(); });

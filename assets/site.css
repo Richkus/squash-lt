@@ -623,3 +623,26 @@ html[data-ver="old"] .page-head{padding-top:72px}
   .prose{font-size:17px}
 }
 .mnav-list > a.mnav-item[aria-current="true"]::after{content:"";width:16px;height:8px;flex:none;background:var(--dots);color:#FFFFFF}
+
+/* Trenerių žymės, nuorodos prie klubų ir šoninis panelis */
+.c-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font:inherit;font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:32px;padding:0 12px;border-radius:var(--r-pill);background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .2s,background .2s}
+.tag::before{content:"";width:12px;height:6px;flex:none;background:var(--dots);color:var(--accent)}
+.tag:hover{box-shadow:inset 0 0 0 1px var(--ink)}
+.tag-off{cursor:default;color:var(--muted);background:transparent}
+.tag-off::before{color:var(--muted)}
+.tag-off:hover{box-shadow:inset 0 0 0 1px var(--line)}
+.c-link{font:inherit;font-size:15.5px;border:0;background:none;color:var(--ink);cursor:pointer;padding:2px 0;margin-right:14px;border-bottom:1px solid var(--line);transition:border-color .2s,color .2s}
+.c-link:hover{border-color:var(--accent);color:var(--accent)}
+.muted{color:var(--muted)}
+.cd-body{gap:14px}
+.cd-top{display:grid;grid-template-columns:72px minmax(0,1fr);gap:16px;align-items:center;margin-bottom:6px}
+.cd-ini{width:72px;height:84px;border-radius:12px;background:var(--hero-bg);color:var(--hero-ink);display:grid;place-items:end start;padding:8px 10px;font-size:34px;font-weight:300;letter-spacing:-.05em;line-height:1}
+.cd-top h2{font-size:26px;font-weight:300;letter-spacing:-.02em;line-height:1.1;margin-bottom:8px}
+.cd-text{font-size:16.5px;margin-top:6px}
+.cd-text p + p{margin-top:.9em}
+#coachDrawer{z-index:39}
+@media (max-width:760px){ .tag{min-height:40px} .c-link{padding:8px 0} }
+/* Telefone versijų perjungiklis neuždengia pirmo ekrano mygtukų: rodomas tik nuslinkus žemiau hero */
+.ver{transition:opacity .25s ease}
+@media (max-width:760px){ html:not(.past-hero) .ver{opacity:0;pointer-events:none} }
