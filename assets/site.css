@@ -650,9 +650,10 @@ html[data-ver="old"] .page-head{padding-top:72px}
 /* Antro lygio klubo panelis ant trenerio panelio */
 #venueDrawer{z-index:40}
 #venueDrawer .scrim{background:transparent}
-#coachDrawer.stacked .panel{transform:translateX(-28px) scale(.965);filter:brightness(.94)}
-#coachDrawer .panel{transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .4s ease}
-#venueDrawer .panel{box-shadow:-24px 0 60px -24px rgba(0,0,0,.35),0 20px 50px -20px rgba(0,0,0,.4)}
+/* „Push“ kaip telefone: klubo panelis užeina tiksliai ant trenerio panelio, apačioje esančio turinys pasislenka ir prigęsta, kraštai neišlenda */
+#coachDrawer .panel > *{transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease}
+#coachDrawer.stacked .panel > *{transform:translateX(-18%);opacity:0}
+#venueDrawer .panel{box-shadow:none}
 .back{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 14px 0 12px;border-radius:11px;background:var(--field);color:var(--ink);font-size:14px;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .2s}
 .back:hover{background:var(--surface-2)}
 .back svg{width:12px;height:12px;flex:none;transition:transform .2s}

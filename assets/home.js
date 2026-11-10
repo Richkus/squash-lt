@@ -31,9 +31,9 @@ const COACHES=[
   {n:'Andrius Stančaitis',at:[2],cert:'ESF 1 lygis',lang:'LT, EN, RU',
    bio:'Patirtį kaupė Velse. Moko atsižvelgdamas į žmogaus judėjimą, tikslus ir galimybes, ne vien į sporto šaką.',
    full:['Patyręs skvošo treneris, šiuo metu dirbantis Klaipėdoje, „Skvošo zonoje“, patirtį ne vienus metus kaupęs Velse, Jungtinėje Karalystėje.','Andriaus treniravimo filosofija paremta individualiu požiūriu į žaidėją. Jo įsitikinimu, skvošo reikia mokyti atsižvelgiant į žmogaus judėjimą, tikslus ir galimybes, o ne vien į pačią sporto šaką. Toks požiūris leidžia skvošą atrasti įvairaus amžiaus ir pasirengimo žmonėms: nuo pirmą kartą raketę paimančių pradedančiųjų iki pažengusių žaidėjų.','Treniruotėse Andrius daug dėmesio skiria technikai, judėjimo kokybei ir natūraliai žaidimo plastikai. Jis turi ESF Level 1 trenerio sertifikatą ir yra išklausęs ESF Level 2 mokymus. Treniruotės vyksta lietuvių, anglų ir rusų kalbomis.']},
-  {n:'Marina Zaremba',at:[],from:'Argentina',cert:'Profesionali žaidėja',lang:'',soon:true,
-   bio:'Profesionali skvošo žaidėja ir trenerė iš Argentinos. Daugiau informacijos netrukus.',
-   full:['Profesionali skvošo žaidėja ir trenerė iš Argentinos.','Kur ir kada vyks treniruotės, paskelbsime netrukus.']}
+  {n:'Marina Zaremba',at:[0],from:'Argentina',cert:'Profesionali žaidėja · Argentina',lang:'',soon:true,
+   bio:'Profesionali skvošo žaidėja ir trenerė iš Argentinos. Treniruoja Vilniuje, SEB arenoje.',
+   full:['Profesionali skvošo žaidėja ir trenerė iš Argentinos. Treniruotes veda Vilniuje, SEB arenoje.','Daugiau informacijos apie Mariną ir jos treniruotes paskelbsime netrukus.']}
 ];
 const placeOf=a=>typeof a==='number' ? `${VENUES[a].city} · ${VENUES[a].place}` : `${a.city} · ${a.place}`;
 const coachesAt=i=>COACHES.map((c,j)=>[c,j]).filter(([c])=>c.at.includes(i));
