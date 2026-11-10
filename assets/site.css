@@ -840,3 +840,4 @@ html[data-ver="old"] .page-head{padding-top:72px}
   .rkf-meta{margin-left:0;width:100%}
 }
 @media (min-width:980px){ .rk:has([data-block="rank-full"]){grid-template-columns:minmax(0,1fr)} .rk:has([data-block="rank-full"]) .rk-info{grid-template-columns:1fr 1fr} }
+main > .wo:first-child{margin-top:0}

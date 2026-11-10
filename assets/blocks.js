@@ -306,12 +306,5 @@ const BLOCKS={
     measure();
   },
 
-  /* LA28: laikas iki atidarymo (2028-07-14, Los Andželas) */
-  countdown(el){
-    const T=new Date('2028-07-14T19:00:00-07:00');
-    const tick=()=>{ let s=Math.max(0,(T-Date.now())/1000); const d=Math.floor(s/86400); s-=d*86400; const h=Math.floor(s/3600); s-=h*3600; const m=Math.floor(s/60);
-      el.querySelector('[data-d]').textContent=d; el.querySelector('[data-h]').textContent=String(h).padStart(2,'0'); el.querySelector('[data-m]').textContent=String(m).padStart(2,'0'); };
-    tick(); setInterval(tick,20000);
-  }
 };
 document.querySelectorAll('[data-block]').forEach(el=>{ const f=BLOCKS[el.dataset.block]; if(f) f(el); });

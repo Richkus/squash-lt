@@ -9,7 +9,7 @@ const samePage=a=>{ const n=p=>p.replace(/index\.html$/,''); try{ const u=new UR
 
 /* Mobilus meniu */
 const menu=document.getElementById('mnav'), mOpen=document.getElementById('menuOpen');
-const GRP_OF={kalendorius:'varz',reitingas:'varz',la28:'varz','kur-zaisti':'zaisk',treneriai:'zaisk',apie:'lsa'};
+const GRP_OF={kalendorius:'varz',reitingas:'varz','kur-zaisti':'zaisk',treneriai:'zaisk',apie:'lsa'};
 function setGroup(g,on){ g.classList.toggle('open',on); g.querySelector('.mnav-item').setAttribute('aria-expanded',String(on)); }
 function setMenu(on){
   if(on){
@@ -97,7 +97,7 @@ const curId=()=>PAGE.current || (curSpy>=0 && SPY[curSpy] ? SPY[curSpy][0] : nul
 const topBar=document.querySelector('.top'), heroPanel=document.querySelector('.hero-panel');
 function spy(){
   spyQueued=false;
-  const solidNow=!heroPanel || heroPanel.getBoundingClientRect().bottom<64;
+  const hr=heroPanel && heroPanel.getBoundingClientRect(), solidNow=!hr || !(hr.top<72 && hr.bottom>64);   /* skaidri juosta tik tada, kai po ja tamsi hero nuotrauka */
   document.documentElement.classList.toggle('past-hero',solidNow);
   if(solidNow!==topBar.classList.contains('solid')){ topBar.classList.toggle('solid',solidNow); setTimeout(()=>updateNav(navCur),reduceMotion?0:470); }
   let idx=-1;

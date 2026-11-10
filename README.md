@@ -8,10 +8,10 @@ Vienas statinis puslapis: HTML, CSS ir vanilla JS, be build žingsnio.
 
 Kiekvienas meniu punktas yra atskiras puslapis, o turinys laikomas vienoje vietoje:
 
-- **Puslapiai:** `index.html` (santrauka), `kalendorius.html`, `reitingas.html`, `la28.html`, `kur-zaisti.html`, `treneriai.html`, `naujienos.html`, `straipsnis.html?id=…`, `apie.html`, `kontaktai.html`.
+- **Puslapiai:** `index.html` (santrauka), `kalendorius.html`, `reitingas.html`, `kur-zaisti.html`, `treneriai.html`, `naujienos.html`, `straipsnis.html?id=…`, `apie.html`, `kontaktai.html`.
 - **`assets/data.js`:** vienintelis duomenų šaltinis: klubai, treneriai, varžybos (iš LSA Google kalendoriaus), rankedin nustatymai.
-- **`assets/blocks.js`:** blokai iš tų duomenų (`data-block="venues|coaches|events|rank|rank-full|news|countdown|hero-event|word-open"`). Reitingas kraunamas gyvai iš rankedin.com API ir šoninis panelis su ekranų steku (treneris ↔ klubas, su „Atgal“). Tas pats blokas rodomas pagrindiniame ir vidiniame puslapyje.
-- **`parts/*.html`:** statinės bendros dalys: juosta, poraštė, apie, skaičiai, LA28, partneriai, kontaktai.
+- **`assets/blocks.js`:** blokai iš tų duomenų (`data-block="venues|coaches|events|rank|rank-full|news|hero-event|word-open"`). Reitingas kraunamas gyvai iš rankedin.com API ir šoninis panelis su ekranų steku (treneris ↔ klubas, su „Atgal“). Tas pats blokas rodomas pagrindiniame ir vidiniame puslapyje.
+- **`parts/*.html`:** statinės bendros dalys: juosta, poraštė, SKVOŠAS, apie, skaičiai, partneriai, kontaktai.
 - **`tools/build.py`:** sudeda `parts/` į visus puslapius ir atnaujina failų versijos žymą. Paleisk po kiekvieno `parts/` pakeitimo: `python3 tools/build.py`.
 - **`assets/site.css`, `assets/site.js`:** stiliai ir bendra logika (juosta, meniu, žinutės langas, versijų perjungiklis, velykinis kiaušinis).
 - **`data/naujienos.json`:** 23 tikros squash.lt naujienos.
@@ -19,7 +19,7 @@ Kiekvienas meniu punktas yra atskiras puslapis, o turinys laikomas vienoje vieto
 
 ## Meniu
 
-Varžybos ▾ (Kalendorius, Reitingas, Kelias į LA28) · Žaisk skvošą ▾ (Kur žaisti, Treneriai) · Naujienos · Daugiau ▾ (Apie mus, Kontaktai) | Žaidėjo portalas ↗ · Tapk nariu. Juosta rodo, kuriame puslapyje esi. Punktai su ↗ veda į dabartinį squash.lt.
+Varžybos ▾ (Kalendorius, Reitingas) · Žaisk skvošą ▾ (Kur žaisti, Treneriai) · Naujienos · Daugiau ▾ (Apie mus, Kontaktai) | Žaidėjo portalas ↗ · Tapk nariu. Juosta rodo, kuriame puslapyje esi. Punktai su ↗ veda į dabartinį squash.lt.
 
 ## Versijos
 
