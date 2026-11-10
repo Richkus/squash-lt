@@ -795,3 +795,13 @@ html[data-ver="old"] .page-head{padding-top:72px}
 @media (max-width:760px){ .gcal-frame iframe{height:560px} }
 .ev-place-off{color:var(--muted)}
 .ev .go{text-decoration:none}
+
+/* SKVOŠAS: O raidė slenkant atsiveria į kapsulę su žaidimo nuotrauka */
+.wo{position:relative;height:240vh;margin-top:clamp(40px,6vw,80px)}
+.wo-sticky{position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;align-content:center;gap:28px;overflow:hidden;padding:0 16px}
+.wo-word{display:flex;align-items:center;justify-content:center;margin:0;font-size:clamp(64px,13.5vw,224px);font-weight:400;letter-spacing:-.045em;line-height:1;white-space:nowrap;text-wrap:nowrap}
+.wo-word > span:not(.wo-o){display:block}
+.wo-o{display:block;position:relative;flex:none;width:var(--w,.74em);height:var(--h,.74em);margin:0 .03em;border-radius:999px;overflow:hidden;box-shadow:inset 0 0 0 var(--b,.085em) var(--ink);background:transparent;will-change:width,height}
+.wo-o img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;opacity:var(--io,0);transform:scale(var(--is,1.3));will-change:transform,opacity}
+.wo-cap{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:var(--cap,0);transform:translateY(calc((1 - var(--cap,0)) * 10px))}
+@media (prefers-reduced-motion: reduce){ .wo{height:auto} .wo-sticky{position:static;height:auto;padding:clamp(72px,10vw,140px) 16px 0} }

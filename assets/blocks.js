@@ -222,6 +222,38 @@ const BLOCKS={
     el.querySelector('.nc-when').textContent= days>1 ? `Po ${days} d.` : days===1 ? 'Rytoj' : days===0 ? 'Šiandien' : 'Vyksta';
   },
 
+  /* SKVOŠAS: O raidė slenkant atsiveria į kapsulę su nuotrauka, kitos raidės pasitraukia į šonus */
+  'word-open'(el){
+    const word=el.querySelector('.wo-word'), o=el.querySelector('.wo-o'), sticky=el.querySelector('.wo-sticky');
+    const letters=[...word.children].filter(x=>x!==o);
+    let fs=0, ow=0, oh=0, maxW=0, maxH=0, queued=false;
+    const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+    function measure(){
+      o.style.setProperty('--w',''); o.style.setProperty('--h','');
+      fs=parseFloat(getComputedStyle(word).fontSize); ow=.74*fs; oh=.74*fs;
+      const lw=letters.reduce((s,x)=>s+x.getBoundingClientRect().width,0);
+      const narrow=innerWidth<760;
+      maxW=Math.max(ow,Math.min(sticky.clientWidth*.9-lw, fs*5.2));
+      maxH=Math.min(innerHeight*.62, fs*(narrow?2.6:1.5));
+      paint();
+    }
+    function paint(){
+      queued=false;
+      let e=1;
+      if(!reduceMotion){ const r=el.getBoundingClientRect(), span=Math.max(1,r.height-innerHeight); e=ease(Math.min(1,Math.max(0,(-r.top)/span/.7))); }
+      o.style.setProperty('--w',(ow+(maxW-ow)*e)+'px');
+      o.style.setProperty('--h',(oh+(maxH-oh)*e)+'px');
+      o.style.setProperty('--b',(.085*(1-Math.min(1,e*2.2)))+'em');
+      o.style.setProperty('--io',Math.min(1,e*2.4));
+      o.style.setProperty('--is',1.3-.3*e);
+      el.style.setProperty('--cap',Math.min(1,Math.max(0,(e-.6)/.4)));
+    }
+    addEventListener('scroll',()=>{ if(!queued){ queued=true; requestAnimationFrame(paint); } },{passive:true});
+    addEventListener('resize',measure);
+    if(document.fonts&&document.fonts.ready) document.fonts.ready.then(measure);
+    measure();
+  },
+
   /* LA28: laikas iki atidarymo (2028-07-14, Los Andželas) */
   countdown(el){
     const T=new Date('2028-07-14T19:00:00-07:00');
