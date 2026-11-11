@@ -8,7 +8,7 @@ Vienas statinis puslapis: HTML, CSS ir vanilla JS, be build žingsnio.
 
 Kiekvienas meniu punktas yra atskiras puslapis, o turinys laikomas vienoje vietoje:
 
-- **Puslapiai:** `index.html` (santrauka), `kalendorius.html`, `reitingas.html`, `kur-zaisti.html`, `treneriai.html`, `saugumo-taisykles.html`, `valdyba.html`, `teisejams.html`, `antidopingas.html`, `manipuliavimas.html`, `dokumentai.html`, `naujienos.html`, `straipsnis.html?id=…`, `apie.html`, `kontaktai.html`.
+- **Puslapiai:** `index.html` (santrauka), `kalendorius.html`, `reitingas.html`, `kur-zaisti.html`, `treneriai.html`, `saugumo-taisykles.html`, `valdyba.html`, `teisejams.html`, `antidopingas.html`, `manipuliavimas.html`, `dokumentai.html`, `naujienos.html`, `naujienos/<slug>/` (straipsniai, generuoja `tools/build.py` iš `straipsnis.html` šablono; senas `straipsnis.html?id=…` nukreipia), `apie.html`, `kontaktai.html`.
 - **`assets/data.js`:** vienintelis duomenų šaltinis: klubai, treneriai, varžybos (iš LSA Google kalendoriaus), rankedin nustatymai.
 - **`assets/blocks.js`:** blokai iš tų duomenų (`data-block="venues|coaches|events|rank|rank-full|news|hero-event|word-open"`). Reitingas kraunamas gyvai iš rankedin.com API ir šoninis panelis su ekranų steku (treneris ↔ klubas, su „Atgal“). Tas pats blokas rodomas pagrindiniame ir vidiniame puslapyje.
 - **`parts/*.html`:** statinės bendros dalys: juosta, poraštė, SKVOŠAS, apie, skaičiai, partneriai, kontaktai.

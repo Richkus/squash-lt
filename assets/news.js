@@ -10,7 +10,7 @@ function cover(n,big){
     : `<div class="ph blank" aria-hidden="true"><span>${esc(n.cat)}</span><b>${n.date.slice(0,4)}</b></div>`;
 }
 const meta=n=>`<p class="meta"><b>${esc(n.cat)}</b><span>${fmtDate(n.date)}</span><span>${n.min} min</span></p>`;
-const href=n=>`straipsnis.html?id=${n.id}`;
+const href=n=>`naujienos/${n.slug}/`;
 
 (async function(){
   const filtersEl=document.getElementById('filters'), feat=document.getElementById('feat'), grid=document.getElementById('grid'), more=document.getElementById('more');

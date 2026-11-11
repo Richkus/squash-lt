@@ -1,5 +1,7 @@
 /* Bendra visų puslapių logika: juosta, meniu, slinkimas, žinutės langas, versija, tema.
    Puslapis aprašo save per window.PAGE = { spy:[[id,pavadinimas]...], current:'naujienos', label:'Naujienos' }. */
+/* R(): kelias nuo svetainės šaknies; įdėtuose puslapiuose (naujienos/<slug>/) window.ROOT='../../' */
+const R=p=>(window.ROOT||'')+p;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const arrSvg='<svg width="11" height="11" aria-hidden="true"><use href="#arr"/></svg>';
@@ -175,7 +177,7 @@ function setVer(v){
   if(v==='old') document.documentElement.dataset.ver='old'; else document.documentElement.removeAttribute('data-ver');
   verBtns.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.ver===v)));
   try{ localStorage.setItem('lsa-ver',v); }catch(_){}
-  const u=new URL(location.href); u.searchParams.set('v',v==='old'?'senas':'naujas'); history.replaceState(null,'',u);
+  const u=new URL(location.href); if(u.searchParams.has('v')){ u.searchParams.delete('v'); history.replaceState(null,'',u); }   /* versija laikoma naršyklėje, adresas lieka švarus */
   if(menu.classList.contains('open')) setMenu(false);
   spy(); updateNav(navCur);
 }

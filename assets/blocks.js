@@ -30,7 +30,7 @@ function whereRows(c){
 function coachRows(i){
   const list=coachesAt(i);
   if(!list.length) return '<p class="muted">Trenerių informacijos dar nėra.</p>';
-  return `<ul class="rows">${list.map(([c,j])=>`<li><button type="button" class="row" data-coach="${j}"><span class="row-ini${c.img?' has-img':''}" aria-hidden="true">${c.img?`<img src="${esc(c.img)}" alt="" loading="lazy">`:esc(ini(c))}</span><span class="row-v">${esc(c.n)}<small>${esc(c.cert)}</small></span><span class="row-go">${ARR}</span></button></li>`).join('')}</ul>`;
+  return `<ul class="rows">${list.map(([c,j])=>`<li><button type="button" class="row" data-coach="${j}"><span class="row-ini${c.img?' has-img':''}" aria-hidden="true">${c.img?`<img src="${esc(R(c.img))}" alt="" loading="lazy">`:esc(ini(c))}</span><span class="row-v">${esc(c.n)}<small>${esc(c.cert)}</small></span><span class="row-go">${ARR}</span></button></li>`).join('')}</ul>`;
 }
 
 /* ===== Šoninis panelis su ekranų steku ===== */
@@ -99,7 +99,7 @@ const Sheet=(function(){
 function coachView(i){
   const c=COACHES[i];
   return {key:'c'+i, kicker:'Treneriai', title:c.n,
-    body:`<div class="cd-top"><span class="cd-ini${c.img?' has-img':''}" aria-hidden="true">${c.img?`<img src="${esc(c.img)}" alt="">`:esc(ini(c))}</span><div><h2>${esc(c.n)}</h2><p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p></div></div>
+    body:`<div class="cd-top"><span class="cd-ini${c.img?' has-img':''}" aria-hidden="true">${c.img?`<img src="${esc(R(c.img))}" alt="">`:esc(ini(c))}</span><div><h2>${esc(c.n)}</h2><p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p></div></div>
       <p class="p-label">Treniruoja</p>${whereRows(c)}
       <div class="prose cd-text">${c.full.map(t=>`<p>${esc(t)}</p>`).join('')}</div>
       ${c.soon?'':'<a class="link" href="https://squash.lt/treneriai/" target="_blank" rel="noopener">Šaltinis: squash.lt/treneriai<svg width="11" height="11" aria-hidden="true"><use href="#ext"/></svg></a>'}`,
@@ -171,7 +171,7 @@ const BLOCKS={
       list.querySelectorAll('.c-name').forEach(b=>b.setAttribute('aria-selected',String(+b.dataset.i===i)));
       const loc=c.at.length ? (p=>`${p.city} · ${p.place}`)(placeOf(c.at[0])) : (c.from||'');
       /* Info ant nuotraukos: vieta viršuje, pareigos ir aprašas apačioje ant tamsaus gradiento. c.img, kai bus tikra nuotrauka */
-      card.innerHTML=`<div class="c-frame"><i></i><i></i><i></i><i></i><div class="c-tile${c.img?' has-img':''}">${c.img?`<img src="${esc(c.img)}" alt="">`:''}<span class="ini" aria-hidden="true">${esc(ini(c))}</span><span class="loc">${esc(loc)}</span>
+      card.innerHTML=`<div class="c-frame"><i></i><i></i><i></i><i></i><div class="c-tile${c.img?' has-img':''}">${c.img?`<img src="${esc(R(c.img))}" alt="">`:''}<span class="ini" aria-hidden="true">${esc(ini(c))}</span><span class="loc">${esc(loc)}</span>
           <div class="c-ov"><p class="c-meta">${role(c)}<span>${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span></p><p class="c-bio">${esc(c.bio)}</p></div></div></div>
         <div class="c-where"><p class="p-label">Treniruoja</p>${whereRows(c)}</div>
         <div class="c-acts"><button class="btn btn-accent" type="button" data-coach="${i}">Skaityti daugiau<span class="arr">${ARR}</span></button>${callBtn(c)}</div>`;
@@ -210,7 +210,7 @@ const BLOCKS={
     function card(c,i){
       const p=c.at.length?placeOf(c.at[0]):{}, more=c.at.length>1?` +${c.at.length-1}`:'';
       return `<li><button type="button" class="cg-card" data-coach="${i}">
-        <span class="cg-ph${c.img?'':' blank'}">${c.img?`<img src="${esc(c.img)}" alt="" loading="lazy">`:`<b aria-hidden="true">${esc(ini(c))}</b>`}${c.soon?'<span class="cg-new">Nauja</span>':''}</span>
+        <span class="cg-ph${c.img?'':' blank'}">${c.img?`<img src="${esc(R(c.img))}" alt="" loading="lazy">`:`<b aria-hidden="true">${esc(ini(c))}</b>`}${c.soon?'<span class="cg-new">Nauja</span>':''}</span>
         <span class="cg-loc">${esc(p.city||c.from||'')}${p.place?' · '+esc(p.place):''}${more}</span>
         <span class="cg-name">${esc(c.n)}</span>
         <span class="cg-meta">${esc(c.cert)}${c.lang?' · '+esc(c.lang):''}</span>
@@ -239,7 +239,7 @@ const BLOCKS={
     const row=e=>{ const [y,m,d]=e.d.split('-'), v=e.v!=null?VENUES[e.v]:null;
       const span=e.end?`${+d}–${+e.end.slice(8)} ${MON[+e.end.slice(5,7)-1].toLowerCase()}.`:'';
       const where=v?`<button type="button" class="ev-place" data-venue="${e.v}">${esc(v.city)}</button>`:'<span class="ev-place-off">Lietuva</span>';
-      return `<li class="ev"><time datetime="${e.d}"><b>${d}</b>${MON[+m-1]}</time><div><h4>${esc(e.t)}</h4><p>${where}${span?` · ${span}`:''}</p></div><a class="go" href="kalendorius.html" aria-label="Kalendoriuje: ${esc(e.t)}">${ARR}</a></li>`; };
+      return `<li class="ev"><time datetime="${e.d}"><b>${d}</b>${MON[+m-1]}</time><div><h4>${esc(e.t)}</h4><p>${where}${span?` · ${span}`:''}</p></div><a class="go" href="${R('kalendorius.html')}" aria-label="Kalendoriuje: ${esc(e.t)}">${ARR}</a></li>`; };
     if(el.dataset.group===undefined){ el.innerHTML=`<ul class="ev-list">${list.map(row).join('')}</ul>`; return; }
     const groups={}; list.forEach(e=>{ const k=e.d.slice(0,7); (groups[k]=groups[k]||[]).push(e); });
     el.innerHTML=Object.entries(groups).map(([k,es])=>{ const [y,m]=k.split('-'); return `<section class="ev-month"><h3>${MON_FULL[+m-1]} <span>${y}</span></h3><ul class="ev-list">${es.map(row).join('')}</ul></section>`; }).join('');
@@ -249,7 +249,7 @@ const BLOCKS={
   rank(el){
     el.innerHTML=`<div class="card-head"><h3>Reitingas</h3><div class="tabs" role="tablist" aria-label="Reitingo grupė"><button role="tab" type="button" aria-selected="true" data-g="1">Vyrai</button><button role="tab" type="button" aria-selected="false" data-g="2">Moterys</button></div></div>
       <ol class="rank" aria-live="polite"></ol>
-      <div class="card-foot"><a class="link" href="reitingas.html">Visas reitingas<svg width="11" height="11" aria-hidden="true"><use href="#arr"/></svg></a><span class="demo rk-week">rankedin.com</span></div>`;
+      <div class="card-foot"><a class="link" href="${R('reitingas.html')}">Visas reitingas<svg width="11" height="11" aria-hidden="true"><use href="#arr"/></svg></a><span class="demo rk-week">rankedin.com</span></div>`;
     const ol=el.querySelector('.rank'), wk=el.querySelector('.rk-week');
     async function draw(g){
       ol.innerHTML='<li class="rk-load">Kraunama…</li>';
@@ -257,7 +257,7 @@ const BLOCKS={
         const d=await rkFetch({gender:g,take:5});
         ol.innerHTML=d.Payload.map((p,i)=>`<li><span class="pos" title="Bendra vieta ${p.ParticipantPoints.Standing}">${String(i+1).padStart(2,'0')}</span><span class="nm">${esc(p.Name)}<small>${esc(clubShort(p.HomeClubName))}</small></span><span class="pts">${Math.round(p.ParticipantPoints.Points).toLocaleString('lt-LT')}</span></li>`).join('');
         if(d.Payload[0]) wk.textContent=`rankedin · ${d.Payload[0].ParticipantPoints.Week} sav.`;
-      }catch(_){ ol.innerHTML='<li class="rk-load">Nepavyko įkelti reitingo. <a href="reitingas.html">Atidaryti</a></li>'; }
+      }catch(_){ ol.innerHTML=`<li class="rk-load">Nepavyko įkelti reitingo. <a href="${R('reitingas.html')}">Atidaryti</a></li>`; }
       ol.classList.remove('swap'); void ol.offsetWidth; ol.classList.add('swap');
     }
     el.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{ el.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',String(x===b))); draw(+b.dataset.g); }));
@@ -304,10 +304,10 @@ const BLOCKS={
 
   /* Naujausios naujienos iš data/naujienos.json */
   async news(el){
-    const lim=+el.dataset.limit||3, IMG=['img/foto-6516.jpg','img/foto-7700.jpg','img/foto-5279.jpg'];
-    let all=[]; try{ all=await (await fetch('data/naujienos.json')).json(); }catch(_){ return; }
+    const lim=+el.dataset.limit||3, IMG=['img/foto-6516.jpg','img/foto-7700.jpg','img/foto-5279.jpg'].map(R);
+    let all=[]; try{ all=await (await fetch(R('data/naujienos.json'))).json(); }catch(_){ return; }
     all.sort((a,b)=>b.date.localeCompare(a.date));
-    el.innerHTML=`<div class="news">${all.slice(0,lim).map((n,k)=>`<a class="post" href="straipsnis.html?id=${n.id}"><div class="ph"><img src="${esc(n.img||IMG[k%IMG.length])}" alt="" loading="lazy"></div><div><time>${n.date}</time><h3>${esc(n.title)}</h3></div></a>`).join('')}</div>`;
+    el.innerHTML=`<div class="news">${all.slice(0,lim).map((n,k)=>`<a class="post" href="${R(`naujienos/${n.slug}/`)}"><div class="ph"><img src="${esc(n.img?R(n.img):IMG[k%IMG.length])}" alt="" loading="lazy"></div><div><time>${n.date}</time><h3>${esc(n.title)}</h3></div></a>`).join('')}</div>`;
   },
 
   /* Hero kortelė: artimiausios varžybos */
